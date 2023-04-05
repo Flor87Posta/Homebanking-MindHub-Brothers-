@@ -4,6 +4,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Account {
@@ -14,16 +16,18 @@ public class Account {
     private long id;
     private String number;
     private LocalDateTime creationDate;
-    private double balance;
+    private Double balance;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
     private Client client;
 
+    @OneToMany(mappedBy="account", fetch= FetchType.EAGER) //asociado a cuenta, definido en la clase Transaction
+    Set<Transaction> transactions = new HashSet<>(); // set para evitar datos duplicados
 
     public Account(){}
 
-    public Account(String number, LocalDateTime creationDate, double balance) {
+    public Account(String number, LocalDateTime creationDate, Double balance) {
         this.number = number;
         this.creationDate = creationDate;
         this.balance = balance;
@@ -53,11 +57,11 @@ public class Account {
         this.creationDate = creationDate;
     }
 
-    public double getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 
@@ -68,6 +72,14 @@ public class Account {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Set<Transaction> getTransactionSet() {
+        return transactions;
+    }
+    public void addTransaction(Transaction transaction) { //permite conectar a una cuenta con una transacción
+        transaction.setAccount(this);
+        transactions.add(transaction);
     }
 
     @Override

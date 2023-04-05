@@ -25,7 +25,7 @@ public class ClientController {
     }
 
     @RequestMapping("/clients/{id}")
-    public ClientDTO getClient(@PathVariable Long id) { //definí un método público llamado getClients que retorna un cliente por su id
+    public ClientDTO getClient(@PathVariable Long id) { //definí un método público llamado getClient que retorna un cliente por su id
         Optional<Client> optionalClient = clientRepository.findById(id);
         return optionalClient.map(client -> new ClientDTO(client)).orElse(null);
     }
