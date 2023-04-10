@@ -23,7 +23,7 @@ public class Account {
     private Client client;
 
     @OneToMany(mappedBy="account", fetch= FetchType.EAGER) //asociado a cuenta, definido en la clase Transaction
-    Set<Transaction> transactions = new HashSet<>(); // set para evitar datos duplicados
+    private Set<Transaction> transactions = new HashSet<>(); // set para evitar datos duplicados
 
     public Account(){}
 

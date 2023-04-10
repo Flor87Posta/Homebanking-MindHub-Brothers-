@@ -17,8 +17,8 @@ public class Client {
     private String email;
 
     @OneToMany(mappedBy="client", fetch= FetchType.EAGER) //asociado a client, definido en la clase Account
-    Set<Account> accounts = new HashSet<>(); // set para evitar datos duplicados
-
+    private Set<Account> accounts = new HashSet<>(); // set para evitar datos duplicados
+    //accounts como nuevo atributo de la tabla Client
 
 
     public Client(){};
