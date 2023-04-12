@@ -20,6 +20,10 @@ public class Client {
     private Set<Account> accounts = new HashSet<>(); // set para evitar datos duplicados
     //accounts como nuevo atributo de la tabla Client
 
+    @OneToMany(mappedBy="clientLoan", fetch= FetchType.EAGER) //asociado a clientLoan, definido en la clase ClientLoan
+    private Set<ClientLoan> clientLoans = new HashSet<>(); // set para evitar datos duplicados
+
+
 
     public Client(){};
     public Client(String firstName, String lastName, String email) {
@@ -59,10 +63,29 @@ public class Client {
 
     public Set<Account> getAccountSet() {
         return accounts;
+    } //metodo accesor get de la nueva propiedad creada por la relación con Account
+
+    public Set<ClientLoan> getLoansSet() { //método para retornar el listado de préstamos de un cliente
+        return clientLoans;
     }
-    public void addAccount(Account account) { //permite conectar a un cliente con una cuenta
+
+    public Set<ClientLoan> getClientLoans() {
+        return clientLoans;
+    }
+
+    public void setClientLoans(Set<ClientLoan> clientLoans) {
+        this.clientLoans = clientLoans;
+    }
+
+    // metodos creados add:
+    public void addAccount(Account account) { // método público creado que permite conectar a un cliente con una cuenta
         account.setClient(this);
         accounts.add(account);
+    }
+
+    public void addClientLoan(ClientLoan clientLoan) { // método público creado que permite conectar a un cliente con un préstamo
+        clientLoan.setClientLoan(this);
+        clientLoans.add(clientLoan);
     }
 
     @Override
