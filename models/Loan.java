@@ -14,7 +14,7 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native", strategy = "native")
     private long id;
-    private String name;
+    public String name;
     private double maxAmount ;
     @ElementCollection
     @Column(name="payments")
@@ -78,7 +78,7 @@ public class Loan {
         this.clientLoans = clientLoans;
     }
 
-    public Set<ClientLoan> getClientsSet() { //método creado para retornar el listado de clientes de un préstamo
+    public Set<ClientLoan> getClientLoanSet() { //método creado para retornar el listado de clientes de un préstamo
         return clientLoans;
     }
 

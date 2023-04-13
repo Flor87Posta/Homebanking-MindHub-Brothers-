@@ -17,6 +17,8 @@ public class ClientLoan {
     private double amount;
     private int payments;
 
+    private String name;
+
 
 
     //Relaciones:
@@ -33,10 +35,11 @@ public class ClientLoan {
 
     public ClientLoan (){}
 
-    public ClientLoan (double amount, int payments, Client clientLoan, Loan loan) {
+    public ClientLoan (double amount, int payments, String name, Client clientLoan, Loan loan) {
 
         this.amount = amount;
         this.payments = payments;
+        this.name = loan.getName();
         this.clientLoan = clientLoan;
         this.loan = loan;
     }
@@ -60,7 +63,7 @@ public class ClientLoan {
         this.amount = amount;
     }
 
-    public double getPayments() {
+    public int getPayments() {
         return payments;
     }
 
@@ -68,7 +71,15 @@ public class ClientLoan {
         this.payments = payments;
     }
 
- @JsonIgnore
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @JsonIgnore
     public Client getClientLoan() {
         return clientLoan;
     }

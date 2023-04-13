@@ -41,15 +41,15 @@ public class HomebankingApplication {
 			Transaction transaction4 = new Transaction(DEBIT, -200.00, "buyFood", LocalDateTime.now());
 			Transaction transaction5 = new Transaction(DEBIT, 50.00, "payCoffee", LocalDateTime.now().plusDays(1));
 
-			Loan loan1 = new Loan("Hipotecario", 500000, (List.of(12,24,36,48,60)));
-			Loan loan2 = new Loan("Personal", 100000, (List.of(6,12,24)));
-			Loan loan3 = new Loan("Automotriz", 300000, (List.of(6,12,24,36)));
+			Loan loan1 = new Loan("Mortgage Loan", 500000, (List.of(12,24,36,48,60)));
+			Loan loan2 = new Loan("Personal Loan", 100000, (List.of(6,12,24)));
+			Loan loan3 = new Loan("Car Loan", 300000, (List.of(6,12,24,36)));
 
-			ClientLoan clientloan1 = new ClientLoan(400000, 60, client1, loan1);
-			ClientLoan clientloan2 = new ClientLoan(50000, 12, client1, loan2);
+			ClientLoan clientloan1 = new ClientLoan(400000, 60, "Mortgage Loan", client1, loan1);
+			ClientLoan clientloan2 = new ClientLoan(50000, 12, "Personal Loan", client1, loan2);
 
-			ClientLoan clientloan3 = new ClientLoan(100000, 24, client2, loan2);
-			ClientLoan clientloan4 = new ClientLoan(200000, 36, client2, loan3);
+			ClientLoan clientloan3 = new ClientLoan(100000, 24, "Personal Loan", client2, loan2);
+			ClientLoan clientloan4 = new ClientLoan(200000, 36, "Car Loan", client2, loan3);
 
 
 			clientRepository.save(client1);
