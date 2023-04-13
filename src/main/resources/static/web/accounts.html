@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+   <meta charset="UTF-8">
+   <title>MindHub Brothers Bank / Accounts</title>
+   <link rel="stylesheet" href="./style.css">
+   <link rel="shortcut icon" href="./logoMuñecoSinFondo.png" type="image/x-icon">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Helvetica">
+
+<!-- about -->
+<div class="about">
+   <a class="bg_links social portfolio" href="https://mindhubweb.com/bootcamps" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links social dribbble" href="https://github.com/Flor87Posta" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links social linkedin" href="https://www.linkedin.com/in/florencia-postacchini" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links logo"></a>
+</div>
+<header>
+   <div id="direction">
+         <nav>
+            <ul>
+               <li><a href="./index.html">Index</a></li>
+               <li><a href="#">Accounts</a></li>
+               <li><a href="#">Loans</a></li>
+               <li><a href="#">Cards</a></li>
+               <li><a href="#">Profile</a></li>
+               <li><a href="#">Contact</a></li>
+            </ul>
+         </nav>
+         <div id="directionCards">
+            <div>
+               <div>
+                  <div><img src="./imgParaAccountsSinMuñecoSinFondo.png" alt="logo" id="imgAccountAndLoans"></div>
+               </div>
+            </div>
+            
+            <div>
+               <div >
+                  <div><img src="./imgParaLoansSinMuñecoSinFondo.png" alt="logo "id="imgAccountAndLoans"></div>
+               </div>
+            </div>
+         </div>
+   </div>
+</header>
+
+<!-- end about -->
+   <div id="app">
+      <div id="directionCards" >
+
+         <!-- card -->
+         <div>
+            <div class="cardAccounts" v-for="account of clients.accounts">
+               <div class="icon"><i class="material-icons md-36"></i></div>
+               <p class="title">Client: {{clients.firstName}} {{clients.lastName}}</p>
+               <div>
+                  <p>Account: {{account.number}}</p>
+                  <p>Created: {{account.creationDate.slice(0, 10)}} at {{account.creationDate.slice(11, 16)}} hs.</p>
+                  <p>Balance: $ {{account.balance}}</p>
+                  <a :href="`./account.html?id=` + account.id" class="textDetail"> Transactions Detail </a>
+               </div>
+            </div>
+         </div>
+         <!-- end card -->
+      
+      
+         <!-- card -->
+         <div v-if="loans.length !=0">
+            <div class="cardAccounts" v-for="loan of clients.loans">
+               <div class="icon"><i class="material-icons md-36"></i></div>
+               <p class="title">Client: {{clients.firstName}} {{clients.lastName}}</p>
+               <div>
+                  <p>Loan Name: {{loan.name}}</p>
+                  <p>Loan Amount: $ {{loan.amount}}</p>
+                  <p>Payments: {{loan.payments}}</p>
+               </div>
+            </div>
+         </div>
+         <!-- end card -->
+         <div v-else>
+            <h3> You haven't loans</h3>
+         </div>
+
+      </div>
+   </div>
+
+
+<!-- partial -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./accounts.js"></script>
+</body>
+</html>

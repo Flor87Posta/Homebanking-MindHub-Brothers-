@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>MindHub Brothers Bank / Account</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="shortcut icon" href="./logoMuñecoSinFondo.png" type="image/x-icon">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Helvetica">
+
+<!-- about -->
+<div class="about">
+   <a class="bg_links social portfolio" href="https://mindhubweb.com/bootcamps" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links social dribbble" href="https://github.com/Flor87Posta" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links social linkedin" href="https://www.linkedin.com/in/florencia-postacchini" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links logo"></a>
+</div>
+<!-- end about -->
+<header>
+   <nav>
+      <ul>
+         <li><a href="./index.html">Index</a></li>
+         <li><a href="./accounts.html">Accounts</a></li>
+         <li><a href="#">Loans</a></li>
+         <li><a href="#">Cards</a></li>
+         <li><a href="#">Profile</a></li>
+         <li><a href="#">Contact</a></li>
+      </ul>
+   </nav>
+</header>
+   <div id="app">
+      <div class="content">
+      
+         <!-- card -->
+         <div>
+            
+               
+               <div>
+                  <table>
+                     <tr>
+                        <td colspan="4" style="width: 20rem; text-align: center;">Account Number: {{account.number}}</td>
+
+                        
+                     </tr>
+                        <tr>
+                           <td colspan="1">TransactionType</td>
+                           <td colspan="1">Amount</td>
+                           <td colspan="1">TransactionDate</td>
+                           <td colspan="1">Description</td>
+                           
+                        </tr>
+                     <tbody>
+                        <tr v-for="item in transactions">
+                           <td style="width: 20rem; text-align: center;">{{item.type}}</td>
+                           <td style="width: 20rem; text-align: center;" :class="item.type">{{item.amount}}</td>
+                           <td style="width: 20rem; text-align: center;">Transaction created on {{item.transactionDate.slice(0, 10)}} at {{item.transactionDate.slice(11, 16)}} hs.</td>
+                           <td style="width: 20rem; text-align: center;">{{item.description}}</td>
+                     
+                        
+                        </tr>
+                     </tbody>
+                  </table>
+
+
+            </div>
+               
+
+            
+         </div>
+         <!-- end card -->
+
+      
+
+      
+      </div>
+   </div>
+
+
+<!-- partial -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./account.js"></script>
+</body>
+</html>
