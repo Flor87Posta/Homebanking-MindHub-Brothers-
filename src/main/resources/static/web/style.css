@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	text-decoration: none !important;
+	font-family: 'Helvetica', sans-serif;
+}
 body {
   
   width: 100%;
@@ -5,7 +14,7 @@ body {
   background-image: url(./fondoIndex.png);
   background-size: cover;
   margin: 0;
-  font-family: Helvetica;
+  font-family: 'Helvetica';
   color: white;
 }
 
@@ -27,6 +36,10 @@ nav {
   background-color: #333;
   overflow: hidden;
   font-family: 'Helvetica';
+  box-shadow: 0px 1px 5px 0px #FF1287(0, 0, 0, 0.99);
+	-webkit-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.99);
+	-moz-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.99);
+	border-radius: 50px 50px 50px 50px;
 }
 
 nav ul {
@@ -46,7 +59,7 @@ nav a {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-family: Helvetica
+  font-family:'Helvetica';
 
 }
 
@@ -55,7 +68,7 @@ nav a:focus, nav a:active {
 }
 
 nav li a:hover {
-  background-color: #111;
+  background-color: #FF1287;
 }
 
 #direction{
@@ -83,7 +96,7 @@ table{
   background-color: linear-gradient(90deg, #FF7E7E 50%, #FF1287 60%, rgba(0, 0, 0, 0.40) 60%);
   color: #fff;
   font-size: 16px;
-  font-family: Helvetica;
+  font-family: 'Helvetica';
   border: 1px solid #fff;
   border-radius: 10px;
   /* overflow: hidden; */
@@ -190,18 +203,21 @@ video {
 }
 .about .social.portfolio .icon {
   background-image: url(./logoMindhubSinFondo.png);
+ 
 }
 .about .social.dribbble {
   transition: all 0.3s ease;
 }
 .about .social.dribbble .icon {
   background-image: url(./logoGitHubSinFondo.png);
+  
 }
 .about .social.linkedin {
   transition: all 0.8s ease;
 }
 .about .social.linkedin .icon {
   background-image: url(./logoLinkedinSinFondo.png);
+
 }
 .about:hover {
   width: 105px;
@@ -336,6 +352,28 @@ video {
 
 .icon {
   margin: 0 auto;
+  margin-bottom: 2rem;
+  width: 100%;
+  height: 80px;
+  max-width: 80px;
+  background: #7116d8;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  transition: all 0.8s ease;
+  background-position: 0px;
+  background-image: url(./logoMuñecoSinFondo.png);
+  background-size: cover;
+
+}
+
+
+
+
+.iconCardGold{
+  margin: 0 auto;
   width: 100%;
   height: 80px;
   max-width: 80px;
@@ -347,9 +385,27 @@ video {
   color: white;
   transition: all 0.8s ease;
   background-position: 0px;
-  background-image: url(./logoMuñecoSinFondo.png);
+  background-image: url(./logoCardGoldSinFondo.png);
   background-size: cover;
 
+}
+
+.iconCardTitanium{
+  margin: 0 auto;
+  width: 100%;
+  height: 80px;
+  max-width: 80px;
+  background: linear-gradient(90deg, #FF7E7E 0%, #FF1287 40%, rgba(0, 0, 0, 0.28) 60%);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  transition: all 0.8s ease;
+  background-position: 0px;
+  background-image: url(./logoCardTitaniumSinFondo.png);
+  background-size: cover;
+  
 }
 
 .material-icons.md-18 {
@@ -397,7 +453,7 @@ video {
   font-size: 14px;
   color: white;
   /* letter-spacing: 2px; */
-  font-family: Helvetica;
+  font-family: 'Helvetica';
 }
 
 .card:hover {
@@ -426,3 +482,331 @@ video {
   opacity: 1;
   transition: all 0.3s ease;
 } */
+
+/* para las debit y credit cards:*/
+
+.flip-card {
+  background-color: transparent;
+  width: 240px;
+  height: 154px;
+  perspective: 1000px;
+}
+
+.heading_8264 {
+  position: absolute;
+  letter-spacing: .2em;
+  font-size: 0.5em;
+  top: 0.5em;
+  left: 18.6em;
+}
+
+.heading_8265 {
+  position:initial;
+  letter-spacing: .2em;
+  font-size: 0.5em;
+  top: 2em;
+  left: 18.6em;
+}
+
+.logo {
+  position: absolute;
+  top: 6.8em;
+  left: 11.7em;
+}
+
+.chip {
+  position: absolute;
+  top: 2.3em;
+  left: 1.5em;
+}
+
+.contactless {
+  position: absolute;
+  top: 3.5em;
+  left: 12.4em;
+}
+
+.number {
+  position: absolute;
+  font-weight: bold;
+  font-size: .6em;
+  top: 8.3em;
+  left: 1.6em;
+}
+
+.valid_thru {
+  position: absolute;
+  font-weight: bold;
+  top: 635.8em;
+  font-size: .01em;
+  left: 140.3em;
+}
+
+.date_8264 {
+  position: absolute;
+  font-weight: bold;
+  font-size: 0.5em;
+  top: 13.6em;
+  left: 3.2em;
+}
+
+.name {
+  position: absolute;
+  font-weight: bold;
+  font-size: 0.5em;
+  top: 16.1em;
+  left: 2em;
+}
+
+.strip {
+  position: absolute;
+  background-color: black;
+  width: 15em;
+  height: 1.5em;
+  top: 2.4em;
+  background: repeating-linear-gradient(
+    45deg,
+    #303030,
+    #303030 10px,
+    #202020 10px,
+    #202020 20px
+  );
+}
+
+.mstrip {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  width: 8em;
+  height: 0.8em;
+  top: 5em;
+  left: .8em;
+  border-radius: 2.5px;
+}
+
+.sstrip {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  width: 4.1em;
+  height: 0.8em;
+  top: 5em;
+  left: 10em;
+  border-radius: 2.5px;
+}
+
+.code {
+  font-weight: bold;
+  text-align: center;
+  margin: .2em;
+  color: black;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  box-shadow: 0 8px 14px 0 rgba(0,0,0,0.2);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 1rem;
+}
+
+.flip-card-front {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  background-color: #FF1287;
+}
+
+.flip-card-back {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  background-color:  #8F51EA;
+  background-image: url(./logoMuñecoSinFondo.png);
+  background-size: cover;
+  transform: rotateY(180deg);
+}
+
+
+/* para el button de la card*/
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 13rem;
+  height: 3rem;
+  margin-top: 10rem;
+  background-size: 300% 300%;
+  backdrop-filter: blur(1rem);
+  border-radius: 5rem;
+  transition: 0.5s;
+  animation: gradient_301 5s ease infinite;
+  border: double 4px transparent;
+  background-image: linear-gradient(#212121, #212121),  linear-gradient(137.48deg, #ffdb3b 10%,#FE53BB 45%, #8F51EA 67%, #0044ff 87%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+#container-stars {
+  position: fixed;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transition: 0.5s;
+  backdrop-filter: blur(1rem);
+  border-radius: 5rem;
+}
+
+strong {
+  z-index: 2;
+  font-family: 'Helvetica';
+  font-size: 12px;
+  letter-spacing: 5px;
+  color: #FFFFFF;
+  text-shadow: 0 0 4px white;
+}
+
+#glow {
+  position: absolute;
+  display: flex;
+  width: 12rem;
+}
+
+.circle {
+  width: 100%;
+  height: 30px;
+  filter: blur(2rem);
+  animation: pulse_3011 4s infinite;
+  z-index: -1;
+}
+
+.circle:nth-of-type(1) {
+  background: rgba(254, 83, 186, 0.636);
+}
+
+.circle:nth-of-type(2) {
+  background: rgba(142, 81, 234, 0.704);
+}
+
+.btn:hover #container-stars {
+  z-index: 1;
+  background-color: #212121;
+}
+
+.btn:hover {
+  transform: scale(1.1)
+}
+
+.btn:active {
+  border: double 4px #FE53BB;
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  animation: none;
+}
+
+.btn:active .circle {
+  background: #FE53BB;
+}
+
+#stars {
+  position: relative;
+  background: transparent;
+  width: 200rem;
+  height: 200rem;
+}
+
+#stars::after {
+  content: "";
+  position: absolute;
+  top: -10rem;
+  left: -100rem;
+  width: 100%;
+  height: 100%;
+  animation: animStarRotate 90s linear infinite;
+}
+
+#stars::after {
+  background-image: radial-gradient(#ffffff 1px, transparent 1%);
+  background-size: 50px 50px;
+}
+
+#stars::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 170%;
+  height: 500%;
+  animation: animStar 60s linear infinite;
+}
+
+#stars::before {
+  background-image: radial-gradient(#ffffff 1px, transparent 1%);
+  background-size: 50px 50px;
+  opacity: 0.5;
+}
+
+@keyframes animStar {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-135rem);
+  }
+}
+
+@keyframes animStarRotate {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0);
+  }
+}
+
+@keyframes gradient_301 {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulse_3011 {
+  0% {
+    transform: scale(0.75);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    transform: scale(0.75);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
