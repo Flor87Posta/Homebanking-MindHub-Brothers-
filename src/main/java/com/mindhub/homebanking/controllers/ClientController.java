@@ -29,6 +29,8 @@ public class ClientController {
         Optional<Client> optionalClient = clientRepository.findById(id);
         return optionalClient.map(client -> new ClientDTO(client)).orElse(null);
     }
+
+
 }
 
 
