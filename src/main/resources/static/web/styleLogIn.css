@@ -1,12 +1,12 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 
 * {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
 	text-decoration: none !important;
-	font-family: 'Helvetica', sans-serif;
+	font-family: 'Russo One', sans-serif;
   color: white;
 }
 body {
@@ -16,7 +16,7 @@ body {
   background-image: url(./fondoIndex.png);
   background-size: cover;
   margin: 0;
-  font-family: 'Helvetica';
+  font-family: 'Russo One', sans-serif;
   color: white;
 }
 
@@ -37,7 +37,7 @@ nav {
   right: 0;
   background-color: #333;
   overflow: hidden;
-  font-family: 'Helvetica';
+  font-family: 'Russo One', sans-serif;
   box-shadow: 0px 1px 5px 0px #FF1287(0, 0, 0, 0.99);
 	-webkit-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.99);
 	-moz-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.99);
@@ -57,11 +57,10 @@ nav li {
 nav a {
   display: block;
   color: white;
-  padding: 10px;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-family:'Helvetica';
+  font-family: 'Russo One', sans-serif;
 
 }
 
@@ -98,7 +97,7 @@ table{
   background-color: linear-gradient(90deg, #FF7E7E 50%, #FF1287 60%, rgba(0, 0, 0, 0.40) 60%);
   color: #fff;
   font-size: 16px;
-  font-family: 'Helvetica';
+  font-family: 'Russo One', sans-serif;
   border: 1px solid #fff;
   border-radius: 10px;
   /* overflow: hidden; */
@@ -131,7 +130,8 @@ video {
   width: 100%;
   height: 30vw;
   position:absolute;
-  object-fit:cover;
+  object-fit:contain;
+  
   top: 20%;
 	left: 25%;
 	transform: translate(-25%, -20%);
@@ -145,6 +145,7 @@ video {
   justify-content:center;
   align-items: center;
 }
+
 
 .about {
   position: fixed;
@@ -452,10 +453,10 @@ video {
 }
 
 .textDetail{
-  font-size: 14px;
+  font-size: 13px;
   color: white;
   /* letter-spacing: 2px; */
-  font-family: 'Helvetica';
+  font-family: 'Russo One', sans-serif;
 }
 
 .card:hover {
@@ -641,114 +642,311 @@ video {
   transform: rotateY(180deg);
 }
 
+
+
 /* para formulario log in*/
 
-.formulario {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-left: 2em;
-    padding-right: 2em;
-    padding-bottom: 0.4em;
-    background-color: #171717;
-    border-radius: 25px;
-    transition: .4s ease-in-out;
+.login-box {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
+
+/*para landingPage*/
+
+.login-box-landPage {
+  position: absolute;
+  top: 80%;
+  left: 90%;
+  width: 200px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
+.login-box-landPage a:hover {
+  background:  #8F51EA;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px  #8F51EA,
+              0 0 25px  #8F51EA,
+              0 0 50px  #8F51EA,
+              0 0 100px  #8F51EA;
+}
+
+.login-box-landPage a span {
+  position: absolute;
+  display: block;
+}
+
+.login-box-landPage a span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent,  #8F51EA);
+  animation: btn-anim1 1s linear infinite;
+}
+
+.login-box-landPage a span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent,  #8F51EA);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: .25s
+}
+
+
+
+.login-box-landPage a span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent,  #8F51EA);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: .5s
+}
+
+
+
+.login-box-landPage a span:nth-child(4) {
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent,  #8F51EA);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: .75s
+}
+
+
+
+/*termina landingPage*/
+
+
+.login-box h2 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.login-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color:  #8F51EA;
+  font-size: 12px;
+}
+
+.login-box form a {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color:  white;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px
+}
+
+.login-box a:hover {
+  background:  #8F51EA;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px  #8F51EA,
+              0 0 25px  #8F51EA,
+              0 0 50px  #8F51EA,
+              0 0 100px  #8F51EA;
+}
+
+.login-box a span {
+  position: absolute;
+  display: block;
+}
+
+.login-box a span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent,  #8F51EA);
+  animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -100%;
   }
-  
-  .formulario:hover {
-    transform: scale(1.05);
-    border: 1px solid black;
+  50%,100% {
+    left: 100%;
   }
-  
-  #headingForm {
-    text-align: center;
-    margin: 2em;
-    color: rgb(255, 255, 255);
-    font-size: 1.2em;
+}
+
+.login-box a span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent,  #8F51EA);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: .25s
+}
+
+@keyframes btn-anim2 {
+  0% {
+    top: -100%;
   }
-  
-  .field {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5em;
-    border-radius: 25px;
-    padding: 0.6em;
-    border: none;
-    outline: none;
-    color: white;
-    background-color: #171717;
-    box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+  50%,100% {
+    top: 100%;
   }
-  
-  .input-icon {
-    height: 1.3em;
-    width: 1.3em;
-    fill: white;
+}
+
+.login-box a span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent,  #8F51EA);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: .5s
+}
+
+@keyframes btn-anim3 {
+  0% {
+    right: -100%;
   }
-  
-  .input-field {
-    background: none;
-    border: none;
-    outline: none;
-    width: 100%;
-    color: #d3d3d3;
+  50%,100% {
+    right: 100%;
   }
-  
-  .formulario .btn {
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    margin-top: 2.5em;
+}
+
+.login-box a span:nth-child(4) {
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent,  #8F51EA);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: .75s
+}
+
+@keyframes btn-anim4 {
+  0% {
+    bottom: -100%;
   }
-  
-  .button1 {
-    padding: 0.5em;
-    padding-left: 1.1em;
-    padding-right: 1.1em;
-    border-radius: 5px;
-    margin-right: 0.5em;
-    border: none;
-    outline: none;
-    transition: .4s ease-in-out;
-    background-color: #252525;
-    color: white;
+  50%,100% {
+    bottom: 100%;
   }
-  
-  .button1:hover {
-    background-color: #FF1287;
-    color: white;
-  }
-  
-  .button2 {
-    padding: 0.5em;
-    padding-left: 2.3em;
-    padding-right: 2.3em;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    transition: .4s ease-in-out;
-    background-color: #252525;
-    color: white;
-  }
-  
-  .button2:hover {
-    background-color: #FF1287;
-    color: white;
-  }
-  
-  .button3 {
-    margin-bottom: 3em;
-    padding: 0.5em;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    transition: .4s ease-in-out;
-    background-color: #252525;
-    color: white;
-  }
-  
-  .button3:hover {
-    background-color: #FF1287;
-    color: white;
-  }
+}
+
+.cardAccounts {
+  width: 100%;
+  max-width: 300px;
+  min-width: 200px;
+  height: 250px;
+  background-color: linear-gradient(90deg, #FF7E7E 50%, #FF1287 60%, rgba(0, 0, 0, 0.40) 60%);
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.24);
+  border: 2px solid rgba(7, 7, 7, 0.12);
+  font-size: 14px;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.icon {
+  margin: 0 auto;
+  margin-bottom: 2rem;
+  width: 100%;
+  height: 80px;
+  max-width: 80px;
+  background: #7116d8;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  transition: all 0.8s ease;
+  background-position: 0px;
+  background-image: url(./logoMuñecoSinFondo.png);
+  background-size: cover;
+
+}
+
+.card .title {
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  margin-top: 30px;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.card .text {
+  width: 80%;
+  margin: 0 auto;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 20px;
+  color: white;
+  font-weight: 200;
+  letter-spacing: 2px;
+  opacity: 0;
+  max-height: 0;
+  transition: all 0.3s ease;
+}
+
+
+
