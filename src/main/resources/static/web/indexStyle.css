@@ -7,6 +7,133 @@ body {
 
 *{font-family: 'Russo One', sans-serif};
   
+
+.about {
+  position: fixed;
+  z-index: 10;
+  bottom: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  transition: all 0.2s ease;
+}
+.about .bg_links {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FF1287;
+  background-image: url(./assets/logoMuñecoSinFondo.png);
+  background-size: cover;
+  border-radius: 100%;
+  backdrop-filter: blur(5px);
+  position: absolute;
+}
+.about .logo {
+  width: 40px;
+  height: 40px;
+  z-index: 9;
+  background-image: url(./assets/logoMuñecoSinFondo.png);
+  
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: 10px 7px;
+  opacity: 0.9;
+  transition: all 1s 0.2s ease;
+  bottom: 0;
+  right: 0;
+}
+.about .social {
+  opacity: 10;
+  right: 0;
+  bottom: 0;
+}
+.about .social .icon {
+  width: 100%;
+  height: 100%;
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  transition: all 0.2s ease, background-color 0.4s ease;
+  opacity: 0;
+  border-radius: 100%;
+}
+.about .social.portfolio {
+  transition: all 0.8s ease;
+}
+.about .social.portfolio .icon {
+  background-image: url(./assets/logoMindhubSinFondo.png);
+  margin-top: 2rem;
+ 
+}
+.about .social.dribbble {
+  transition: all 0.3s ease;
+}
+.about .social.dribbble .icon {
+  background-image: url(./assets/logoGitHubSinFondo.png);
+  margin-top: 2rem;
+  
+}
+.about .social.linkedin {
+  transition: all 0.8s ease;
+}
+.about .social.linkedin .icon {
+  background-image: url(./assets/logoLinkedinSinFondo.png);
+  margin-top: 2rem;
+
+}
+.about:hover {
+  width: 105px;
+  height: 105px;
+  transition: all 0.6s cubic-bezier(0.64, 0.01, 0.07, 1.65);
+}
+.about:hover .logo {
+  opacity: 1;
+  transition: all 0.6s ease;
+}
+.about:hover .social {
+  opacity: 1;
+}
+.about:hover .social .icon {
+  opacity: 0.9;
+}
+.about:hover .social:hover {
+  background-size: 28px;
+}
+.about:hover .social:hover .icon {
+  background-size: 65%;
+  opacity: 1;
+}
+.about:hover .social.portfolio {
+  right: 0;
+  bottom: calc(100% - 40px);
+  transition: all 0.3s 0s cubic-bezier(0.64, 0.01, 0.07, 1.65);
+}
+.about:hover .social.portfolio .icon:hover {
+  background-color: white;
+}
+.about:hover .social.dribbble {
+  bottom: 45%;
+  right: 45%;
+  transition: all 0.3s 0.15s cubic-bezier(0.64, 0.01, 0.07, 1.65);
+}
+.about:hover .social.dribbble .icon:hover {
+  background-color: white;
+}
+.about:hover .social.linkedin {
+  bottom: 0;
+  right: calc(100% - 40px);
+  transition: all 0.3s 0.25s cubic-bezier(0.64, 0.01, 0.07, 1.65);
+}
+.about:hover .social.linkedin .icon:hover {
+  background-color: white;
+}
   .hidden {
     display: none;
   }

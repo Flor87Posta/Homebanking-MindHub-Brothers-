@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>MindHub Brothers Bank</title>
   <link rel="stylesheet" href="./styleLogIn.css">
-  <link rel="shortcut icon" href="./logoMuñecoSinFondo.png" type="image/x-icon">
+  <link rel="shortcut icon" href="./assets/logoMuñecoSinFondo.png" type="image/x-icon">
 
 </head>
 <body>
@@ -30,44 +30,59 @@
 
       <div class="divVideo" id="container-stars">
          <video autoplay loop muted>
-            <source src="./logoBannerVideo5.mp4" type="video/mp4">
+            <source src="./assets/logoBannerVideo5.mp4" type="video/mp4">
          </video>
       </div>
 
    </header>
 
 
-    <div class="login-box">
-      <h2>Login</h2>
-      <form>
-        <div class="user-box">
-          <input type="text" name="" required="">
-          <label>Username</label>
-        </div>
-        <div class="user-box">
-          <input type="password" name="" required="">
-          <label>Password</label>
-        </div>
-        <a href="./index.html">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          Submit
-        </a>
-        <a href="./index.html">
-         <span></span>
-         <span></span>
-         <span></span>
-         <span></span>
-         Sign Up
-       </a>
-      </form>
-    </div>
+
+   <div id="app">
+      <div class="login-box">
+         <h2>Login</h2>
+         <form >   
+            <div class="user-box">
+               <input type="email" id="email" name="email" required="" v-model="email">
+               <label for="email">Username</label>
+            </div>
+            <div class="user-box">
+               <input type="password" id="password" name="password" required="" v-model="password">
+               <label for="password">Password</label>
+            </div>
+            <input type="button" value="Submit" @click="login"> 
+            <input type="button" value="Sign Up" @click="showForm">
+            <template v-if="formVisible">
+               <div>
+                  <form>
+                     <div class="user-box">
+                        <label for="firstName">Firstname:</label>
+                        <input type="text" id="firstName" name="firstName" required="" v-model="firstName">
+                     </div>
+                     <div class="user-box">
+                        <label for="lastName">Lastname:</label>
+                        <input type="text" id="lastName" name="lastName" required="" v-model="lastName">
+                     </div>
+                     <div class="user-box">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required="" v-model="emailRegister">
+                     </div>
+                     <div class="user-box">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required="" v-model="passwordRegister">
+                     </div>
+                        <input type="button" value="Submit" @click="register">
+                  </form>
+               </div>
+            </template>
+         </form>
+      </div>
+   </div>
    
    
 <!-- partial -->
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./login.js"></script>
 </body>
 </html>

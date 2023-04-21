@@ -38,6 +38,12 @@ const app = createApp ({
             },
 
         methods: {
+        
+            
+        logOut(){
+            axios.post('/api/logout')
+            .then(response => console.log('Signed out'))
+        },
 
         }
 })

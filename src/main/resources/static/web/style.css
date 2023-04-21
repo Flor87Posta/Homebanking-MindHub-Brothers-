@@ -12,7 +12,7 @@ body {
   
   width: 100%;
   min-height: 70vw;
-  background-image: url(./fondoIndex.png);
+  background-image: url(./assets/fondoIndex.png);
   background-size: cover;
   margin: 0;
   font-family: 'Russo One', sans-serif;
@@ -165,6 +165,8 @@ video {
   justify-content: center;
   align-items: center;
   background-color: #FF1287;
+  background-image: url(./assets/logoMuñecoSinFondo.png);
+  background-size: cover;
   border-radius: 100%;
   backdrop-filter: blur(5px);
   position: absolute;
@@ -173,7 +175,8 @@ video {
   width: 40px;
   height: 40px;
   z-index: 9;
-  background-image: url(./logoMuñecoSinFondo.png);
+  background-image: url(./assets/logoMuñecoSinFondo.png);
+  
   background-size: 50%;
   background-repeat: no-repeat;
   background-position: 10px 7px;
@@ -183,7 +186,7 @@ video {
   right: 0;
 }
 .about .social {
-  opacity: 0;
+  opacity: 10;
   right: 0;
   bottom: 0;
 }
@@ -193,7 +196,6 @@ video {
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: transparent;
   display: flex;
   transition: all 0.2s ease, background-color 0.4s ease;
   opacity: 0;
@@ -203,21 +205,24 @@ video {
   transition: all 0.8s ease;
 }
 .about .social.portfolio .icon {
-  background-image: url(./logoMindhubSinFondo.png);
+  background-image: url(./assets/logoMindhubSinFondo.png);
+  margin-top: 2rem;
  
 }
 .about .social.dribbble {
   transition: all 0.3s ease;
 }
 .about .social.dribbble .icon {
-  background-image: url(./logoGitHubSinFondo.png);
+  background-image: url(./assets/logoGitHubSinFondo.png);
+  margin-top: 2rem;
   
 }
 .about .social.linkedin {
   transition: all 0.8s ease;
 }
 .about .social.linkedin .icon {
-  background-image: url(./logoLinkedinSinFondo.png);
+  background-image: url(./assets/logoLinkedinSinFondo.png);
+  margin-top: 2rem;
 
 }
 .about:hover {
@@ -365,7 +370,7 @@ video {
   color: white;
   transition: all 0.8s ease;
   background-position: 0px;
-  background-image: url(./logoMuñecoSinFondo.png);
+  background-image: url(./assets/logoMuñecoSinFondo.png);
   background-size: cover;
 
 }
@@ -386,7 +391,7 @@ video {
   color: white;
   transition: all 0.8s ease;
   background-position: 0px;
-  background-image: url(./logoCardGoldSinFondo.png);
+  background-image: url(./assets/logoCardGoldSinFondo.png);
   background-size: cover;
 
 }
@@ -404,7 +409,7 @@ video {
   color: white;
   transition: all 0.8s ease;
   background-position: 0px;
-  background-image: url(./logoCardTitaniumSinFondo.png);
+  background-image: url(./assets/logoCardTitaniumSinFondo.png);
   background-size: cover;
   
 }
@@ -635,7 +640,7 @@ video {
 .flip-card-back {
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
   background-color:  #8F51EA;
-  background-image: url(./logoMuñecoSinFondo.png);
+  background-image: url(./assets/logoMuñecoSinFondo.png);
   background-size: cover;
   transform: rotateY(180deg);
 }

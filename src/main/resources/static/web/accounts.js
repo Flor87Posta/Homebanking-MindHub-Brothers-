@@ -11,6 +11,7 @@ const app = createApp ({
             accounts: [],
             clients: [],
             loans: [],
+            
 
             
 
@@ -26,7 +27,7 @@ const app = createApp ({
         methods: {
 
         loadData(){
-                axios.get("http://localhost:8080/api/clients/1")
+                axios.get("http://localhost:8080/api/clients/current")
                     .then(response => {
                         this.clients=response.data;
                         console.log(this.clients)
@@ -39,25 +40,30 @@ const app = createApp ({
                     .catch(err => console.log( err ));
                 },
 
-        addClient(){
-            this.postClient();
-        },
+        // addClient(){
+        //     this.postClient();
+        // },
 
-        postClient(){
-                axios.post("http://localhost:8080/api/clients/1", {
-                    firstName: this.firstName,
-                    lastName: this.lastName,
-                    email: this.email,
-                    accounts: this.accounts,
+        // postClient(){
+        //         axios.post("http://localhost:8080/api/clients/1", {
+        //             firstName: this.firstName,
+        //             lastName: this.lastName,
+        //             email: this.email,
+        //             accounts: this.accounts,
 
                     
-                })
-                .then(function (response) {
-                    this.loadData();
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+        //         })
+        //         .then(function (response) {
+        //             this.loadData();
+        //         })
+        //         .catch(function (error) {
+        //             console.log(error);
+        //         });
+        //     },
+
+        logOut(){
+                axios.post('/api/logout')
+                .then(response => console.log('Signed out'))
             },
 
             },

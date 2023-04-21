@@ -52,7 +52,7 @@ const app = createApp ({
         },
 
         postClient(){
-                axios.post("http://localhost:8080/api/clients/1", {
+                axios.post("http://localhost:8080/api/clients/current", {
                     firstName: this.firstName,
                     lastName: this.lastName,
                     email: this.email,
@@ -66,6 +66,11 @@ const app = createApp ({
                 .catch(function (error) {
                     console.log(error);
                 });
+            },
+
+            logOut(){
+                axios.post('/api/logout')
+                .then(response => console.log('Signed out'))
             },
 
             },
