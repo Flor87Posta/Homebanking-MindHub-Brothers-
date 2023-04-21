@@ -17,7 +17,6 @@ public class ClientLoan {
     private double amount;
     private int payments;
 
-    private String name;
 
 
 
@@ -35,13 +34,11 @@ public class ClientLoan {
 
     public ClientLoan (){}
 
-    public ClientLoan (double amount, int payments, String name, Client clientLoan, Loan loan) {
+    public ClientLoan (double amount, int payments) {
 
         this.amount = amount;
         this.payments = payments;
-        this.name = loan.getName();
-        this.clientLoan = clientLoan;
-        this.loan = loan;
+
     }
 
     // metodos accesores:
@@ -71,13 +68,6 @@ public class ClientLoan {
         this.payments = payments;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @JsonIgnore
     public Client getClientLoan() {

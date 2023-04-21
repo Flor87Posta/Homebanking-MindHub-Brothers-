@@ -1,17 +1,17 @@
 package com.mindhub.homebanking;
-
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.mindhub.homebanking.models.CardColor.*;
 import static com.mindhub.homebanking.models.TransactionType.CREDIT;
 import static com.mindhub.homebanking.models.TransactionType.DEBIT;
 
@@ -21,18 +21,21 @@ import static com.mindhub.homebanking.models.TransactionType.DEBIT;
 
 public class HomebankingApplication {
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	public static void main(String[] args) {
 
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
-
 	@Bean
 	public CommandLineRunner initData(ClientRepository  clientRepository, AccountRepository  accountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientloanrepository, CardRepository cardRepository) {
 		return (args) -> {
 
-			Client client1 = new Client("Melba", "Morel", "melba@mindhub.com");
-			Client client2 = new Client("Lucia", "Lopez", "lucilopez@mindhub.com");
-			Client client3 = new Client("Clara", "Gonzalez", "claragonzalez@mindhub.com");
+			Client client1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("mel1212ba"));
+			Client client2 = new Client("Lucia", "Lopez", "lucilopez@mindhub.com", passwordEncoder.encode("lu1010lo"));
+			Client client3 = new Client("Clara", "Gonzalez", "claragonzalez@mindhub.com", passwordEncoder.encode("cla1313gon"));
+			Client admin = new Client("Florencia", "Postacchini","florenciapostacchini@gmail.com", passwordEncoder.encode("flo1014pos"));
 
 			Account account1 = new Account("VIN001", LocalDateTime.now(), 5000.01);
 			Account account2 = new Account("VIN002", LocalDateTime.now().plusDays(1), 7500.80);
@@ -49,10 +52,20 @@ public class HomebankingApplication {
 			Loan loan2 = new Loan("Personal Loan", 100000, (List.of(6,12,24)));
 			Loan loan3 = new Loan("Car Loan", 300000, (List.of(6,12,24,36)));
 
-			ClientLoan clientloan1 = new ClientLoan(400000, 60, "Mortgage Loan", client1, loan1);
-			ClientLoan clientloan2 = new ClientLoan(50000, 12, "Personal Loan", client1, loan2);
-			ClientLoan clientloan3 = new ClientLoan(100000, 24, "Personal Loan", client2, loan2);
-			ClientLoan clientloan4 = new ClientLoan(200000, 36, "Car Loan", client2, loan3);
+			ClientLoan clientloan1 = new ClientLoan(400000, 60);
+			ClientLoan clientloan2 = new ClientLoan(50000, 12);
+			ClientLoan clientloan3 = new ClientLoan(100000, 24);
+			ClientLoan clientloan4 = new ClientLoan(200000, 36);
+
+			loan1.addClientLoan(clientloan1);
+			loan2.addClientLoan(clientloan2);
+			loan2.addClientLoan(clientloan3);
+			loan3.addClientLoan(clientloan4);
+
+			client1.addClientLoan(clientloan1);
+			client1.addClientLoan(clientloan2);
+			client2.addClientLoan(clientloan3);
+			client3.addClientLoan(clientloan4);
 
 			Card card1 = new Card (client1.getFirstName() + " " + client1.getLastName(), CardType.DEBIT, CardColor.GOLD, "4444-5555-6666", 111, LocalDate.now(), LocalDate.now().plusYears(5));
 			Card card2 = new Card (client1.getFirstName() + " " + client1.getLastName(), CardType.CREDIT, CardColor.TITANIUM, "4455-7777-8888", 222, LocalDate.now(), LocalDate.now().plusYears(5));
@@ -62,6 +75,7 @@ public class HomebankingApplication {
 			clientRepository.save(client1);
 			clientRepository.save(client2);
 			clientRepository.save(client3);
+			clientRepository.save(admin);
 
 			client1.addAccount(account1);
 			client1.addAccount(account2);
@@ -71,7 +85,6 @@ public class HomebankingApplication {
 			client1.addCard(card1);
 			client1.addCard(card2);
 			client2.addCard(card3);
-
 
 			accountRepository.save(account1);
 			accountRepository.save(account2);

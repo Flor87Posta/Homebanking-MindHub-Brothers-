@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@NamedQuery(name="Client.findByEmail", query="select u from Client u where u.email= ?1")
 public class Client {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
@@ -15,6 +16,8 @@ public class Client {
     private String firstName;
     private String lastName;
     private String email;
+
+    private String password;
 
     @OneToMany(mappedBy="client", fetch= FetchType.EAGER) //asociado a client, definido en la clase Account
     private Set<Account> accounts = new HashSet<>(); // set para evitar datos duplicados
@@ -30,10 +33,11 @@ public class Client {
 
     public Client(){};
 
-    public Client(String firstName, String lastName, String email) {
+    public Client(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
     }
 
     public long getId() {
@@ -65,9 +69,17 @@ public class Client {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Set<Account> getAccountSet() {
         return accounts;
-    } //metodo accesor get de la nueva propiedad creada por la relación con Account
+    } //método accesor get de la nueva propiedad creada por la relación con Account
 
     public Set<ClientLoan> getLoansSet() { //método para retornar el listado de préstamos de un cliente
         return clientLoans;
