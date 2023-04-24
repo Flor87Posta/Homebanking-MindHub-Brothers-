@@ -1,7 +1,10 @@
 package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.dtos.ClientDTO;
+import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
+import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,8 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -19,6 +27,9 @@ import static java.util.stream.Collectors.toList;
 public class ClientController {
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -34,7 +45,7 @@ public class ClientController {
         return optionalClient.map(client -> new ClientDTO(client)).orElse(null);
     }
 
-    @RequestMapping(path = "/clients", method = RequestMethod.POST)
+    @RequestMapping(path = "/clients", method = RequestMethod.POST) //método para registrar un nuevo cliente
     public ResponseEntity<Object> register(
 
             @RequestParam String firstName, @RequestParam String lastName,
@@ -47,20 +58,31 @@ public class ClientController {
 
         }
 
-        if (clientRepository.findByEmail(email) !=  null) {
+        if (clientRepository.findByEmail(email) != null) {
 
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
 
         }
+        String accountNumber;
+        do {
+            int numberGenerated = (int) (Math.random() * 1000);
+            accountNumber = "VIN" + String.format("%08d", numberGenerated);
+        } while (accountRepository.findByNumber(accountNumber) != null);
 
-        clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
-
+        Client newClient = new Client(firstName, lastName, email, passwordEncoder.encode(password));
+        Account newAccount = new Account(accountNumber, LocalDateTime.now(), 0.0);
+        clientRepository.save(newClient);
+        newClient.addAccount(newAccount);
+        accountRepository.save(newAccount);
         return new ResponseEntity<>(HttpStatus.CREATED); //código de estado HTTP 201 creado
 
     }
     @RequestMapping("/clients/current") // este servlet es para crear un nuevo servicio que retorne la información del usuario autenticado, antes usabamos /clients/1 que es Melba
         public ClientDTO getClientCurrent(Authentication authentication) {
-        return new ClientDTO(clientRepository.findByEmail(authentication.getName())); //Si hay un usuario conectado, authentication.getName() devolverá el nombre que la clase WebAuthentication puso en el objeto User.
+        Client client = clientRepository.findByEmail(authentication.getName());//Si hay un usuario conectado, authentication.getName() devolverá el nombre que la clase WebAuthentication puso en el objeto User.
+  /*      Set<Account> clientAccountSet =  client.getAccountSet();
+        client.setAccounts(clientAccountSet);*/
+        return new ClientDTO(client); //al client que cree que guarda el usuario autenticado lo transformo en clientDTO que tiene todas las propiedades
     }
 }
 

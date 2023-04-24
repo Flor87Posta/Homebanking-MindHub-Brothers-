@@ -81,6 +81,11 @@ public class Client {
         return accounts;
     } //método accesor get de la nueva propiedad creada por la relación con Account
 
+
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
+    }
+
     public Set<ClientLoan> getLoansSet() { //método para retornar el listado de préstamos de un cliente
         return clientLoans;
     }

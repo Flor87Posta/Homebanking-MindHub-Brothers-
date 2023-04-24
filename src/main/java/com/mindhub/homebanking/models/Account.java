@@ -82,6 +82,17 @@ public class Account {
         transactions.add(transaction);
     }
 
+    //método para generar una cuenta:
+/*
+    public String generateAccountNumber(Account account) {
+        String vinPrefix = "VIN-";
+        long accountNumber = Long.parseLong(account.getNumber() + 1);
+        String accountNumberString = String.valueOf(accountNumber);
+        int numZeros = 3 - accountNumberString.length();
+        String zeros = "0".repeat(Math.max(0, numZeros));
+        return vinPrefix + zeros + accountNumberString;
+    }*/
+
     @Override
     public String toString() {
         return "Account{" +

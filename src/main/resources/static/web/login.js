@@ -66,7 +66,36 @@ const app = createApp ({
         //     },
 
         login() {
+
                 axios.post('/api/login',`email=${this.email}&password=${this.password}`,{headers:{'content-type':'application/x-www-form-urlencoded'}})
+                .then(response => 
+                {
+                    window.location.href='/web/accounts.html'
+                }
+                    )
+                .catch(function (error) {
+                        if (error.response) {
+                          // The request was made and the server responded with a status code
+                          // that falls out of the range of 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                        } else if (error.request) {
+                          // The request was made but no response was received
+                          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                          // http.ClientRequest in node.js
+                        console.log(error.request);
+                        } else {
+                          // Something happened in setting up the request that triggered an Error
+                        console.log('Error', error.message);
+                        }
+                        console.log(error.config);
+                    });
+            },
+
+            loginRegister() {
+
+                axios.post('/api/login',`email=${this.emailRegister}&password=${this.passwordRegister}`,{headers:{'content-type':'application/x-www-form-urlencoded'}})
                 .then(response => 
                 {
                     window.location.href='/web/accounts.html'
@@ -105,9 +134,11 @@ const app = createApp ({
 
                 axios.post('/api/clients', `firstName=${this.firstName}&lastName=${this.lastName}&email=${this.emailRegister}&password=${this.passwordRegister}`)
                 .then(response =>{
+
+                    console.log("hola")
                     if(response.status === 201){
                         console.log(response.data)
-                        this.login()
+                        this.loginRegister()
                     }
                 })
                 .catch(error => console.log(error))       
