@@ -1,6 +1,5 @@
 package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.dtos.AccountDTO;
-import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,22 +36,29 @@ public class AccountController {
         return optionalAccount.map(account -> new AccountDTO(account)).orElse(null);
     }
 
- /*   @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
+    @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
     public ResponseEntity<Object> newAccount(  //método para crear una nueva cuenta
-               Authentication authentication) {
+               Authentication authentication) { //obtengo un objeto Authentication; no requiero parametros desde el front
 
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientRepository.findByEmail(authentication.getName()); //comparo aquí con el authentication al cliente autenticado con el jsessionId
         if (client.getAccountSet().size() < 3) {
-            try {
-                Account accountGenerated = newAccount(Client client).generateAccountNumber();
+            try { //bloque de codigo a intentar:
+                String accountNumber;
+                int numberGenerated = (int) (Math.random() * 1000);
+                accountNumber = "VIN" + String.format("%08d", numberGenerated);
+                Account accountGenerated = new Account(accountNumber, LocalDateTime.now(), 0.0);
                 accountRepository.save(accountGenerated);
+                client.addAccount(accountGenerated);
+                clientRepository.save(client);
                 return new ResponseEntity<>("Created", HttpStatus.CREATED);
-            } catch (IllegalArgumentException ex) {
+            } catch (IllegalArgumentException ex) { //especifica una respuesta si se produce una excepción
+                //IllegalArgumentException es una excepción de Java que indica que un método ha recibido un argumento que no es válido o es inapropiado para los fines de este método.
+                //Esta excepción se utiliza normalmente cuando el procesamiento posterior en el método depende del argumento no válido y no puede continuar a menos que se proporcione un argumento adecuado en su lugar.
                 return new ResponseEntity<>("Invalid account type", HttpStatus.FORBIDDEN);
             }
         } else {
             return new ResponseEntity<>("Client already has 3 or more accounts", HttpStatus.FORBIDDEN);
         }
-    }*/
+    }
 
 }

@@ -11,9 +11,12 @@ const app = createApp ({
             accounts: [],
             clients: [],
             loans: [],
-            createdAccount: false,
-            
-            
+            cards: [],
+            debitCards: [],
+            creditCards: [],
+            createdCard: false,
+            typeCardCreated: null,
+            colorCard: null,
 
             
 
@@ -21,9 +24,7 @@ const app = createApp ({
     },
     created(){
     //         // Hacer una petición a través de una función loadData
-            // this.newAccount();
             this.loadData();
-        
     
 
             },
@@ -37,6 +38,11 @@ const app = createApp ({
                         console.log(this.clients)
                         this.accounts=this.clients.accounts
                         this.loans=this.clients.loans
+                        this.cards=this.clients.cards
+                        this.debitCards = this.cards.filter(card => card.typeCard === "DEBIT")
+                        console.log(this.debitCards)
+                        this.creditCards = this.cards.filter(card => card.typeCard === "CREDIT")
+                        console.log(this.creditCards)
 
 
 
@@ -49,7 +55,7 @@ const app = createApp ({
         // },
 
         // postClient(){
-        //         axios.post("http://localhost:8080/api/clients/1", {
+        //         axios.post("http://localhost:8080/api/clients/current", {
         //             firstName: this.firstName,
         //             lastName: this.lastName,
         //             email: this.email,
@@ -65,28 +71,29 @@ const app = createApp ({
         //         });
         //     },
 
-        logOut(){
+            logOut(){
                 axios.post('/api/logout')
                 .then(response => console.log('Signed out'))
             },
 
-
-        newAccount() {
-            axios.post('/api/clients/current/accounts')
-                .then(response => {
-                    if (response.status == "201") {
-                        console.log(response),
-                            this.createdAccount = true,
-                            this.loadData()
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                    if (error.code == "ERR_BAD_REQUEST") {
-                        console.log(error)
-                    }
-                })
-        },
+            newCard() {
+                console.log("hola");
+                axios.post('/api/clients/current/cards',`typeCard=${this.typeCardCreated}&color=${this.colorCard}`,{headers:{'content-type':'application/x-www-form-urlencoded'}})
+                    .then(response => {
+                        if (response.status == "201") {
+                            console.log(response),
+                            window.location.href='/web/cards.html',
+                                this.createdCard = true,
+                                this.loadData()
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        if (error.code == "ERR_BAD_REQUEST") {
+                            console.log(error)
+                        }
+                    })
+            },
 
             },
 

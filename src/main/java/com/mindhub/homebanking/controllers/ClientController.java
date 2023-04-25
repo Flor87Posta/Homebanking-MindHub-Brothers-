@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.models.Account;
+import com.mindhub.homebanking.models.Card;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
@@ -49,13 +50,12 @@ public class ClientController {
     public ResponseEntity<Object> register(
 
             @RequestParam String firstName, @RequestParam String lastName,
-            @RequestParam String email, @RequestParam String password) {
+            @RequestParam String email, @RequestParam String password) { //son todos los parámetros que envía el usuario al registrarse
 
 
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
 
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
-
         }
 
         if (clientRepository.findByEmail(email) != null) {
@@ -67,7 +67,7 @@ public class ClientController {
         do {
             int numberGenerated = (int) (Math.random() * 1000);
             accountNumber = "VIN" + String.format("%08d", numberGenerated);
-        } while (accountRepository.findByNumber(accountNumber) != null);
+        } while (accountRepository.findByNumber(accountNumber) != null); //findByNumber: método creado en account repository
 
         Client newClient = new Client(firstName, lastName, email, passwordEncoder.encode(password));
         Account newAccount = new Account(accountNumber, LocalDateTime.now(), 0.0);
@@ -77,11 +77,13 @@ public class ClientController {
         return new ResponseEntity<>(HttpStatus.CREATED); //código de estado HTTP 201 creado
 
     }
-    @RequestMapping("/clients/current") // este servlet es para crear un nuevo servicio que retorne la información del usuario autenticado, antes usabamos /clients/1 que es Melba
+    @RequestMapping("/clients/current") // este servlet es para crear un nuevo servicio que retorne toda la información del usuario autenticado, antes usabamos /clients/1 que es Melba
         public ClientDTO getClientCurrent(Authentication authentication) {
         Client client = clientRepository.findByEmail(authentication.getName());//Si hay un usuario conectado, authentication.getName() devolverá el nombre que la clase WebAuthentication puso en el objeto User.
-  /*      Set<Account> clientAccountSet =  client.getAccountSet();
-        client.setAccounts(clientAccountSet);*/
+        Set<Account> clientAccountSet =  client.getAccountSet(); //vinculo las cuentas al cliente
+        client.setAccounts(clientAccountSet);
+        Set<Card> clientCardSet = client.getCards(); //vinculo las tarjetas al cliente
+        client.setCards(clientCardSet);
         return new ClientDTO(client); //al client que cree que guarda el usuario autenticado lo transformo en clientDTO que tiene todas las propiedades
     }
 }

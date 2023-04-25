@@ -93,7 +93,7 @@ const app = createApp ({
                     });
             },
 
-            loginRegister() {
+            loginRegister() { //para clientes que se registran, como los mails y password se llaman distintos..
 
                 axios.post('/api/login',`email=${this.emailRegister}&password=${this.passwordRegister}`,{headers:{'content-type':'application/x-www-form-urlencoded'}})
                 .then(response => 

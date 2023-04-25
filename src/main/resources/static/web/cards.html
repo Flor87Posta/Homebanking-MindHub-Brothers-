@@ -7,7 +7,7 @@
    <link rel="shortcut icon" href="./assets/logoMuñecoSinFondo.png" type="image/x-icon">
 
 </head>
-<body>
+<body id="app">
 <!-- partial:index.partial.html -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Helvetica">
@@ -41,33 +41,34 @@
          <div id="directionCards">
             <div>
                <div>
-                <button type="button" class="btn">
-                    <strong>DEBIT CARDS</strong>
-                    <div id="container-stars">
-                      <div id="stars"></div>
-                    </div>
-                  
-                    <div id="glow">
-                      <div class="circle"></div>
-                      <div class="circle"></div>
-                    </div>
+                  <button type="button" class="btn">
+                     <strong>DEBIT CARDS</strong>
+                     <div id="container-stars">
+                        <div id="stars"></div>
+                     </div>
+                     <div id="glow">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                     </div>
                   </button>
+                  <a href="./create-cards.html">Created your card Here!</a>
                </div>
             </div>
             
             <div>
                <div >
-                <button type="button" class="btn">
-                    <strong>CREDIT CARDS</strong>
-                    <div id="container-stars">
-                      <div id="stars"></div>
-                    </div>
+                  <button type="button" class="btn" href="./create-cards.html">
+                     <strong>CREDIT CARDS</strong>
+                     <div id="container-stars">
+                        <div id="stars"></div>
+                     </div>
                   
-                    <div id="glow">
-                      <div class="circle"></div>
-                      <div class="circle"></div>
-                    </div>
+                     <div id="glow">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                     </div>
                   </button>
+                  <a href="./create-cards.html">Created your card Here!</a>
                </div>
             </div>
          </div>
@@ -75,16 +76,16 @@
 </header>
 
 <!-- end about -->
-   <div id="app">
+   
       <div id="directionCards" >
 
          <!-- card -->
          <div class="flip-card" v-if="debitCards.length !=0">
             <div class="flip-card-inner" v-for="card of debitCards">
-                <div class="flip-card-front">
+                <div class="flip-card-front" :class="card.color">
+                  <p class="heading_8264">{{card.color}}</p>
                      <p class="heading_8265">MindHub Brothers Bank</p>
-                    <p class="heading_8264">MASTERCARD gold debit</p>
-                    <div class="iconCardGold"><i class="material-icons md-36"></i></div>
+                    <p class="heading_8264">MASTERCARD debit</p>
                     <svg viewBox="0 0 48 48" height="36" width="36" y="0px" x="0px" xmlns="http://www.w3.org/2000/svg" class="logo">
                     <path d="M32 10A14 14 0 1 0 32 38A14 14 0 1 0 32 10Z" fill="#ff9800"></path><path d="M16 10A14 14 0 1 0 16 38A14 14 0 1 0 16 10Z" fill="#d50000"></path><path d="M18,24c0,4.755,2.376,8.95,6,11.48c3.624-2.53,6-6.725,6-11.48s-2.376-8.95-6-11.48 C20.376,15.05,18,19.245,18,24z" fill="#ff3d00"></path>
                     </svg>
@@ -161,10 +162,10 @@
          <!-- card -->
          <div class="flip-card" v-if="creditCards.length !=0">
             <div class="flip-card-inner" v-for="card of creditCards">
-                <div class="flip-card-front">
+                <div class="flip-card-front" :class="card.color">
+                  <p class="heading_8264">{{card.color}}</p>
                      <p class="heading_8265">MindHub Brothers Bank</p>
-                    <p class="heading_8264">MASTERCARD titanium</p>
-                    <div class="iconCardTitanium"><i class="material-icons md-36"></i></div>
+                    <p class="heading_8264">MASTERCARD credit</p>
                     <svg viewBox="0 0 48 48" height="36" width="36" y="0px" x="0px" xmlns="http://www.w3.org/2000/svg" class="logo">
                     <path d="M32 10A14 14 0 1 0 32 38A14 14 0 1 0 32 10Z" fill="#ff9800"></path><path d="M16 10A14 14 0 1 0 16 38A14 14 0 1 0 16 10Z" fill="#d50000"></path><path d="M18,24c0,4.755,2.376,8.95,6,11.48c3.624-2.53,6-6.725,6-11.48s-2.376-8.95-6-11.48 C20.376,15.05,18,19.245,18,24z" fill="#ff3d00"></path>
                     </svg>
@@ -238,7 +239,7 @@
             <h3> You haven't cards</h3>
          </div>
       </div>
-   </div>
+
 
 
 <!-- partial -->

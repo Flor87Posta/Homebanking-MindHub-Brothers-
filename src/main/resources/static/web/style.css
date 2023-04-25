@@ -634,18 +634,38 @@ video {
 
 .flip-card-front {
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
-  background-color: #FF1287;
+
 }
 
 .flip-card-back {
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
-  background-color:  #8F51EA;
+
   background-image: url(./assets/logoMuñecoSinFondo.png);
   background-size: cover;
+  background-color: #FE53BB;
   transform: rotateY(180deg);
 }
 
+.GOLD{
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to right, #ffd700, #cd7f32);
+  background-size: cover;
+}
 
+
+.SILVER{
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to right,  #C0C0C0);
+  background-size: cover;
+
+}
+
+.TITANIUM{
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to right, #808080, #323232);
+  background-size: cover;
+
+}
 /* para el button de la card*/
 
 .btn {

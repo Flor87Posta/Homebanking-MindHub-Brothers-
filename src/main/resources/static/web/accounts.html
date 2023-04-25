@@ -7,7 +7,7 @@
    <link rel="shortcut icon" href="./assets/logoMuñecoSinFondo.png" type="image/x-icon">
 
 </head>
-<body>
+<body id="app">
 <!-- partial:index.partial.html -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Helvetica">
@@ -26,6 +26,7 @@
    <a class="bg_links logo"></a>
 </div>
 <header>
+   
    <div id="direction">
          <nav>
             <ul>
@@ -41,8 +42,8 @@
          <div id="directionCards">
             <div>
                <div>
-                  <button type="button" class="btn">
-                     <strong>ACCOUNTS</strong>
+                  <button type="button" class="btn" @click="newAccount">
+                     <strong>ACCOUNTS (Created your Account Here!)</strong>
                      <div id="container-stars">
                        <div id="stars"></div>
                      </div>
@@ -72,10 +73,11 @@
             </div>
          </div>
    </div>
+
 </header>
 
 <!-- end about -->
-   <div id="app">
+
       <div id="directionCards" >
 
          <!-- card -->
@@ -112,7 +114,7 @@
          </div>
 
       </div>
-   </div>
+
 
 
 <!-- partial -->

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>MindHub Brothers Bank</title>
+  <link rel="stylesheet" href="./styleLogIn.css">
+  <link rel="shortcut icon" href="./assets/logoMuñecoSinFondo.png" type="image/x-icon">
+
+</head>
+<body id="app">
+<!-- partial:index.partial.html -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Helvetica">
+
+<!-- about -->
+<div class="about">
+   <a class="bg_links social portfolio" href="https://mindhubweb.com/bootcamps" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links social dribbble " href="https://github.com/Flor87Posta" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links social linkedin " href="https://www.linkedin.com/in/florencia-postacchini" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links logo"></a>
+</div>
+<!-- end about -->
+    <header>
+
+        <nav>
+            <ul>
+               <li><a href="./index.html">Index</a></li>
+               <li><a href="./accounts.html">Accounts</a></li>
+               <li><a href="#">Loans</a></li>
+               <li><a href="#">Cards</a></li>
+               <li><a href="#">Profile</a></li>
+               <li><a href="#">Contact</a></li>
+               <li><a href="./login.html" @click="logout">Log Out</a></li>
+            </ul>
+         </nav>
+
+    </header>
+
+    <div>
+        <div class="login-box">
+            <h2>Created Card</h2>
+            <form>   
+                <div>
+                    <p>Choose your card type:</p>
+                            <label for='q1'>
+                                <input id='q1' name='q' type='radio' value="CREDIT" v-model="typeCardCreated">
+                                CREDIT
+                            </label>
+                            <label for='q2'>
+                                <input id='q2' name='q' type='radio' value="DEBIT" v-model="typeCardCreated">
+                                DEBIT
+                            </label>
+                </div>
+                <div>
+                    <p>Choose your card color:</p>
+                            <label for='q3'>
+                                <input id='q3' name='Z' type='radio' value="GOLD" v-model="colorCard">
+                                GOLD
+                            </label>
+                            <label for='q4'>
+                                <input id='q4' name='Z' type='radio' value="SILVER" v-model="colorCard">
+                                SILVER
+                            </label>
+                            <label for='q5'>
+                                <input id='q5' name='Z' type='radio' value="TITANIUM" v-model="colorCard">
+                                TITANIUM
+                            </label>
+
+                            <input type="button" value="Created" @click="newCard"> 
+                </div>
+            </form>
+        </div>
+    </div>
+
+<!-- partial -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./create-cards.js"></script>
+</body>
+</html>

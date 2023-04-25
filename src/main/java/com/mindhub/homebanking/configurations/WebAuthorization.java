@@ -23,70 +23,35 @@ class WebAuthorization {
 
                 //                PERMIT ALL
                 .antMatchers("/web/index.html/").permitAll()
-                .antMatchers("/web/assets/").permitAll()
-                .antMatchers("/web/scripts/").permitAll()
+                .antMatchers("/web/login.html").permitAll()
+                .antMatchers("/web/assets/**").permitAll()
                 .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/logout").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/login").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/logout").permitAll()
 
 //                ADMIN
                 .antMatchers(HttpMethod.PATCH, "/api/clients").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/clients").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.PATCH, "/api/accounts").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/accounts").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/api/cards").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/cards").hasAuthority("ADMIN")
+                .antMatchers("/manager/**").hasAuthority("ADMIN")
+                .antMatchers("/h2-console/**").hasAuthority("ADMIN")
+                .antMatchers("/rest/**").hasAuthority("ADMIN")
 
 //                CLIENT
                 .antMatchers(HttpMethod.POST, "/api/clients/current").hasAuthority("CLIENT")
+                .antMatchers(HttpMethod.POST, "/api/clients/current/accounts").hasAuthority("CLIENT")
+                .antMatchers(HttpMethod.POST, "/api/clients/current/cards").hasAuthority("CLIENT")
                 .antMatchers("/api/clients/current").hasAuthority("CLIENT")
+                .antMatchers("/api/clients/current/accounts").hasAuthority("CLIENT")
+                .antMatchers("/api/clients/current/cards").hasAuthority("CLIENT")
                 .antMatchers("/web/accounts.html").hasAuthority("CLIENT")
-                .antMatchers("/web/cards.html").hasAuthority("CLIENT")
-                .antMatchers("/web/account.html").hasAuthority("CLIENT");
-
-/*
-
-                // permit All
-                .antMatchers(HttpMethod.POST,"/api/login").permitAll()
-
-                .antMatchers(HttpMethod.POST,"/api/logout").permitAll()
-
-                .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
-
-                .antMatchers("/web/index.html").permitAll()
-
-                .antMatchers("/web/login.html").permitAll()
-
-                .antMatchers("/web/assets/**").permitAll()
-
-
-                //solo admin:
-                .antMatchers("/manager/**").hasAuthority("ADMIN")
-
-                .antMatchers("/h2-console/**").hasAuthority("ADMIN")
-
-                .antMatchers("/rest/**").hasAuthority("ADMIN")
-
-                .antMatchers(HttpMethod.PATCH, "/api/clients").hasAuthority("ADMIN")
-
-                .antMatchers(HttpMethod.GET, "/api/clients").hasAuthority("ADMIN")
-
-                .antMatchers(HttpMethod.PATCH, "/api/accounts").hasAuthority("ADMIN")
-
-                .antMatchers(HttpMethod.GET, "/api/accounts").hasAuthority("ADMIN")
-
-
-
-                //Solo CLIENT
-                .antMatchers(HttpMethod.POST, "/api/clients/current").hasAuthority("CLIENT")
-
-                .antMatchers("/api/clients/current").hasAuthority("CLIENT")
-
-                .antMatchers("/web/accounts.html").hasAuthority("CLIENT")
-
-                .antMatchers("/web/cards.html").hasAuthority("CLIENT")
-
-                .antMatchers("/web/account.html").hasAuthority("CLIENT");
-*/
-
+                .antMatchers("/web/account.html").hasAuthority("CLIENT")
+                .antMatchers("/web/created-cards.html").hasAuthority("CLIENT");
 
 
 
