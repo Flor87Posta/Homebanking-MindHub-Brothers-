@@ -16,6 +16,7 @@ const app = createApp ({
             password:null,
             passwordRegister: null,
             formVisible: false,
+            mostrarFormulario1:true,
 
         }
     },
@@ -128,6 +129,7 @@ const app = createApp ({
 
         showForm() {
                 this.formVisible = true;
+                this.mostrarFormulario1=false;
             },
 
         register(){

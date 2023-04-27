@@ -12,6 +12,7 @@ const app = createApp ({
             clients: [],
             loans: [],
             createdAccount: false,
+            condicion: true,
             
             
 
@@ -37,6 +38,8 @@ const app = createApp ({
                         console.log(this.clients)
                         this.accounts=this.clients.accounts
                         this.loans=this.clients.loans
+                        this.condicion = this.accounts.length<=3
+
 
 
 
@@ -71,11 +74,17 @@ const app = createApp ({
             },
 
 
-        newAccount() {
+        newAccount() {Swal.fire({
+            icon: 'warning',
+            title: 'You are creating a new Account..¿Are you sure?',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, created new Account',
+            cancelButtonText: 'Cancell',
+            timer: 6000,
+          })
             axios.post('/api/clients/current/accounts')
                 .then(response => {
                     if (response.status == "201") {
-                        console.log(response),
                             this.createdAccount = true,
                             this.loadData()
                     }
@@ -87,6 +96,17 @@ const app = createApp ({
                     }
                 })
         },
+
+        button() {
+            // Lógica para enviar el formulario
+            
+            Swal.fire({
+              icon: 'success',
+              title: '¡Formulario enviado!',
+              text: 'Gracias por enviar el formulario.',
+              confirmButtonText: 'Aceptar'
+            })
+          }
 
             },
 

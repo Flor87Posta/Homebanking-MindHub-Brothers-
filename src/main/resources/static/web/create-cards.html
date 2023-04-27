@@ -5,6 +5,8 @@
   <title>MindHub Brothers Bank</title>
   <link rel="stylesheet" href="./styleLogIn.css">
   <link rel="shortcut icon" href="./assets/logoMuñecoSinFondo.png" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 
 </head>
 <body id="app">
@@ -33,7 +35,7 @@
                <li><a href="./index.html">Index</a></li>
                <li><a href="./accounts.html">Accounts</a></li>
                <li><a href="#">Loans</a></li>
-               <li><a href="#">Cards</a></li>
+               <li><a href="./cards.html">Cards</a></li>
                <li><a href="#">Profile</a></li>
                <li><a href="#">Contact</a></li>
                <li><a href="./login.html" @click="logout">Log Out</a></li>
@@ -43,11 +45,11 @@
     </header>
 
     <div>
-        <div class="login-box">
+        <div class="login-box" >
             <h2>Created Card</h2>
-            <form>   
+            <form  id="formCreatedCard">   
                 <div>
-                    <p>Choose your card type:</p>
+                    <h3>Choose your card type:</h3>
                             <label for='q1'>
                                 <input id='q1' name='q' type='radio' value="CREDIT" v-model="typeCardCreated">
                                 CREDIT
@@ -58,7 +60,7 @@
                             </label>
                 </div>
                 <div>
-                    <p>Choose your card color:</p>
+                    <h3>Choose your card color:</h3>
                             <label for='q3'>
                                 <input id='q3' name='Z' type='radio' value="GOLD" v-model="colorCard">
                                 GOLD

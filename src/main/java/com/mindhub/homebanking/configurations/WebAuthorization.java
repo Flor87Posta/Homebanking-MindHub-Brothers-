@@ -25,8 +25,6 @@ class WebAuthorization {
                 .antMatchers("/web/index.html/").permitAll()
                 .antMatchers("/web/login.html").permitAll()
                 .antMatchers("/web/assets/**").permitAll()
-                .antMatchers("/api/login").permitAll()
-                .antMatchers("/api/logout").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/logout").permitAll()
@@ -38,7 +36,7 @@ class WebAuthorization {
                 .antMatchers(HttpMethod.GET, "/api/accounts").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.PATCH, "/api/cards").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/cards").hasAuthority("ADMIN")
-                .antMatchers("/manager/**").hasAuthority("ADMIN")
+                .antMatchers("/manager.html").hasAuthority("ADMIN")
                 .antMatchers("/h2-console/**").hasAuthority("ADMIN")
                 .antMatchers("/rest/**").hasAuthority("ADMIN")
 
@@ -51,9 +49,11 @@ class WebAuthorization {
                 .antMatchers("/api/clients/current/cards").hasAuthority("CLIENT")
                 .antMatchers("/web/accounts.html").hasAuthority("CLIENT")
                 .antMatchers("/web/account.html").hasAuthority("CLIENT")
-                .antMatchers("/web/created-cards.html").hasAuthority("CLIENT");
+                .antMatchers("/web/created-cards.html").hasAuthority("CLIENT")
+                .antMatchers("/web/cards.html").hasAuthority("CLIENT");
 
-
+// para cualquier otro tipo de peticion:
+           /*     .anyRequest().denyAll();*/
 
         http.formLogin()
 
@@ -85,7 +85,7 @@ class WebAuthorization {
 
         // if login fails, just send an authentication failure response
 
-        http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+        http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED)); //si login falla manda un
 
         // if logout is successful, just send a success response
 

@@ -21,10 +21,7 @@ body {
 
 header{
   width: 100%; 
-  height: 26vw;
-  /* height: 25vw; */
-  /* background-image: url(./logoBanner.jpg); */
-  /* background-size:cover; */
+  height: 15vw;
   position: relative;
   overflow: hidden;
 
@@ -356,6 +353,11 @@ video {
 }
 
 
+
+.spaceCard{
+  gap:3;
+}
+
 .icon {
   margin: 0 auto;
   margin-bottom: 2rem;
@@ -608,11 +610,13 @@ video {
 
 .flip-card-inner {
   position: relative;
+  display: flex;
   width: 100%;
   height: 100%;
   text-align: center;
   transition: transform 0.8s;
   transform-style: preserve-3d;
+
 }
 
 .flip-card:hover .flip-card-inner {
@@ -655,7 +659,7 @@ video {
 
 .SILVER{
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(to right,  #C0C0C0);
+  background: linear-gradient(to right,  #C0C0C0, #C0C0C0);
   background-size: cover;
 
 }

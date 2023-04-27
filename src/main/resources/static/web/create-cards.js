@@ -76,8 +76,14 @@ const app = createApp ({
                 .then(response => console.log('Signed out'))
             },
 
-            newCard() {
-                console.log("hola");
+            newCard() {Swal.fire({
+                icon: 'warning',
+                title: 'You are creating a new Card..¿Are you sure?',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, created new Card',
+                cancelButtonText: 'Cancell',
+                timer: 6000,
+            })
                 axios.post('/api/clients/current/cards',`typeCard=${this.typeCardCreated}&color=${this.colorCard}`,{headers:{'content-type':'application/x-www-form-urlencoded'}})
                     .then(response => {
                         if (response.status == "201") {
@@ -85,15 +91,17 @@ const app = createApp ({
                             window.location.href='/web/cards.html',
                                 this.createdCard = true,
                                 this.loadData()
-                        }
+                        }  
                     })
                     .catch(error => {
                         console.log(error);
                         if (error.code == "ERR_BAD_REQUEST") {
-                            console.log(error)
+                    
                         }
                     })
             },
+
+
 
             },
 

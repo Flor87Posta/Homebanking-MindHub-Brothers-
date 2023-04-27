@@ -5,6 +5,8 @@
    <title>MindHub Brothers Bank / Accounts</title>
    <link rel="stylesheet" href="./style.css">
    <link rel="shortcut icon" href="./assets/logoMuñecoSinFondo.png" type="image/x-icon">
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 
 </head>
 <body id="app">
@@ -42,7 +44,7 @@
          <div id="directionCards">
             <div>
                <div>
-                  <button type="button" class="btn" @click="newAccount">
+                  <button type="button" class="btn" @click="newAccount" v-show="condicion">
                      <strong>ACCOUNTS (Created your Account Here!)</strong>
                      <div id="container-stars">
                        <div id="stars"></div>

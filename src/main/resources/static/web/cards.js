@@ -14,6 +14,7 @@ const app = createApp ({
             cards: [],
             debitCards: [],
             creditCards: [],
+            condicion: true,
 
             
 
@@ -29,7 +30,7 @@ const app = createApp ({
         methods: {
 
         loadData(){
-                axios.get("http://localhost:8080/api/clients/1")
+                axios.get("http://localhost:8080/api/clients/current")
                     .then(response => {
                         this.clients=response.data;
                         console.log(this.clients)
@@ -40,6 +41,7 @@ const app = createApp ({
                         console.log(this.debitCards)
                         this.creditCards = this.cards.filter(card => card.typeCard === "CREDIT")
                         console.log(this.creditCards)
+                        this.condicion=(this.debitCards<=3)&&(this.creditCards<=3)
 
 
 
