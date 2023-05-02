@@ -68,39 +68,44 @@ const app = createApp ({
         logout(){
                 axios.post('/api/logout')
                 .then(response => console.log('Signed out'))
+                
             },
 
 
-        newAccount() {Swal.fire({
-            icon: 'warning',
-            title: 'You are creating a new Account..¿Are you sure?',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, created new Account',
-            cancelButtonText: 'Cancell',
-            timer: 6000,
-        })
-            axios.post('/api/clients/current/accounts')
-                .then(response => {
-                    if (response.status == "201") {
-                            this.createdAccount = true,
-                            this.loadData()
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'You have a new Account!',
-                                showCancelButton: true,
-                                confirmButtonText: 'Accepted',
-                                cancelButtonText: 'Cancell',
-                                timer: 6000,
+            newAccount() {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'You are creating a new Account..¿Are you sure?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, create new Account',
+                    cancelButtonText: 'Cancel',
+                    timer: 6000,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        axios.post('/api/clients/current/accounts')
+                            .then(response => {
+                                if (response.status == "201") {
+                                        this.createdAccount = true,
+                                        this.loadData()
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'You have a new Account!',
+                                            showCancelButton: true,
+                                            confirmButtonText: 'Accepted',
+                                            cancelButtonText: 'Cancel',
+                                            timer: 6000,
+                                        })
+                                }
                             })
+                            .catch(error => Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: error.response.data,
+                                timer: 6000,
+                            }))
                     }
                 })
-                .catch(error => Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: error.response.data,
-                    timer: 6000,
-                }))
-        },
+            },
 
 
             },

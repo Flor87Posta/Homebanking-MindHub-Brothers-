@@ -43,7 +43,7 @@
 </header>
 <!-- end about -->
 
-      <button type="button" class="btn" @click="newAccount" v-show="condicion"></button>
+      <button type="button"  @click="newAccount" v-show="condicion"></button>
       <a  id="directionCards" href="./create-cards.html">Created your card Here!</a>
       </button>
 
@@ -53,11 +53,6 @@
                <strong>DEBIT CARDS</strong>
                <div id="container-stars">
                   <div id="stars"></div>
-               </div>
-            
-               <div id="glow">
-                  <div class="circle"></div>
-                  <div class="circle"></div>
                </div>
             </button>
          </div>
@@ -142,7 +137,7 @@
          </template>
       </div>
       <div v-else>
-         <h3> You haven't cards</h3>
+         <h3 id="directionCards"> You haven't cards</h3>
       </div>
 
       <div id="directionCards">
@@ -242,7 +237,7 @@
          </template>
       </div>
             <div v-else>
-               <h3> You haven't cards</h3>
+               <h3 id="directionCards"> You haven't cards</h3>
             </div>
       
 

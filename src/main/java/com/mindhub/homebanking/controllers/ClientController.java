@@ -73,7 +73,7 @@ public class ClientController {
 
             return new ResponseEntity<>("Please, write your password", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
         }
-        
+
         if (clientRepository.findByEmail(email) != null) {
 
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido

@@ -76,37 +76,41 @@ const app = createApp ({
                 .then(response => console.log('Signed out'))
             },
 
-            newCard() {Swal.fire({
-                icon: 'warning',
-                title: 'You are creating a new Card..¿Are you sure?',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, created new Card',
-                cancelButtonText: 'Cancell',
-                timer: 6000,
-            })
-                axios.post('/api/clients/current/cards',`typeCard=${this.typeCardCreated}&color=${this.colorCard}`,{headers:{'content-type':'application/x-www-form-urlencoded'}})
-                    .then(response => {
-                        if (response.status == "201") {
-                            console.log(response),
-                            window.location.href='/web/cards.html',
-                                this.createdCard = true,
-                                this.loadData()
-                                Swal.fire({
-                                    icon: 'Success!',
-                                    title: 'You have a new Card!',
-                                    showCancelButton: true,
-                                    confirmButtonText: 'Accepted',
-                                    cancelButtonText: 'Cancell',
-                                    timer: 6000,
-                                })
-                        }  
-                    })
-                    .catch(error => Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: error.response.data,
-                        timer: 6000,
-                    }))
+            newCard() {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'You are creating a new Card..¿Are you sure?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, create new Card',
+                    cancelButtonText: 'Cancel',
+                    timer: 6000,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        axios.post('/api/clients/current/cards',`typeCard=${this.typeCardCreated}&color=${this.colorCard}`,{headers:{'content-type':'application/x-www-form-urlencoded'}})
+                            .then(response => {
+                                if (response.status == "201") {
+                                    console.log(response),
+                                    window.location.href='/web/cards.html',
+                                    this.createdCard = true,
+                                    this.loadData()
+                                    Swal.fire({
+                                        icon: 'Success!',
+                                        title: 'You have a new Card!',
+                                        showCancelButton: true,
+                                        confirmButtonText: 'Accepted',
+                                        cancelButtonText: 'Cancel',
+                                        timer: 6000,
+                                    })
+                                }  
+                            })
+                            .catch(error => Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: error.response.data,
+                                timer: 6000,
+                            }))
+                    }
+                })
             },
 
 

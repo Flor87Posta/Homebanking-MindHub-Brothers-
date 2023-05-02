@@ -71,54 +71,53 @@ const app = createApp ({
                 axios.post('/api/login',`email=${this.email}&password=${this.password}`,{headers:{'content-type':'application/x-www-form-urlencoded'}})
                 .then(response => 
                 {
-                    window.location.href='/web/accounts.html'
+                    window.location.href='/web/accounts.html';
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Login successful!',
+                        showCancelButton: true,
+                        confirmButtonText: 'Ok',
+                        cancelButtonText: 'Cancel',
+                        timer: 6000,
+                    });
                 }
                     )
-                .catch(function (error) {
+                    .catch(function (error) {
                         if (error.response) {
-                          // The request was made and the server responded with a status code
-                          // that falls out of the range of 2xx
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                        } else if (error.request) {
-                          // The request was made but no response was received
-                          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                          // http.ClientRequest in node.js
-                        console.log(error.request);
-                        } else {
-                          // Something happened in setting up the request that triggered an Error
-                        console.log('Error', error.message);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Login failed!',
+                                text: error.response.data,
+                                timer: 6000,
+                            });
                         }
-                        console.log(error.config);
-                    });
+                    })
             },
 
             loginRegister() { //para clientes que se registran, como los mails y password se llaman distintos..
 
                 axios.post('/api/login',`email=${this.emailRegister}&password=${this.passwordRegister}`,{headers:{'content-type':'application/x-www-form-urlencoded'}})
                 .then(response => 
-                {
-                    window.location.href='/web/accounts.html'
+                {   window.location.href='/web/accounts.html';
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Login successful!',
+                        showCancelButton: true,
+                        confirmButtonText: 'Ok',
+                        cancelButtonText: 'Cancel',
+                        timer: 6000,
+                    });
                 }
                     )
                 .catch(function (error) {
                         if (error.response) {
-                          // The request was made and the server responded with a status code
-                          // that falls out of the range of 2xx
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                        } else if (error.request) {
-                          // The request was made but no response was received
-                          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                          // http.ClientRequest in node.js
-                        console.log(error.request);
-                        } else {
-                          // Something happened in setting up the request that triggered an Error
-                        console.log('Error', error.message);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Login failed!',
+                                text: error.response.data,
+                                timer: 6000,
+                            });
                         }
-                        console.log(error.config);
                     });
             },
 
@@ -145,6 +144,44 @@ const app = createApp ({
                 })
                 .catch(error => console.log(error))       
             },
+
+            //acá le agregue las alertas y no me funciona...
+
+            // register(){
+            //     Swal.fire({
+            //         icon: 'warning',
+            //         title: 'You are creating a new User..¿Are you sure?',
+            //         showCancelButton: true,
+            //         confirmButtonText: 'Yes, create new Account',
+            //         cancelButtonText: 'Cancel',
+            //         timer: 6000,
+            //     }).then((result) => {
+            //         if (result.isConfirmed) {
+            //             axios.post('/api/clients', `firstName=${this.firstName}&lastName=${this.lastName}&email=${this.emailRegister}&password=${this.passwordRegister}`)
+            //     .then(response =>{
+            //                     if (response.status == "201") {
+            //                         this.loginRegister()
+            //                             Swal.fire({
+            //                                 icon: 'success',
+            //                                 title: 'Congratulations! You are a client now!',
+            //                                 showCancelButton: true,
+            //                                 confirmButtonText: 'Accepted',
+            //                                 cancelButtonText: 'Cancel',
+            //                                 timer: 6000,
+            //                             })
+            //                     }
+            //                 })
+            //                 .catch(error => Swal.fire({
+            //                     icon: 'error',
+            //                     title: 'Error',
+            //                     text: error.response.data,
+            //                     timer: 6000,
+            //                 }))
+            //         }
+            //     })
+            // },
+
+
         },
 
 })

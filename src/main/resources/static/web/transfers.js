@@ -31,7 +31,7 @@ createApp({
                     console.log(data);
                     this.client = data.data;
                     console.log(this.client);
-                   this.sortAccounts()
+                    this.sortAccounts()
                 }
                 )
                 .catch(error => {
@@ -41,32 +41,47 @@ createApp({
         },
 
         makeTransaction() {
+          Swal.fire({
+            icon: 'warning',
+            title: 'You are making a new Transfer..¿Are you sure?',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, make new Transfer',
+            cancelButtonText: 'Cancel',
+            timer: 6000,
+        }).then((result) => {
+            if (result.isConfirmed) {
             axios.post('/api/clients/current/transactions',`originAccNumber=${this.originAccNumber}&destinationAccNumber=${this.destinationAccNumber}&amount=${this.amount}&description=${this.description}`)
               .then(response => {
                 if(response.data=='Transaction successful'){
-                  console.log(response)
                   this.transactionSuccess=true;
-                  setTimeout(() => {
-                    this.transactionSuccess = false;
-                  }, 5000)
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'You have made a new Transfer!',
+                    showCancelButton: true,
+                    confirmButtonText: 'Accepted',
+                    cancelButtonText: 'Cancel',
+                    timer: 6000,
+                })    
                 }
               })
-              .catch(error =>  {
-                console.log(error)
-                this.transactionError = error.response.data.message
-                console.log(this.transactionError)
-                this.invalidTransaction = true
-                setTimeout(() => {
-                  this.invalidTransaction = false;
-                }, 5000)
-              })
-          
+              .catch(error => Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.response.data,
+                timer: 6000,
+            }))
+              
+            }
             this.destination=null;
             this.description="";
             this.originAccNumber=null;
             this.destinationAccNumber=null;
             this.amount=null;
+          })
           },
+
+
+
         filterAccounts() {
             this.filteredAccounts = this.client.accounts.filter(account => account.number !== this.originAccNumber)
           },
