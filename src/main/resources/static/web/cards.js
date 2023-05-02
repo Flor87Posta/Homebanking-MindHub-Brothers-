@@ -70,7 +70,7 @@ const app = createApp ({
                 });
             },
 
-            logOut(){
+            logout(){
                 axios.post('/api/logout')
                 .then(response => console.log('Signed out'))
             },

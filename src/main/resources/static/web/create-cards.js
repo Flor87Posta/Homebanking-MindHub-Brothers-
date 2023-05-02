@@ -71,7 +71,7 @@ const app = createApp ({
         //         });
         //     },
 
-            logOut(){
+            logout(){
                 axios.post('/api/logout')
                 .then(response => console.log('Signed out'))
             },
@@ -91,14 +91,22 @@ const app = createApp ({
                             window.location.href='/web/cards.html',
                                 this.createdCard = true,
                                 this.loadData()
+                                Swal.fire({
+                                    icon: 'Success!',
+                                    title: 'You have a new Card!',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Accepted',
+                                    cancelButtonText: 'Cancell',
+                                    timer: 6000,
+                                })
                         }  
                     })
-                    .catch(error => {
-                        console.log(error);
-                        if (error.code == "ERR_BAD_REQUEST") {
-                    
-                        }
-                    })
+                    .catch(error => Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: error.response.data,
+                        timer: 6000,
+                    }))
             },
 
 

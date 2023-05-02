@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>MindHub Brothers Bank</title>
+  <link rel="stylesheet" href="./styleLogIn.css">
+  <link rel="shortcut icon" href="./assets/logoMuñecoSinFondo.png" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+
+</head>
+<body id="app">
+<!-- partial:index.partial.html -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Helvetica">
+
+<!-- about -->
+<div class="about">
+   <a class="bg_links social portfolio" href="https://mindhubweb.com/bootcamps" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links social dribbble " href="https://github.com/Flor87Posta" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links social linkedin " href="https://www.linkedin.com/in/florencia-postacchini" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links logo"></a>
+</div>
+<!-- end about -->
+    <header>
+    <div id="direction">
+        <nav>
+           <ul>
+              <li><a href="./index.html">Index</a></li>
+              <li><a href="./accounts.html">Accounts</a></li>
+              <li><a href="#">Loans</a></li>
+              <li><a href="./cards.html">Cards</a></li>
+              <li><a href="./transfers.html">Transfers</a></li>
+              <li><a href="#">Profile</a></li>
+              <li><a href="./login.html" @click="logout">Log Out</a></li>
+           </ul>
+        </nav>
+    </div>
+
+    </header>
+
+    <main class="off-canvas-content tinted-image" data-off-canvas-content data-close="offCanvas"
+        @click="toggleTogglerMain">
+
+        <!-- <div class=" flex-container align-center-middle align-self-middle">
+            <h1 class="text-center txt-3d cube-box target-animation"><i class="fa-solid fa-money-bill-transfer"></i>Transfer money<i class="fa-solid fa-money-bill-transfer"></i></h1>
+        </div>
+
+        <div v-if="invalidTransaction" class="callout small alert" data-closable>
+            <h5>Something went wrong ! ({{transactionError}})</h5>
+            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+
+          <div v-if="transactionSuccess" class="callout small acc-created  success" data-closable>
+            <h5>Transaction succesful ! &#128116;&#128077;</h5>
+            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="reveal" id="transactionModal" data-reveal>
+            <p class="lead">Do you wish to send ${{amount}} to {{destinationAccNumber}} ? </p>
+            <button class="box-shadow-btn" @click.prevent="makeTransaction" data-close>Confirm</button>
+            <button class="close-button" data-close aria-label="Close modal" type="button">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div> -->
+
+        <div >
+            <form @submit.prevent class="login-box">
+                <div class="login-box">
+                    <div class="login-box">
+                        <div >
+                            <fieldset class="fieldset-stylish">
+                                <legend>Choose destination</legend>
+                                <div class="toggle-stylish">
+                                    <input type="radio" name="destination" value="Own" id="sizeWeight"  v-model="destination" />
+                                    <label for="sizeWeight">Own account</label>
+                                    <input type="radio" name="destination" value="ThirdParty" id="sizeDimensions" v-model="destination"/>
+                                    <label for="sizeDimensions">Third party</label>
+                                </div>
+                            </fieldset>
+                        </div>
+    
+    
+                        <div  >
+                            <label v-if="client" v-cloak >Select origin
+                                <select v-model="originAccNumber" @change="filterAccounts">
+                                    <option value="null">Select an account</option>
+                                    <option :value="account.number" v-for="account in client.accounts">{{account.number}}</option>
+                                </select>
+                            </label>
+                        </div>
+    
+                        <div v-if="destination === 'Own' && originAccNumber" >
+                            <label>Select your account
+                                <p v-if="filteredAccounts.length==0">You don't have any more accounts</p>
+                              <select  v-else v-model="destinationAccNumber">
+                                <option v-for="account in filteredAccounts" :value="account.number">{{account.number}}</option>
+                              </select>
+                            </label>
+                          </div>
+    
+                        <div v-else-if="destination=='ThirdParty'" >
+                            <label >Third party account's number
+                                <input type="text" placeholder="Third party account's number"  maxlength="100"  v-model="destinationAccNumber">
+                            </label>
+                        </div>
+    
+                        <div >
+                            <label aria-describedby="descriptionHelpText">Description
+                                <input type="text" placeholder="Description"  maxlength="100" v-model="description">
+                                <p class="help-text" id="descriptionHelpText"> {{description.length}}/100 character limit </p>
+                            </label>
+                        </div>
+    
+                        <div >
+                            <label aria-describedby="amountHelpText">Amount
+                                <div class="input-group">
+                                    <span class="input-group-label">$</span>
+                                    <input class="input-group-field" type="number" v-model="amount">
+                                </div>
+                                <p class="help-text" id="amountHelpText">Minimun amount: $1</p>
+                            </label>
+                        </div>
+                        <div >
+                            <button class="box-shadow-btn" @click="makeTransaction">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+
+<!-- partial -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./transfers.js"></script>
+</body>
+</html>

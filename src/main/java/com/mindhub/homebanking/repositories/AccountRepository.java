@@ -9,5 +9,11 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
-    Client findByNumber (String number);
+
+    Account findByNumber(String number);
+
+    //dentro del JPA Repository esta la interfaz QueryByExampleExecutor, y dentro de la misma hay un método boolean exists(Example<S> example);
+    // que es el que me sirve para Verificar que exista la cuenta de origen / destino que voy a usar en las transferencias (TransactionController)
+
+    boolean existsByNumber(String number);
 }

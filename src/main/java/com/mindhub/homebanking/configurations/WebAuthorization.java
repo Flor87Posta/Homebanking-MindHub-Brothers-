@@ -55,41 +55,52 @@ class WebAuthorization {
 // para cualquier otro tipo de peticion:
            /*     .anyRequest().denyAll();*/
 
-        http.formLogin()
-
+        http.formLogin() // ruta d acceso al login, método del http security q trabaja el login, defino las reglas del login
+        //
                 .usernameParameter("email")
 
                 .passwordParameter("password")
 
-                .loginPage("/api/login");
+                .loginPage("/api/login"); //solo recibe peticiones POST este metodo
 
 
         http.logout().logoutUrl("/api/logout").deleteCookies("JSESSIONID");
 
-        // turn off checking for CSRF tokens
-
+        // turn off checking for CSRF tokens: esos tokens hacen que cada cosa que salga del back salga con token, para que cuando se
+        // realicen peticiones haga match con cada cookie, pero no genera la cookie o token del session ID (eso se maneja aparte con lo que hicimos arriba)
+        // y esos tokens hacen intransferibles los JSESSIONID para que no los puedan copiar
+        //si los habilito no funciona como API, porq necesita acceso de otros programas, como h2 etc etc;
         http.csrf().disable();
 
 
-        //disabling frameOptions so h2-console can be accessed
+        //disabling frameOptions so h2-console can be accessed:
 
-        http.headers().frameOptions().disable();
+        http.headers().frameOptions().disable(); // e-frame (como los q usamos en google maps): son configuraciones preestablecidas o por defecto de h2 console, cada metodo devuelve un objeto http
+        // las desactivamos a esas configuraciones (que son las que arman la consola desde cero) para poder usar h2
 
-        // if user is not authenticated, just send an authentication failure response
+        // if user is not authenticated, just send an authentication failure response: //cuando el usuario quiere entrar en algun del sitio web me fijo si esta o no autenticado
 
         http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
 
-        // if login is successful, just clear the flags asking for authentication
+        // if login is successful, just clear the flags asking for authentication:
 
-        http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
+        http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req)); //ejecuta el metodo de abajo para manejar el exito del login
 
-        // if login fails, just send an authentication failure response
+        // if login fails, just send an authentication failure response:
 
-        http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED)); //si login falla manda un
+        http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED)); //si login falla manda un mns,
+        // req: peticion q recibimos del cliente, res: respuesta que vamos a mandar, exc: excepción
 
-        // if logout is successful, just send a success response
+
+        // if logout is successful, just send a success response:
 
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+        //Esta clase se utiliza para manejar el éxito de la operación de logout en una aplicación web protegida por Spring Security.
+        // Cuando el usuario inicia sesión, se crea una sesión para él en el servidor, y cuando el usuario cierra sesión,
+        // se debe eliminar la sesión.
+        //La clase "HttpStatusReturningLogoutSuccessHandler" es responsable de devolver una respuesta HTTP adecuada después
+        // de que el usuario haya cerrado sesión correctamente en la aplicación. Por defecto,
+        // devuelve un código de estado HTTP 200 (OK), lo que indica que la operación se ha completado con éxito.
 
         return http.build();
     }

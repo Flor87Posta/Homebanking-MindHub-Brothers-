@@ -42,10 +42,12 @@ public class AccountController {
 
         Client client = clientRepository.findByEmail(authentication.getName()); //comparo aquí con el authentication al cliente autenticado con el jsessionId
         if (client.getAccountSet().size() < 3) {
-            try { //bloque de codigo a intentar:
+            try { //bloque de código a intentar:
                 String accountNumber;
-                int numberGenerated = (int) (Math.random() * 1000);
-                accountNumber = "VIN" + String.format("%08d", numberGenerated);
+                do {
+                    int numberGenerated = (int) (Math.random() * 1000);
+                    accountNumber = "VIN" + String.format("%08d", numberGenerated);
+                } while (accountRepository.findByNumber(accountNumber) != null); //para corroborar que esa cuenta no exista ya
                 Account accountGenerated = new Account(accountNumber, LocalDateTime.now(), 0.0);
                 accountRepository.save(accountGenerated);
                 client.addAccount(accountGenerated);

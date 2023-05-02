@@ -53,11 +53,27 @@ public class ClientController {
             @RequestParam String email, @RequestParam String password) { //son todos los parámetros que envía el usuario al registrarse
 
 
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (firstName.isEmpty() ) {
 
-            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
+            return new ResponseEntity<>("Please, write your firstname", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
         }
 
+
+        if (lastName.isEmpty()) {
+
+            return new ResponseEntity<>("Please, write your lastname", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
+        }
+
+        if (email.isEmpty()) {
+
+            return new ResponseEntity<>("Please, write your email", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
+        }
+
+        if (password.isEmpty()) {
+
+            return new ResponseEntity<>("Please, write your password", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
+        }
+        
         if (clientRepository.findByEmail(email) != null) {
 
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido

@@ -35,23 +35,28 @@ public class CardController {
 
         Client client = clientRepository.findByEmail(authentication.getName()); //comparo aquí con el authentication al cliente autenticado con el jsessionId
 
-//        if (typeCard.isEmpty() || color.isEmpty()) {
-//            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
-//        }
+        if (typeCard.isEmpty()) {
+            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
+        }
+
+        if (color.isEmpty()) {
+            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
+        }
 
  /*       if (client == null) {
             return new ResponseEntity<>("You aren´t a client", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
         }*/  //no hace falta porque ya trabajamos con el autenticado
 
         //variables para el constructor:
+
         long numberGenerated = (long) (Math.random() * 9000000000000000L) + 1000000000000000L;
-        //Math.random() genera un número aleatorio decimal entre 0.0 y 1.0 (no incluyendo 1.0).
-        //Multiplicando Math.random() por 9000000000000000L generamos un número aleatorio entre 0 y 89999999999999.
-        //Al sumarle 1000000000000000L, obtenemos un número aleatorio entre 100000000000000 y 999999999999999.
-        //Al convertir el resultado a un long, tenemos un número entero de 16 dígitos.
+            //Math.random() genera un número aleatorio decimal entre 0.0 y 1.0 (no incluyendo 1.0).
+            //Multiplicando Math.random() por 9000000000000000L generamos un número aleatorio entre 0 y 89999999999999.
+            //Al sumarle 1000000000000000L, obtenemos un número aleatorio entre 100000000000000 y 999999999999999.
+            //Al convertir el resultado a un long, tenemos un número entero de 16 dígitos.
         String cardNumber = String.format("%016d", numberGenerated); //paso a String porque asi está en la propiedad
         String cardNumberConGuiones = cardNumber.substring(0, 4) + "-" + cardNumber.substring(4, 8) + "-" +
-                cardNumber.substring(8, 12) + "-" + cardNumber.substring(12, 16);
+                    cardNumber.substring(8, 12) + "-" + cardNumber.substring(12, 16);
         int cardCvv = (int) (Math.random() * 900) + 100;
         //Math.random() genera un número aleatorio decimal entre 0.0 y 1.0 (no incluyendo 1.0).
         //Multiplicando Math.random() por 900 generamos un número aleatorio entre 0 y 899.
@@ -127,23 +132,21 @@ public class CardController {
                 client.addCard(cardGenerated);
                 clientRepository.save(client);
                 return new ResponseEntity<>("Created Card", HttpStatus.CREATED);
-            }
-            if (silverCardsCredit.size() < 1) {
+            } else if (silverCardsCredit.size() < 1) {
                 Card cardGenerated = new Card(client.getFirstName() + " " + client.getLastName(), enumType, enumColor, cardNumberConGuiones, cardCvv, LocalDate.now(), LocalDate.now().plusYears(5));
                 cardRepository.save(cardGenerated);
                 client.addCard(cardGenerated);
                 clientRepository.save(client);
                 return new ResponseEntity<>("Created Card", HttpStatus.CREATED);
-            }
-            if (titaniumCardsCredit.size() < 1) {
+            } else if (titaniumCardsCredit.size() < 1) {
                 Card cardGenerated = new Card(client.getFirstName() + " " + client.getLastName(), enumType, enumColor, cardNumberConGuiones, cardCvv, LocalDate.now(), LocalDate.now().plusYears(5));
                 cardRepository.save(cardGenerated);
                 client.addCard(cardGenerated);
                 clientRepository.save(client);
                 return new ResponseEntity<>("Created Card", HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>("Client already has 3 or more creditCards", HttpStatus.FORBIDDEN);
             }
-        } else {
-            return new ResponseEntity<>("Client already has 3 or more creditCards", HttpStatus.FORBIDDEN);
         }
 
 
@@ -154,25 +157,24 @@ public class CardController {
                 client.addCard(cardGenerated);
                 clientRepository.save(client);
                 return new ResponseEntity<>("Created Card", HttpStatus.CREATED);
-            }
-            if (silverCardsDebit.size() < 1) {
+            } else if (silverCardsDebit.size() < 1) {
                 Card cardGenerated = new Card(client.getFirstName() + " " + client.getLastName(), enumType, enumColor, cardNumberConGuiones, cardCvv, LocalDate.now(), LocalDate.now().plusYears(5));
                 cardRepository.save(cardGenerated);
                 client.addCard(cardGenerated);
                 clientRepository.save(client);
                 return new ResponseEntity<>("Created Card", HttpStatus.CREATED);
-            }
-            if (titaniumCardsDebit.size() < 1) {
+            } else if (titaniumCardsDebit.size() < 1) {
                 Card cardGenerated = new Card(client.getFirstName() + " " + client.getLastName(), enumType, enumColor, cardNumberConGuiones, cardCvv, LocalDate.now(), LocalDate.now().plusYears(5));
                 cardRepository.save(cardGenerated);
                 client.addCard(cardGenerated);
                 clientRepository.save(client);
                 return new ResponseEntity<>("Created Card", HttpStatus.CREATED);
-            }} else {
-            return new ResponseEntity<>("Client already has 3 or more debitCards", HttpStatus.FORBIDDEN);
+            } else {
+                return new ResponseEntity<>("Client already has 3 or more debitCards", HttpStatus.FORBIDDEN);
+            }
         }
-            return new ResponseEntity<>("Invalid or empty CardType or CardColor, Valid CardTypes: CREDIT-DEBIT; valid CardColors: GOLD || SILVER || TITANIUM ", HttpStatus.FORBIDDEN);
-        }
+        return new ResponseEntity<>("Client already has 3 or more debitCards and creditCards", HttpStatus.FORBIDDEN);
+    }
     }
 
 

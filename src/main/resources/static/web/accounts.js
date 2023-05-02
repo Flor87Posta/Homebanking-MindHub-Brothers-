@@ -40,9 +40,6 @@ const app = createApp ({
                         this.loans=this.clients.loans
                         this.condicion = this.accounts.length<=3
 
-
-
-
                     })
                     .catch(err => console.log( err ));
                 },
@@ -68,7 +65,7 @@ const app = createApp ({
         //         });
         //     },
 
-        logOut(){
+        logout(){
                 axios.post('/api/logout')
                 .then(response => console.log('Signed out'))
             },
@@ -81,32 +78,30 @@ const app = createApp ({
             confirmButtonText: 'Yes, created new Account',
             cancelButtonText: 'Cancell',
             timer: 6000,
-          })
+        })
             axios.post('/api/clients/current/accounts')
                 .then(response => {
                     if (response.status == "201") {
                             this.createdAccount = true,
                             this.loadData()
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'You have a new Account!',
+                                showCancelButton: true,
+                                confirmButtonText: 'Accepted',
+                                cancelButtonText: 'Cancell',
+                                timer: 6000,
+                            })
                     }
                 })
-                .catch(error => {
-                    console.log(error);
-                    if (error.code == "ERR_BAD_REQUEST") {
-                        console.log(error)
-                    }
-                })
+                .catch(error => Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.response.data,
+                    timer: 6000,
+                }))
         },
 
-        button() {
-            // Lógica para enviar el formulario
-            
-            Swal.fire({
-              icon: 'success',
-              title: '¡Formulario enviado!',
-              text: 'Gracias por enviar el formulario.',
-              confirmButtonText: 'Aceptar'
-            })
-          }
 
             },
 
