@@ -43,8 +43,8 @@
 </header>
 <!-- end about -->
 
-      <button type="button"  @click="newAccount" v-show="condicion"></button>
-      <a  id="directionCards" href="./create-cards.html">Created your card Here!</a>
+      <button  @click="newAccount" v-show="condicion"></button>
+      <a class="login-box-landPage-cards" href="./create-cards.html">Created your card Here!</a>
       </button>
 
       <div id="directionCards">
@@ -147,16 +147,10 @@
                <div id="container-stars">
                   <div id="stars"></div>
                </div>
-            
-               <div id="glow">
-                  <div class="circle"></div>
-                  <div class="circle"></div>
-               </div>
             </button>
          </div>
       </div>
    
-
       <div id="directionCards"  v-if="creditCards.length !=0">
          <template v-for="card of creditCards">
             <!-- card -->

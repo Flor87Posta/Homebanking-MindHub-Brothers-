@@ -48,31 +48,6 @@
     <main class="off-canvas-content tinted-image" data-off-canvas-content data-close="offCanvas"
         @click="toggleTogglerMain">
 
-        <!-- <div class=" flex-container align-center-middle align-self-middle">
-            <h1 class="text-center txt-3d cube-box target-animation"><i class="fa-solid fa-money-bill-transfer"></i>Transfer money<i class="fa-solid fa-money-bill-transfer"></i></h1>
-        </div>
-
-        <div v-if="invalidTransaction" class="callout small alert" data-closable>
-            <h5>Something went wrong ! ({{transactionError}})</h5>
-            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-              <span aria-hidden="true">&times;</span>
-          </button>
-          </div>
-
-          <div v-if="transactionSuccess" class="callout small acc-created  success" data-closable>
-            <h5>Transaction succesful ! &#128116;&#128077;</h5>
-            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-
-          <div class="reveal" id="transactionModal" data-reveal>
-            <p class="lead">Do you wish to send ${{amount}} to {{destinationAccNumber}} ? </p>
-            <button class="box-shadow-btn" @click.prevent="makeTransaction" data-close>Confirm</button>
-            <button class="close-button" data-close aria-label="Close modal" type="button">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div> -->
 
         <div >
             <form @submit.prevent class="login-box">
@@ -132,7 +107,7 @@
                             </label>
                         </div>
                         <div >
-                            <button class="box-shadow-btn" @click="makeTransaction">Send</button>
+                            <button class="box-shadow-btn" @click="makeTransaction" >Send</button>
                         </div>
                     </div>
                 </div>

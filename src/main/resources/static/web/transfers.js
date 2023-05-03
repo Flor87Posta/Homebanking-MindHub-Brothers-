@@ -51,10 +51,8 @@ createApp({
         }).then((result) => {
             if (result.isConfirmed) {
             axios.post('/api/clients/current/transactions',`originAccNumber=${this.originAccNumber}&destinationAccNumber=${this.destinationAccNumber}&amount=${this.amount}&description=${this.description}`)
-              .then(response => {
-                if(response.data=='Transaction successful'){
-                  this.transactionSuccess=true;
-                  Swal.fire({
+            .then(response => {
+                Swal.fire({
                     icon: 'success',
                     title: 'You have made a new Transfer!',
                     showCancelButton: true,
@@ -62,15 +60,17 @@ createApp({
                     cancelButtonText: 'Cancel',
                     timer: 6000,
                 })    
-                }
-              })
-              .catch(error => Swal.fire({
+                window.location.href='/web/accounts.html';
+                this.transactionSuccess=true;
+                
+            })
+            .catch(error => Swal.fire({
                 icon: 'error',
                 title: 'Error',
                 text: error.response.data,
                 timer: 6000,
             }))
-              
+
             }
             this.destination=null;
             this.description="";

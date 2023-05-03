@@ -7,7 +7,7 @@
 	box-sizing: border-box;
 	text-decoration: none !important;
 	font-family: 'Russo One', sans-serif;
-  color: white;
+
 }
 body {
   
@@ -87,6 +87,9 @@ nav li a:hover {
   margin-top: 100px;
 }
 
+#botonHome{
+  color:#59FFF5;
+}
 table{
 
   padding-top: 5vw;

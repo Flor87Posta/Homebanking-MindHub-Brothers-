@@ -88,17 +88,19 @@ public class TransactionController {
         String newDescriptionAccountOrigin = accountOrigin.getNumber() + description;
         Transaction debit = new Transaction(TransactionType.DEBIT, -amount, newDescriptionAccountOrigin, LocalDateTime.now() );
         transactionRepository.save(debit);
-        //accountOrigin.getBalance()-amount; // ¿como actualizo el saldo?
-        accountOrigin.addTransaction(debit);
-        accountRepository.save(accountOrigin);
-        //clientDestin.addAccount(); ya queda vinculado al cliente?
+        accountOrigin.addTransaction(debit); //Agrego la transaccion a la cuenta
+        double newBalanceDebit = accountDestin.getBalance() - amount; // Calcula el nuevo saldo
+        accountDestin.setBalance(newBalanceDebit); // Actualizo el saldo
+        accountRepository.save(accountOrigin); //guardo la cuenta
+        //clientDestin.addAccount(); ya queda vinculado al cliente? si, porque la cuenta esta vinculada al cliente ya por la relacion
 
         String newDescriptionAccountDestin = accountDestin.getNumber() + description;
         Transaction credit = new Transaction(TransactionType.CREDIT, amount, newDescriptionAccountDestin, LocalDateTime.now() );
         transactionRepository.save(credit);
-        //accountOrigin.getBalance()-amount; // ¿como actualizo el saldo?
-        accountDestin.addTransaction(credit);
-        accountRepository.save(accountDestin);
+        accountDestin.addTransaction(credit); //Agrego la transaccion a la cuenta
+        double newBalanceCredit = accountDestin.getBalance() + amount; // Calcula el nuevo saldo
+        accountDestin.setBalance(newBalanceCredit); // Actualizo el saldo
+        accountRepository.save(accountDestin); //guardo la cuenta
 
         return new ResponseEntity<>(" Successfull Transaction ", HttpStatus.CREATED); //código de estado HTTP 201 creado
     }
