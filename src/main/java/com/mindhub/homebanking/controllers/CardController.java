@@ -35,6 +35,8 @@ public class CardController {
 
         Client client = clientRepository.findByEmail(authentication.getName()); //comparo aquí con el authentication al cliente autenticado con el jsessionId
 
+
+
         if (typeCard.isEmpty()) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
         }

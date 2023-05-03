@@ -13,7 +13,7 @@ public class ClientLoanDTO {
     private double amount;
     private int payments;
 
-    public ClientLoanDTO(){} //no se usan los constructores DTO porque no son entidades
+    public ClientLoanDTO(){} //no se usan los constructores DTO en este caso porq solo enviamos la info, si tuvieramos que construir el objeto si
 
     public ClientLoanDTO(ClientLoan clientLoan) {
 

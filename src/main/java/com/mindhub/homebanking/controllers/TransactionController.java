@@ -40,7 +40,7 @@ public class TransactionController {
 
 
         Client clientSend = clientRepository.findByEmail(authentication.getName());  //comparo aquí con el authentication al cliente autenticado con el jsessionId
-        //si el cliente se transfiere entre sus propias cuentas, es un solo cliente que interviene, pero si es a un tercero:
+        //si el cliente se transfiere entre sus propias cuentas, es un solo cliente que interviene, pero si es a un tercero busco la cuenta y obtengo el cliente:
         Client clientDestin = accountRepository.findByNumber(destinationAccNumber).getClient();
 
         Account accountOrigin = accountRepository.findByNumber(originAccNumber); // busco en el repo de cuentas a la cuenta de origen que puso el cliente y la guardo en accountOrigin
@@ -89,8 +89,8 @@ public class TransactionController {
         Transaction debit = new Transaction(TransactionType.DEBIT, -amount, newDescriptionAccountOrigin, LocalDateTime.now() );
         transactionRepository.save(debit);
         accountOrigin.addTransaction(debit); //Agrego la transaccion a la cuenta
-        double newBalanceDebit = accountDestin.getBalance() - amount; // Calcula el nuevo saldo
-        accountDestin.setBalance(newBalanceDebit); // Actualizo el saldo
+        double newBalanceDebit = accountOrigin.getBalance() - amount; // Calcula el nuevo saldo
+        accountOrigin.setBalance(newBalanceDebit); // Actualizo el saldo
         accountRepository.save(accountOrigin); //guardo la cuenta
         //clientDestin.addAccount(); ya queda vinculado al cliente? si, porque la cuenta esta vinculada al cliente ya por la relacion
 

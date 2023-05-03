@@ -14,11 +14,11 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name="native", strategy = "native")
     private long id;
-    public String name;
-    private double maxAmount ;
+    public static String name;
+    private static double maxAmount ;
     @ElementCollection
     @Column(name="payments")
-    private List<Integer> payments = new ArrayList<>();
+    private static List<Integer> payments = new ArrayList<>();
 
     //Relaciones:
 
@@ -46,7 +46,7 @@ public class Loan {
         this.id = id;
     }
 
-    public String getName() {
+    public static String getName() {
         return name;
     }
 
@@ -54,7 +54,7 @@ public class Loan {
         this.name = name;
     }
 
-    public double getMaxAmount() {
+    public static double getMaxAmount() {
         return maxAmount;
     }
 
@@ -62,7 +62,7 @@ public class Loan {
         this.maxAmount = maxAmount;
     }
 
-    public List<Integer> getPayments() {
+    public static List<Integer> getPayments() {
         return payments;
     }
 
