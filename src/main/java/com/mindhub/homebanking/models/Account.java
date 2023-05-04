@@ -6,6 +6,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.text.DecimalFormat;
+
 
 @Entity
 public class Account {
@@ -88,6 +90,17 @@ public class Account {
         int numberGenerated = (int) (Math.random() * 1000);
         return accountNumber = "VIN" + String.format("%08d", numberGenerated);
     }
+
+    //metodo para formato de los numeros: (lo hice desde front al final)
+
+        public void format (String[] args) {
+            double numero = 5000.0;
+            DecimalFormat formato = new DecimalFormat("#,###.###");
+            String numeroFormateado = formato.format(numero);
+            double numeroFormateadoDouble = Double.parseDouble(numeroFormateado);
+            System.out.println(numeroFormateadoDouble);
+        }
+
 
     @Override
     public String toString() {
