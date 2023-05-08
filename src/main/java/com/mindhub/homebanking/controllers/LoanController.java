@@ -1,18 +1,26 @@
 package com.mindhub.homebanking.controllers;
+import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.dtos.LoanApplicationDTO;
+import com.mindhub.homebanking.dtos.LoanDTO;
 import com.mindhub.homebanking.models.*;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
-import com.mindhub.homebanking.repositories.LoanRepository;
-import com.mindhub.homebanking.repositories.TransactionRepository;
+import com.mindhub.homebanking.repositories.*;
+import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.services.ClientService;
+import com.mindhub.homebanking.services.LoanService;
+import com.mindhub.homebanking.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+
+
+import static java.util.stream.Collectors.toList;
 
 @Transactional
 @RestController
@@ -20,16 +28,23 @@ import java.util.Optional;
 public class LoanController {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountService accountService;
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionService transactionService;
 
     @Autowired
-    private LoanRepository loanRepository;
+    private LoanService loanService;
+
+    @Autowired
+    private ClientLoanRepository clientLoanRepository;
+
+    @RequestMapping(path = "/loans",method = RequestMethod.GET)
+    public List<LoanDTO> getLoans(){
+        return loanService.getLoans();} //retorna una lista de loanDTO
 
 
     @RequestMapping(path = "/clients/current/loans", method = RequestMethod.POST)
@@ -37,21 +52,18 @@ public class LoanController {
             (@RequestBody LoanApplicationDTO loanApplicationDTO, //parámetro en forma de objeto que recibe desde el front
              Authentication authentication) { // para cliente autenticado:
 
-        Client client = clientRepository.findByEmail(authentication.getName());  //comparo aquí con el authentication al cliente autenticado con el jsessionId
+        Client client = clientService.findByEmail(authentication.getName());  //comparo aquí con el authentication al cliente autenticado con el jsessionId
 
-        Account clientAcc = accountRepository.findByNumber(loanApplicationDTO.getDestinationAccNumber()); //traigo la cuenta destino del objeto que ingreso como parametro
+        Account clientAcc = accountService.findByNumber(loanApplicationDTO.getDestinationAccNumber()); //traigo la cuenta destino del objeto que ingreso como parametro
 
-        Optional<Loan> loanType = loanRepository.findById(loanApplicationDTO.getLoanId()); //traigo el tipo de prestamo elegido
+        Loan loan = loanService.findById(loanApplicationDTO.getLoanId());//traigo el tipo de préstamo elegido
 
-/*        if (client == null){
-            return new ResponseEntity<>("You aren´t a client", HttpStatus.UNAUTHORIZED); //código de estado HTTP 401 no autenticado
-        }*/ //no hace falta porque el authentication ya corrobora
 
         if (loanApplicationDTO.getDestinationAccNumber().isEmpty()) { //verifico que no este vacio el campo de cuenta destino
             return new ResponseEntity<>("Invalid account", HttpStatus.FORBIDDEN);
         }
 
-        if (loanApplicationDTO.getLoanId().isEmpty()) { //verifico que no este vacio el campo de tipo de prestamo elegido
+        if (loanApplicationDTO.getLoanId() == 0) { //verifico que no este vacío el campo de tipo de prestamo elegido
             return new ResponseEntity<>("Invalid loan type", HttpStatus.FORBIDDEN);
         }
 
@@ -62,20 +74,34 @@ public class LoanController {
         if (loanApplicationDTO.getPayments() <= 0) { //verifico que las cuotas no sean cero o negativo
             return new ResponseEntity<>("Payments  must be positive", HttpStatus.FORBIDDEN);
         }
+        if (loan == null) {
+            return new ResponseEntity<>("This loan doesn't exist", HttpStatus.FORBIDDEN);
+        }
 
-
-        if (!accountRepository.existsByNumber(loanApplicationDTO.getDestinationAccNumber())) {  //verifico que la cuenta exista:
+        if (!accountService.existsByNumber(loanApplicationDTO.getDestinationAccNumber())) {  //verifico que la cuenta exista:
             return new ResponseEntity<>("Destination Account doesn't exist", HttpStatus.FORBIDDEN);
         }
 
         //para que el monto solicitado no exceda el max monto otorgable:
-        if (loanApplicationDTO.getAmount() > Loan.getMaxAmount()) { //me pidio hacer static este metodo de getMaxAmount en Loan.. que signifca?
+
+        if (loanApplicationDTO.getAmount() > loan.getMaxAmount()) { //me habia pedido hacer static este metodo de getMaxAmount en Loan.. que signifca?
             return new ResponseEntity<>("Amount exceed max amount available", HttpStatus.FORBIDDEN);
         }
 
+
+        // La solicitud de hacer este método getPayments() estático en la clase Loan significa que el método no depende del
+        // estado actual de ningún objeto Loan. En otras palabras, no necesita ser llamado en una instancia de objeto Loan,
+        // sino que puede ser llamado directamente en la clase Loan sin la necesidad de crear una instancia primero.
+        //Al hacer que el método sea estático, se puede llamar directamente desde cualquier parte del código sin tener que
+        // crear una instancia de Loan. En este caso específico, el método getPayments() se utiliza para comprobar si una
+        // lista de pagos ya está incluida en una lista de pagos existente en un objeto Loan. Al hacer que el método sea estático,
+        // se puede llamar directamente en la clase Loan, sin necesidad de crear una instancia de Loan en primer lugar,
+        // lo que podría ser útil en algunos casos.
+
+
         //para que las cuotas solicitadas no excedan el max d cuotas otorgables:
 
-        if (!Loan.getPayments().contains(loanApplicationDTO.getPayments())) { //me pidio hacer static este metodo de getPayments en Loan.. que signifca?
+        if (!loan.getPayments().contains(loanApplicationDTO.getPayments())) {
             return new ResponseEntity<>("Payments exceed max payments available", HttpStatus.FORBIDDEN);
         }
 
@@ -84,31 +110,45 @@ public class LoanController {
             return new ResponseEntity<>("You don't have this account", HttpStatus.FORBIDDEN);
         }
 
-        //entonces ahora para crear el préstamo creo primero la transacción del tipo CREDIT:
-        String newDescriptionLoan = Loan.getName() + "loan approved"; //pide tambien hace estatico el name
+        //para verificar que no posea otro prestamo del mismo tipo:
 
-        Transaction creditLoan = new Transaction (TransactionType.CREDIT, loanApplicationDTO.getAmount(), newDescriptionLoan, LocalDateTime.now());
-        transactionRepository.save(creditLoan);
+
+       /* if (client.getClientLoans().stream().anyMatch(loanc -> loan.getId()==(loanApplicationDTO.getLoanId()))) {
+            return new ResponseEntity<>("You've already taken out a loan of this category", HttpStatus.FORBIDDEN);
+        }*/
+
+
+        //entonces ahora para crear el préstamo creo primero la transacción del tipo CREDIT:
+        String newDescriptionLoan = loan.getName() + "loan approved"; //pide también hace estatico el name
+
+        Transaction creditLoan = new Transaction(TransactionType.CREDIT, loanApplicationDTO.getAmount(), newDescriptionLoan, LocalDateTime.now());
+        transactionService.saveNewTransaction(creditLoan);
         clientAcc.addTransaction(creditLoan); //Agrego la transacción a la cuenta destino
         double newBalanceCredit = clientAcc.getBalance() + loanApplicationDTO.getAmount(); // Calcula el nuevo saldo
         clientAcc.setBalance(newBalanceCredit); // Actualizo el saldo
-        accountRepository.save(clientAcc); //guardo la cuenta
+        accountService.saveNewAccount(clientAcc); //guardo la cuenta
 
-        // pero falta crear el préstamo en sí, con la cantidad de cuotas, el monto y el nombre del préstamo, es un loan? o creo entidad nueva?
-        //podria usar un new ClientLoan? porque Loan no me deja porq tiene la lista de cuotas...
-        //y falta generar con el método de abajo el plan de cuotas...
+        // pero falta crear el préstamo en sí, con la cantidad de cuotas, el monto y el nombre del préstamo, es un clientloan? o creo entidad nueva?
+        //podria usar un new ClientLoan... porque Loan no me deja porq tiene la lista de cuotas...
+        //y falta generar con el método de abajo para el plan de cuotas...
 
-
-
+        ClientLoan clientLoan = new ClientLoan((loanApplicationDTO.getAmount() * 1.20), loanApplicationDTO.getPayments());
+        //falta vincularle el client y el loan;porque yo no los puse en el constructor de ClientLoan a esos parametros:
+        loan.addClientLoan(clientLoan);
+        client.addClientLoan(clientLoan);
+        clientLoanRepository.save(clientLoan);
+        loanService.saveNewLoan(loan);
+        clientService.saveNewClient(client);
 
         return new ResponseEntity<>(" Successfull Transaction ", HttpStatus.CREATED); //código de estado HTTP 201 creado
     }
 
 
+
     //método para calcular las cuotas del préstamo:
-    private double calculatePayments(double loanAmount, double interestRate) {
+  /*  private double calculatePayments(double loanAmount, double interestRate) {
         return loanAmount * (1 + (interestRate / 100));
-    }
+    }*/
 
 
 

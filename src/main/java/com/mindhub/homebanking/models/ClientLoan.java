@@ -18,8 +18,6 @@ public class ClientLoan {
     private int payments;
 
 
-
-
     //Relaciones:
 
     @ManyToOne(fetch = FetchType.EAGER)

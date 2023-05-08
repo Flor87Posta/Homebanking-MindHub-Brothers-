@@ -5,6 +5,7 @@ import com.mindhub.homebanking.models.Card;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.ClientService;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("/api")
 public class ClientController {
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService; //antes de los services inyectábamos ClientRepository clientRepository;
 
     @Autowired
     private AccountRepository accountRepository;
@@ -37,13 +38,12 @@ public class ClientController {
 
     @RequestMapping("/clients") // si no se aclara método por defecto es GET
     public List<ClientDTO> getClients() { //definí un método público llamado getClients del tipo Lista que retorna una List<ClientDTO>
-        return clientRepository.findAll().stream().map(client -> new ClientDTO(client)).collect(toList());
+        return clientService.getClients(); //método desarrollado en ClientServiceImplement
     }
 
     @RequestMapping("/clients/{id}")
     public ClientDTO getClient(@PathVariable Long id) { //definí un método público llamado getClient que retorna un clientDTO por su id
-        Optional<Client> optionalClient = clientRepository.findById(id);
-        return optionalClient.map(client -> new ClientDTO(client)).orElse(null);
+        return clientService.getClient(id);
     }
 
     @RequestMapping(path = "/clients", method = RequestMethod.POST) //método para registrar un nuevo cliente
@@ -74,7 +74,7 @@ public class ClientController {
             return new ResponseEntity<>("Please, write your password", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
         }
 
-        if (clientRepository.findByEmail(email) != null) {
+        if (clientService.findByEmail(email) != null) {
 
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
 
@@ -87,7 +87,7 @@ public class ClientController {
 
         Client newClient = new Client(firstName, lastName, email, passwordEncoder.encode(password));
         Account newAccount = new Account(accountNumber, LocalDateTime.now(), 0.0);
-        clientRepository.save(newClient);
+        clientService.saveNewClient(newClient);
         newClient.addAccount(newAccount);
         accountRepository.save(newAccount);
         return new ResponseEntity<>(HttpStatus.CREATED); //código de estado HTTP 201 creado
@@ -95,7 +95,7 @@ public class ClientController {
     }
     @RequestMapping("/clients/current") // este servlet es para crear un nuevo servicio que retorne toda la información del usuario autenticado, antes usabamos /clients/1 que es Melba
         public ClientDTO getClientCurrent(Authentication authentication) {
-        Client client = clientRepository.findByEmail(authentication.getName());//Si hay un usuario conectado, authentication.getName() devolverá el nombre que la clase WebAuthentication puso en el objeto User.
+        Client client = clientService.findByEmail(authentication.getName());//Si hay un usuario conectado, authentication.getName() devolverá el nombre que la clase WebAuthentication puso en el objeto User.
         Set<Account> clientAccountSet =  client.getAccountSet(); //vinculo las cuentas al cliente
         client.setAccounts(clientAccountSet);
         Set<Card> clientCardSet = client.getCards(); //vinculo las tarjetas al cliente

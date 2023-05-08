@@ -5,6 +5,8 @@ import com.mindhub.homebanking.models.CardType;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.CardService;
+import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +24,10 @@ import java.util.stream.Collectors;
 public class CardController {
 
     @Autowired
-    private CardRepository cardRepository;
+    private CardService cardService;
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
 
 
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
@@ -33,7 +35,7 @@ public class CardController {
                                             @RequestParam String typeCard, @RequestParam String color, //el cliente envia estos parametros por formulario
                                             Authentication authentication) { //obtengo un objeto Authentication
 
-        Client client = clientRepository.findByEmail(authentication.getName()); //comparo aquí con el authentication al cliente autenticado con el jsessionId
+        Client client = clientService.findByEmail(authentication.getName()); //comparo aquí con el authentication al cliente autenticado con el jsessionId
 
 
 
@@ -69,6 +71,9 @@ public class CardController {
         CardType enumType = CardType.valueOf(typeCard);
         CardColor enumColor = CardColor.valueOf(color);
 
+       /* if(cardRepository.existsByCardDigits(cardNumber)){ // para verificar que no exista ese numero de tarjetas
+            return new ResponseEntity<>("Max owned cards reached", HttpStatus.FORBIDDEN);
+        }*/ //NO FUNCIONA, SEGUIR PROBANDO
 
                /*       int creditCards = 0;
                 int debitCards = 0;
@@ -130,21 +135,21 @@ public class CardController {
         if (creditCards.size() < 3) {
             if (goldCardsCredit.size() < 1) {
                 Card cardGenerated = new Card(client.getFirstName() + " " + client.getLastName(), enumType, enumColor, cardNumberConGuiones, cardCvv, LocalDate.now(), LocalDate.now().plusYears(5));
-                cardRepository.save(cardGenerated);
+                cardService.saveNewCard(cardGenerated);
                 client.addCard(cardGenerated);
-                clientRepository.save(client);
+                clientService.saveNewClient(client);
                 return new ResponseEntity<>("Created Card", HttpStatus.CREATED);
             } else if (silverCardsCredit.size() < 1) {
                 Card cardGenerated = new Card(client.getFirstName() + " " + client.getLastName(), enumType, enumColor, cardNumberConGuiones, cardCvv, LocalDate.now(), LocalDate.now().plusYears(5));
-                cardRepository.save(cardGenerated);
+                cardService.saveNewCard(cardGenerated);
                 client.addCard(cardGenerated);
-                clientRepository.save(client);
+                clientService.saveNewClient(client);
                 return new ResponseEntity<>("Created Card", HttpStatus.CREATED);
             } else if (titaniumCardsCredit.size() < 1) {
                 Card cardGenerated = new Card(client.getFirstName() + " " + client.getLastName(), enumType, enumColor, cardNumberConGuiones, cardCvv, LocalDate.now(), LocalDate.now().plusYears(5));
-                cardRepository.save(cardGenerated);
+                cardService.saveNewCard(cardGenerated);
                 client.addCard(cardGenerated);
-                clientRepository.save(client);
+                clientService.saveNewClient(client);
                 return new ResponseEntity<>("Created Card", HttpStatus.CREATED);
             } else {
                 return new ResponseEntity<>("Client already has 3 or more creditCards", HttpStatus.FORBIDDEN);
@@ -155,21 +160,21 @@ public class CardController {
         if (debitCards.size() < 3) {
             if (goldCardsDebit.size() < 1) {
                 Card cardGenerated = new Card(client.getFirstName() + " " + client.getLastName(), enumType, enumColor, cardNumberConGuiones, cardCvv, LocalDate.now(), LocalDate.now().plusYears(5));
-                cardRepository.save(cardGenerated);
+                cardService.saveNewCard(cardGenerated);
                 client.addCard(cardGenerated);
-                clientRepository.save(client);
+                clientService.saveNewClient(client);
                 return new ResponseEntity<>("Created Card", HttpStatus.CREATED);
             } else if (silverCardsDebit.size() < 1) {
                 Card cardGenerated = new Card(client.getFirstName() + " " + client.getLastName(), enumType, enumColor, cardNumberConGuiones, cardCvv, LocalDate.now(), LocalDate.now().plusYears(5));
-                cardRepository.save(cardGenerated);
+                cardService.saveNewCard(cardGenerated);
                 client.addCard(cardGenerated);
-                clientRepository.save(client);
+                clientService.saveNewClient(client);
                 return new ResponseEntity<>("Created Card", HttpStatus.CREATED);
             } else if (titaniumCardsDebit.size() < 1) {
                 Card cardGenerated = new Card(client.getFirstName() + " " + client.getLastName(), enumType, enumColor, cardNumberConGuiones, cardCvv, LocalDate.now(), LocalDate.now().plusYears(5));
-                cardRepository.save(cardGenerated);
+                cardService.saveNewCard(cardGenerated);
                 client.addCard(cardGenerated);
-                clientRepository.save(client);
+                clientService.saveNewClient(client);
                 return new ResponseEntity<>("Created Card", HttpStatus.CREATED);
             } else {
                 return new ResponseEntity<>("Client already has 3 or more debitCards", HttpStatus.FORBIDDEN);

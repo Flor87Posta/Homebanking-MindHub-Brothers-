@@ -70,7 +70,9 @@ const app = createApp ({
 
                 axios.post('/api/login',`email=${this.email}&password=${this.password}`,{headers:{'content-type':'application/x-www-form-urlencoded'}})
                 .then(response => 
-                {
+                {   if(this.email =="florenciapostacchini@gmail.com"){
+                    window.location.replace('http://localhost:8080/h2-console');
+                } else {
                     window.location.href='/web/accounts.html';
                     Swal.fire({
                         icon: 'success',
@@ -79,7 +81,8 @@ const app = createApp ({
                         confirmButtonText: 'Ok',
                         cancelButtonText: 'Cancel',
                         timer: 6000,
-                    });
+                    });}
+          
                 }
                     )
                     .catch(function (error) {
@@ -94,7 +97,7 @@ const app = createApp ({
                     })
             },
 
-            loginRegister() { //para clientes que se registran, como los mails y password se llaman distintos..
+            loginRegister() { //para clientes que se registran desde cero, como los mails y password se llaman distintos..
 
                 axios.post('/api/login',`email=${this.emailRegister}&password=${this.passwordRegister}`,{headers:{'content-type':'application/x-www-form-urlencoded'}})
                 .then(response => 

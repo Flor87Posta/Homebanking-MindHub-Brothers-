@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>MindHub Brothers Bank</title>
+  <link rel="stylesheet" href="./styleLogIn.css">
+  <link rel="shortcut icon" href="./assets/logoMuñecoSinFondo.png" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+
+</head>
+<body >
+<!-- partial:index.partial.html -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Helvetica">
+
+<!-- about -->
+<div class="about">
+   <a class="bg_links social portfolio" href="https://mindhubweb.com/bootcamps" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links social dribbble " href="https://github.com/Flor87Posta" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links social linkedin " href="https://www.linkedin.com/in/florencia-postacchini" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links logo"></a>
+</div>
+<!-- end about -->
+    <header>
+    <div id="direction">
+        <nav>
+           <ul>
+              <li><a href="./index.html">Index</a></li>
+              <li><a href="./accounts.html">Accounts</a></li>
+              <li><a href="#">Loans</a></li>
+              <li><a href="./cards.html">Cards</a></li>
+              <li><a href="./transfers.html">Transfers</a></li>
+              <li><a href="#">Profile</a></li>
+              <li><a href="./login.html" @click="logout">Log Out</a></li>
+           </ul>
+        </nav>
+    </div>
+    </header>
+  <div id="app">
+    <div >
+      <template v-if="mostrarFormulario1">
+          <div >
+              <form class="login-box">
+                  <div>
+                    <fieldset>
+                      <legend >Choose type</legend>
+                      <div>
+                        <input type="radio" id="option-one" name="selector" value="1" v-model="loanId"
+                          @click="getLoanDTO">
+                        <label for="option-one">Mortgage</label>
+                        <input type="radio" id="option-two" name="selector" value="2" v-model="loanId" @click="getLoanDTO">
+                        <label for="option-two">Personal</label>
+                        <input type="radio" id="option-three" name="selector" value="3" v-model="loanId"
+                          @click="getLoanDTO">
+                        <label for="option-three">Auto</label>
+                      </div>
+                    </fieldset>
+                  </div>
+                    <fieldset>
+                      <legend>Choose payments number:</legend>
+                      <div>
+                        <div v-if="loanId==1"> 
+                          <select v-model="requestedPayments">
+                            <option v-for="paymentsMORT in paymentsMORTGAGE" :value="paymentsMORT">{{ paymentsMORT }} payments</option>
+                          </select>
+                        </div>
+                      </div>
+                    </fieldset>
+                
+                  <div>
+                    <div v-if="loanId==2"> 
+                      <div>
+                        <select v-model="requestedPayments">
+                          <option v-for="paymentsPER in paymentsPERSONAL" :value="paymentsPER">{{ paymentsPER }} payments </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                
+                
+                  <div>
+                    <div v-if="loanId==3"> 
+                      <div>
+                        <select v-model="requestedPayments">
+                          <option v-for="paymentsAUT in paymentsAUTO" :value="paymentsAUT">{{ paymentsAUT }} payments</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label>Amount
+                      <div class="input-group">
+                        <span class="input-group-label">$</span>
+                        <input class="input-group-field" type="number" v-model="requestedAmount">
+                      </div>
+                      <p v-if="loanId==1" class="help-text" id="amountHelpText"> Max: $500000</p>
+                      <p v-else-if="loanId==2" class="help-text" id="amountHelpText"> Max: $100000</p>
+                      <p v-else-if="loanId==3" class="help-text" id="amountHelpText"> Max: $300000</p>
+                    </label>
+                  </div>
+
+                  <div>
+                    <label v-if="client" v-cloak>Select destination
+                      <select v-model="destinationAccNumber">
+                        <option value="null">Select an account</option>
+                        <option :value="account.number" v-for="account in client.accounts">{{account.number}}</option>
+                      </select>
+                    </label>
+                  </div>
+                  <input type="button"  value="Simulation" @click="showForm">
+                  <input type="button"  value="Request" @click="requestLoan">
+                  
+              </form> 
+          </div>
+      </template>  
+
+      <template v-if="formVisible">
+          <div>
+            <div class="login-box" >
+              <h4>Simulation:</h4>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>Requested Amount:</td>
+                    <td>${{ this.requestedAmount }}</td>
+                  </tr>
+                  <tr v-if="loanId==1">
+                    <td >Total Interest:</td>
+                    <td>{{ ((this.requestedAmount*1.20 - this.requestedAmount)/this.requestedAmount)*100 }}%</td>
+                  </tr>
+                  <tr v-if="loanId==2">
+                    <td >Total Interest:</td>
+                    <td>{{ ((this.requestedAmount*1.40 - this.requestedAmount)/this.requestedAmount)*100 }}%</td>
+                  </tr>
+                  <tr v-if="loanId==3">
+                    <td >Total Interest:</td>
+                    <td>{{ ((this.requestedAmount*1.50 - this.requestedAmount)/this.requestedAmount)*100 }}%</td>
+                  </tr>
+                  <tr>
+                    <td>Payments:</td>
+                    <td>{{ this.requestedPayments }}</td>
+                  </tr>
+                  <tr>
+                    <td>Month amount:</td>
+                    <td>${{ this.requestedAmount*1.20 / this.requestedPayments  }}</td>
+                  </tr>
+                  <input type="button" value="Back" onclick="window.location.href='http://localhost:8080/web/loan-application.html'">
+                </tbody>
+              </table>
+            </div>
+          </div> 
+      </template>  
+    </div>  
+  </div>
+
+
+  
+<!-- partial -->
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./loan-application.js"></script>
+</body>
+</html>

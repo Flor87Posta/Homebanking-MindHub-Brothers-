@@ -4,6 +4,8 @@ import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.services.ClientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,38 +22,37 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("/api")
 public class AccountController {
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountService accountService;
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
 
     @RequestMapping("/accounts")
     public List<AccountDTO> getAccounts() { //definí un método público llamado getAccounts del tipo Lista que retorna una List d Accounts
-        return accountRepository.findAll().stream().map(account -> new AccountDTO(account)).collect(toList());
+        return accountService.getAccounts();
     }
 
     @RequestMapping("/accounts/{id}")
     public AccountDTO getAccount(@PathVariable Long id) { //definí un método público llamado getAccount que retorna una cuenta por su id
-        Optional<Account> optionalAccount = accountRepository.findById(id);
-        return optionalAccount.map(account -> new AccountDTO(account)).orElse(null);
+        return accountService.getAccount(id);
     }
 
     @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
     public ResponseEntity<Object> newAccount(  //método para crear una nueva cuenta
                Authentication authentication) { //obtengo un objeto Authentication; no requiero parametros desde el front
 
-        Client client = clientRepository.findByEmail(authentication.getName()); //comparo aquí con el authentication al cliente autenticado con el jsessionId
+        Client client = clientService.findByEmail(authentication.getName()); //comparo aquí con el authentication al cliente autenticado con el jsessionId
         if (client.getAccountSet().size() < 3) {
             try { //bloque de código a intentar:
                 String accountNumber;
                 do {
                     int numberGenerated = (int) (Math.random() * 1000);
                     accountNumber = "VIN" + String.format("%08d", numberGenerated);
-                } while (accountRepository.findByNumber(accountNumber) != null); //para corroborar que esa cuenta no exista ya
+                } while (accountService.findByNumber(accountNumber) != null); //para corroborar que esa cuenta no exista ya
                 Account accountGenerated = new Account(accountNumber, LocalDateTime.now(), 0.0);
-                accountRepository.save(accountGenerated);
+                accountService.saveNewAccount(accountGenerated);
                 client.addAccount(accountGenerated);
-                clientRepository.save(client);
+                clientService.saveNewClient(client);
                 return new ResponseEntity<>("Created", HttpStatus.CREATED);
             } catch (IllegalArgumentException ex) { //especifica una respuesta si se produce una excepción
                 //IllegalArgumentException es una excepción de Java que indica que un método ha recibido un argumento que no es válido o es inapropiado para los fines de este método.

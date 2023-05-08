@@ -3,7 +3,7 @@ package com.mindhub.homebanking.dtos;
 
 
 public class LoanApplicationDTO {
-    private String  loanId; //es para el tipo de préstamo q elige, el preaprobado
+    private long  loanId; //es para el tipo de préstamo q elige, el preaprobado, lo elige por input o select...
     private double amount;
     private int payments;
     private String destinationAccNumber;
@@ -12,13 +12,21 @@ public class LoanApplicationDTO {
     //el otro constructor con las propiedades no haría falta porque no vamos a enviar info?
     //este DTO es creado solo para recibir info , no para enviar info
 
+    public LoanApplicationDTO(long loanId, double amount, int payments, String destinationAccNumber) {
+        this.loanId = loanId;
+        this.amount = amount;
+        this.payments = payments;
+        this.destinationAccNumber = destinationAccNumber;
+    }
+
 //métodos accesores:
 
-    public String getLoanId() {
+
+    public long getLoanId() {
         return loanId;
     }
 
-    public void setLoanId(String loanId) {
+    public void setLoanId(long loanId) {
         this.loanId = loanId;
     }
 
@@ -45,5 +53,6 @@ public class LoanApplicationDTO {
     public void setDestinationAccNumber(String destinationAccNumber) {
         this.destinationAccNumber = destinationAccNumber;
     }
+
 }
 

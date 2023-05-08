@@ -6,6 +6,9 @@ import com.mindhub.homebanking.models.TransactionType;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.repositories.TransactionRepository;
+import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.services.ClientService;
+import com.mindhub.homebanking.services.TransactionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication; // este no funciona: import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +26,13 @@ import java.time.LocalDateTime;
 public class TransactionController {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountService accountService;
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionService transactionService;
 
 
     @RequestMapping(path = "/clients/current/transactions", method = RequestMethod.POST)
@@ -39,12 +42,12 @@ public class TransactionController {
              Authentication authentication) { // para cliente autenticado:
 
 
-        Client clientSend = clientRepository.findByEmail(authentication.getName());  //comparo aquí con el authentication al cliente autenticado con el jsessionId
+        Client clientSend = clientService.findByEmail(authentication.getName());  //comparo aquí con el authentication al cliente autenticado con el jsessionId
         //si el cliente se transfiere entre sus propias cuentas, es un solo cliente que interviene, pero si es a un tercero busco la cuenta y obtengo el cliente:
-        Client clientDestin = accountRepository.findByNumber(destinationAccNumber).getClient();
+        Client clientDestin = accountService.findByNumber(destinationAccNumber).getClient();
 
-        Account accountOrigin = accountRepository.findByNumber(originAccNumber); // busco en el repo de cuentas a la cuenta de origen que puso el cliente y la guardo en accountOrigin
-        Account accountDestin = accountRepository.findByNumber(destinationAccNumber); // aca lo mismo pero para la cuenta destino
+        Account accountOrigin = accountService.findByNumber(originAccNumber); // busco en el repo de cuentas a la cuenta de origen que puso el cliente y la guardo en accountOrigin
+        Account accountDestin = accountService.findByNumber(destinationAccNumber); // aca lo mismo pero para la cuenta destino
 
 
         if (originAccNumber.isEmpty()) {
@@ -64,10 +67,10 @@ public class TransactionController {
             return new ResponseEntity<>("It is not possible to send money to the same account", HttpStatus.FORBIDDEN);
         }
 
-        if (!accountRepository.existsByNumber(originAccNumber)) {
+        if (!accountService.existsByNumber(originAccNumber)) {
             return new ResponseEntity<>( "Origin Account doesn't exist", HttpStatus.FORBIDDEN);
         }
-        if (!accountRepository.existsByNumber(destinationAccNumber)) {
+        if (!accountService.existsByNumber(destinationAccNumber)) {
             return new ResponseEntity<>("Destination Account doesn't exist",  HttpStatus.FORBIDDEN);
         }
         //Verificar que la cuenta de origen pertenezca al cliente autenticado:
@@ -87,20 +90,20 @@ public class TransactionController {
 
         String newDescriptionAccountOrigin = accountOrigin.getNumber() + description;
         Transaction debit = new Transaction(TransactionType.DEBIT, -amount, newDescriptionAccountOrigin, LocalDateTime.now() );
-        transactionRepository.save(debit);
-        accountOrigin.addTransaction(debit); //Agrego la transaccion a la cuenta
+        transactionService.saveNewTransaction(debit);
+        accountOrigin.addTransaction(debit); //Agrego la transacción a la cuenta
         double newBalanceDebit = accountOrigin.getBalance() - amount; // Calcula el nuevo saldo
         accountOrigin.setBalance(newBalanceDebit); // Actualizo el saldo
-        accountRepository.save(accountOrigin); //guardo la cuenta
+        accountService.saveNewAccount(accountOrigin); //guardo la cuenta
         //clientDestin.addAccount(); ya queda vinculado al cliente? si, porque la cuenta esta vinculada al cliente ya por la relacion
 
         String newDescriptionAccountDestin = accountDestin.getNumber() + description;
         Transaction credit = new Transaction(TransactionType.CREDIT, amount, newDescriptionAccountDestin, LocalDateTime.now() );
-        transactionRepository.save(credit);
-        accountDestin.addTransaction(credit); //Agrego la transaccion a la cuenta
+        transactionService.saveNewTransaction(credit);
+        accountDestin.addTransaction(credit); //Agrego la transacción a la cuenta
         double newBalanceCredit = accountDestin.getBalance() + amount; // Calcula el nuevo saldo
         accountDestin.setBalance(newBalanceCredit); // Actualizo el saldo
-        accountRepository.save(accountDestin); //guardo la cuenta
+        accountService.saveNewAccount(accountDestin); //guardo la cuenta
 
         return new ResponseEntity<>(" Successfull Transaction ", HttpStatus.CREATED); //código de estado HTTP 201 creado
     }

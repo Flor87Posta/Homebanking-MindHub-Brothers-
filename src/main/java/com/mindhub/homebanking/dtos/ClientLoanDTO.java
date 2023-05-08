@@ -19,9 +19,9 @@ public class ClientLoanDTO {
 
         this.id = clientLoan.getId();
 
-        this.loanId = clientLoan.getId();
+        this.loanId = clientLoan.getLoan().getId();
 
-        this.name = clientLoan.getLoan().name;
+        this.name = clientLoan.getLoan().getName();
 
         this.amount = clientLoan.getAmount();
 
@@ -42,7 +42,6 @@ public class ClientLoanDTO {
     public long getLoanId() {
         return loanId;
     }
-
     public void setLoanId(long loanId) {
         this.loanId = loanId;
     }

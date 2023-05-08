@@ -37,7 +37,7 @@ class WebAuthorization {
                 .antMatchers(HttpMethod.PATCH, "/api/cards").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/cards").hasAuthority("ADMIN")
                 .antMatchers("/manager.html").hasAuthority("ADMIN")
-                .antMatchers("/h2-console/**").hasAuthority("ADMIN")
+                .antMatchers("http://localhost:8080/h2-console").hasAuthority("ADMIN")
                 .antMatchers("/rest/**").hasAuthority("ADMIN")
 
 //                CLIENT
