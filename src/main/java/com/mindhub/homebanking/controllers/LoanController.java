@@ -58,6 +58,7 @@ public class LoanController {
 
         Loan loan = loanService.findById(loanApplicationDTO.getLoanId());//traigo el tipo de préstamo elegido
 
+        double addedAmount = 0;
 
         if (loanApplicationDTO.getDestinationAccNumber().isEmpty()) { //verifico que no este vacio el campo de cuenta destino
             return new ResponseEntity<>("Invalid account", HttpStatus.FORBIDDEN);
@@ -117,7 +118,15 @@ public class LoanController {
             return new ResponseEntity<>("You've already taken out a loan of this category", HttpStatus.FORBIDDEN);
         }*/ // if (currentClient.getLoans().stream().anyMatch(loan -> loan.getId().equals(requestedLoan.getLoanId())))
 
-
+        if(loanApplicationDTO.getLoanId()==1){
+            addedAmount = loanApplicationDTO.getAmount()* 1.20;
+        }
+        if(loanApplicationDTO.getLoanId()==2){
+            addedAmount = loanApplicationDTO.getAmount()* 1.40;
+        }
+        if(loanApplicationDTO.getLoanId()==3){
+            addedAmount = loanApplicationDTO.getAmount()* 1.50;
+        }
         //entonces ahora para crear el préstamo creo primero la transacción del tipo CREDIT:
         String newDescriptionLoan = loan.getName() + "loan approved"; //pide también hace estatico el name
 
@@ -132,7 +141,7 @@ public class LoanController {
         //podria usar un new ClientLoan... porque Loan no me deja porq tiene la lista de cuotas...
         //y falta generar con el método de abajo para el plan de cuotas...
 
-        ClientLoan clientLoan = new ClientLoan((loanApplicationDTO.getAmount() * 1.20), loanApplicationDTO.getPayments());
+        ClientLoan clientLoan = new ClientLoan(addedAmount, loanApplicationDTO.getPayments());
         //falta vincularle el client y el loan;porque yo no los puse en el constructor de ClientLoan a esos parametros:
         loan.addClientLoan(clientLoan);
         client.addClientLoan(clientLoan);
