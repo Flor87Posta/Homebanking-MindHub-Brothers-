@@ -113,9 +113,9 @@ public class LoanController {
         //para verificar que no posea otro prestamo del mismo tipo:
 
 
-       /* if (client.getClientLoans().stream().anyMatch(loanc -> loan.getId()==(loanApplicationDTO.getLoanId()))) {
+        /*if (client.getClientLoans().stream().anyMatch(loanc -> loan.getId()==(loanApplicationDTO.getLoanId()))) {
             return new ResponseEntity<>("You've already taken out a loan of this category", HttpStatus.FORBIDDEN);
-        }*/
+        }*/ // if (currentClient.getLoans().stream().anyMatch(loan -> loan.getId().equals(requestedLoan.getLoanId())))
 
 
         //entonces ahora para crear el préstamo creo primero la transacción del tipo CREDIT:
