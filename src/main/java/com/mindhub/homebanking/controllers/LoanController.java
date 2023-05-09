@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 import static java.util.stream.Collectors.toList;
@@ -111,12 +112,15 @@ public class LoanController {
             return new ResponseEntity<>("You don't have this account", HttpStatus.FORBIDDEN);
         }
 
-        //para verificar que no posea otro prestamo del mismo tipo:
+        //para verificar que no posea otro préstamo del mismo tipo:
 
-
-        /*if (client.getClientLoans().stream().anyMatch(loanc -> loan.getId()==(loanApplicationDTO.getLoanId()))) {
+        List<String> loans = client.getClientLoans().stream().map(clientLoan -> clientLoan.getLoan().getName()).collect(Collectors.toList());
+        if (loans.contains(loan.getName())){
             return new ResponseEntity<>("You've already taken out a loan of this category", HttpStatus.FORBIDDEN);
-        }*/ // if (currentClient.getLoans().stream().anyMatch(loan -> loan.getId().equals(requestedLoan.getLoanId())))
+        }
+      /*  if (client.getClientLoans().stream().anyMatch(loanc -> loan.getId()==(loanApplicationDTO.getLoanId()))) {
+            return new ResponseEntity<>("You've already taken out a loan of this category", HttpStatus.FORBIDDEN);
+        }*/ // if (client.getLoans().stream().anyMatch(loanc -> loan.getId().equals(loanApplicationDTO.getLoanId())))
 
         if(loanApplicationDTO.getLoanId()==1){
             addedAmount = loanApplicationDTO.getAmount()* 1.20;
