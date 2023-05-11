@@ -17,8 +17,9 @@ import java.time.LocalDateTime;
         private String description;
         private LocalDateTime transactionDate;
 
-
         private double balance;
+
+//        private double finalBalance; para mostrar el saldo final...pero ya esta balance.. usar o modificar esa
 
 
         @ManyToOne(fetch = FetchType.EAGER)

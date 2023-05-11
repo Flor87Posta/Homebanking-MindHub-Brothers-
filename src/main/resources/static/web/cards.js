@@ -49,26 +49,35 @@ const app = createApp ({
                     .catch(err => console.log( err ));
                 },
 
-        addClient(){
-            this.postClient();
-        },
+        // addClient(){
+        //     this.postClient();
+        // },
 
-        postClient(){
-                axios.post("http://localhost:8080/api/clients/current", {
-                    firstName: this.firstName,
-                    lastName: this.lastName,
-                    email: this.email,
-                    accounts: this.accounts,
+        // postClient(){
+        //         axios.post("http://localhost:8080/api/clients/current", {
+        //             firstName: this.firstName,
+        //             lastName: this.lastName,
+        //             email: this.email,
+        //             accounts: this.accounts,
 
                     
-                })
-                .then(function (response) {
-                    this.loadData();
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
+        //         })
+        //         .then(function (response) {
+        //             this.loadData();
+        //         })
+        //         .catch(function (error) {
+        //             console.log(error);
+        //         });
+        //     },
+
+        deleteCard(card) {
+            //primero poner una condicion que verifique que el saldo es cero (en el controller o aca?)
+            axios.post('/api/clients/current/delete-card', `cardId=${card.id}`)
+                .then(response =>
+                    this.loadData()
+                )
+                .catch(error => console.log(error))
+        },
 
             logout(){
                 axios.post('/api/logout')

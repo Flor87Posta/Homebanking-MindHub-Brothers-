@@ -11,11 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -181,6 +180,23 @@ public class CardController {
             }
         }
         return new ResponseEntity<>("Client already has 3 or more debitCards and creditCards", HttpStatus.FORBIDDEN);
+    }
+
+    @DeleteMapping("clients/current/delete-card")
+    public ResponseEntity<Object> deleteCard(@RequestParam long cardId, Authentication auth) {
+        Client client = clientService.findByEmail(auth.getName());
+        Optional<Card> optionalCard = cardService.findByIdOptional(cardId);
+        if (optionalCard.isPresent()) {
+            Card cardToDelete = optionalCard.get();
+            if (cardToDelete.getCardholder().equals(client)) {
+                cardService.delete(cardToDelete);
+                return new ResponseEntity<>("Card deleted successfully", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("This card does not belong to the  client", HttpStatus.FORBIDDEN);
+            }
+        } else {
+            return new ResponseEntity<>("Card not found", HttpStatus.NOT_FOUND);
+        }
     }
     }
 
