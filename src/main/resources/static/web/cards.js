@@ -70,14 +70,7 @@ const app = createApp ({
         //         });
         //     },
 
-        deleteCard(card) {
-            //primero poner una condicion que verifique que el saldo es cero (en el controller o aca?)
-            axios.post('/api/clients/current/delete-card', `cardId=${card.id}`)
-                .then(response =>
-                    this.loadData()
-                )
-                .catch(error => console.log(error))
-        },
+
 
             logout(){
                 axios.post('/api/logout')

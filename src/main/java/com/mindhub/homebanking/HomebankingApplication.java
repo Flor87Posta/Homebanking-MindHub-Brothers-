@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.mindhub.homebanking.models.AccountType.SAVINGS;
+import static com.mindhub.homebanking.models.AccountType.CURRENT;
 import static com.mindhub.homebanking.models.TransactionType.CREDIT;
 import static com.mindhub.homebanking.models.TransactionType.DEBIT;
 
@@ -21,26 +23,27 @@ import static com.mindhub.homebanking.models.TransactionType.DEBIT;
 
 public class HomebankingApplication {
 
-/*	@Autowired
-	private PasswordEncoder passwordEncoder;*/
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
-	/*@Bean
+	@Bean
 	public CommandLineRunner initData(ClientRepository  clientRepository, AccountRepository  accountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientloanrepository, CardRepository cardRepository) {
 		return (args) -> {
 
 			Client client1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("mel1212ba"));
 			Client client2 = new Client("Lucia", "Lopez", "lucilopez@mindhub.com", passwordEncoder.encode("lu1010lo"));
 			Client client3 = new Client("Clara", "Gonzalez", "claragonzalez@mindhub.com", passwordEncoder.encode("cla1313gon"));
-			Client admin = new Client("Florencia", "Postacchini","florenciapostacchini@gmail.com", passwordEncoder.encode("flo1014pos"));
+			Client admin = new Client("Florencia", "Postacchini","florys_211@hotmail.com", passwordEncoder.encode("flo1014pos"));
 
-			Account account1 = new Account("VIN001", LocalDateTime.now(), 5000.01);
-			Account account2 = new Account("VIN002", LocalDateTime.now().plusDays(1), 7500.80);
-			Account account3 = new Account("VIN003", LocalDateTime.now(), 10000.50);
-			Account account4 = new Account("VIN004", LocalDateTime.now(), 15000.30);
+			Account account1 = new Account("VIN001", LocalDateTime.now(), 5000.01, SAVINGS);
+			Account account2 = new Account("VIN002", LocalDateTime.now().plusDays(1), 7500.80, CURRENT);
+			Account account3 = new Account("VIN003", LocalDateTime.now(), 10000.50, SAVINGS);
+			Account account4 = new Account("VIN004", LocalDateTime.now(), 15000.30, SAVINGS);
+
 
 			Transaction transaction1 = new Transaction(CREDIT, 100.50, "transfer", LocalDateTime.now());
 			Transaction transaction2 = new Transaction(DEBIT, -200.00, "payShop", LocalDateTime.now());
@@ -74,9 +77,9 @@ public class HomebankingApplication {
 			client2.addClientLoan(clientloan3);
 			client3.addClientLoan(clientloan4);
 
-			Card card1 = new Card (client1.getFirstName() + " " + client1.getLastName(), CardType.DEBIT, CardColor.GOLD, "4444-5555-6666-8888", 111, LocalDate.now(), LocalDate.now().plusYears(5));
-			Card card2 = new Card (client1.getFirstName() + " " + client1.getLastName(), CardType.CREDIT, CardColor.TITANIUM, "4455-7777-8888-9999", 222, LocalDate.now(), LocalDate.now().plusYears(5));
-			Card card3 = new Card (client2.getFirstName() + " " + client1.getLastName(), CardType.CREDIT, CardColor.SILVER, "4455-9999-1111-7777", 333, LocalDate.now(), LocalDate.now().plusYears(5));
+			Card card1 = new Card (client1.getFirstName() + " " + client1.getLastName(), CardType.DEBIT, CardColor.GOLD, "4444-5555-6666-8888", 111, LocalDate.now(), LocalDate.now().plusYears(5), false);
+			Card card2 = new Card (client1.getFirstName() + " " + client1.getLastName(), CardType.CREDIT, CardColor.TITANIUM, "4455-7777-8888-9999", 222, LocalDate.now(), LocalDate.now().plusYears(5), false);
+			Card card3 = new Card (client2.getFirstName() + " " + client1.getLastName(), CardType.CREDIT, CardColor.SILVER, "4455-9999-1111-7777", 333, LocalDate.now(), LocalDate.now().plusYears(5), false);
 
 
 			clientRepository.save(client1);
@@ -131,7 +134,7 @@ public class HomebankingApplication {
 			clientRepository.save(client3);
 		};
 
-	}*/
+	}
 }
 
 

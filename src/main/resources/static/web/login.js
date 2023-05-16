@@ -70,7 +70,7 @@ const app = createApp ({
 
                 axios.post('/api/login',`email=${this.email}&password=${this.password}`,{headers:{'content-type':'application/x-www-form-urlencoded'}})
                 .then(response => 
-                {   if(this.email =="florenciapostacchini@gmail.com"){
+                {   if(this.email =="florys_211@hotmail.com"){
                     window.location.replace('http://localhost:8080/h2-console');
                 } else {
                     window.location.href='/web/accounts.html';

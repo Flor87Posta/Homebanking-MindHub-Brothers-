@@ -13,6 +13,9 @@ const app = createApp ({
             loans: [],
             createdAccount: false,
             condicion: true,
+            accountType: "",
+            formVisible: false,
+            mostrarFormulario1:true,
             
             
 
@@ -32,11 +35,13 @@ const app = createApp ({
         methods: {
 
         loadData(){
-                axios.get("http://localhost:8080/api/clients/current")
+                 axios.get("http://localhost:8080/api/clients/current") //,{headers:{'accept':'application/xml'}}
                     .then(response => {
                         this.clients=response.data;
                         console.log(this.clients)
+                    
                         this.accounts=this.clients.accounts
+                        console.log(this.accounts)
                         this.loans=this.clients.loans
                         this.condicion = this.accounts.length<=3
 
@@ -73,6 +78,7 @@ const app = createApp ({
 
 
             newAccount() {
+                console.log("hola")
                 Swal.fire({
                     icon: 'warning',
                     title: 'You are creating a new Account..¿Are you sure?',
@@ -82,7 +88,7 @@ const app = createApp ({
                     timer: 6000,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        axios.post('/api/clients/current/accounts')
+                        axios.post('/api/clients/current/accounts',`accountType=${this.accountType}`)
                             .then(response => {
                                 if (response.status == "201") {
                                         this.createdAccount = true,
@@ -107,7 +113,11 @@ const app = createApp ({
                 })
             },
 
-
+            showForm() {
+                this.formVisible = true;
+                this.mostrarFormulario1=false;
+            },
+    
             },
 
 })

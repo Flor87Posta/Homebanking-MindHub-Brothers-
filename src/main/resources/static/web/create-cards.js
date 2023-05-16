@@ -17,6 +17,11 @@ const app = createApp ({
             createdCard: false,
             typeCardCreated: null,
             colorCard: null,
+            requestedNumber: "",
+            numberCreditCard: [],
+            numberDebitCard:[],
+            formVisible: false,
+            mostrarFormulario1:true,
 
             
 
@@ -43,6 +48,10 @@ const app = createApp ({
                         console.log(this.debitCards)
                         this.creditCards = this.cards.filter(card => card.typeCard === "CREDIT")
                         console.log(this.creditCards)
+                        this.numberCreditCard = this.creditCards.number
+                        console.log(this.numberCreditCard)
+                        this.numberDebitCard = this.debitCards.number
+                        console.log(this.numberDebitCard)
 
 
 
@@ -113,7 +122,46 @@ const app = createApp ({
                 })
             },
 
+            deleteCard() {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'You are deleting a Card..¿Are you sure?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete Card',
+                    cancelButtonText: 'Cancel',
+                    timer: 6000,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                axios.post('/api/clients/current/delete-card', `requestedNumber=${this.requestedNumber}`)
+                .then(response => {
+                    if (response.status == "201") {
+                        console.log(response),
+                        window.location.href='/web/cards.html',
+                        this.loadData()
+                        Swal.fire({
+                            icon: 'Success!',
+                            title: 'You Delete a Card!',
+                            showCancelButton: true,
+                            confirmButtonText: 'Accepted',
+                            cancelButtonText: 'Cancel',
+                            timer: 6000,
+                        })
+                    }  
+                })
+                .catch(error => Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.response.data,
+                    timer: 6000,
+                }))
+                    }
+                        })
+                            },
 
+                showForm() {
+                            this.formVisible = true;
+                            this.mostrarFormulario1=false;
+                            },
 
             },
 

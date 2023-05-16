@@ -5,8 +5,8 @@
    <title>MindHub Brothers Bank / Accounts</title>
    <link rel="stylesheet" href="./style.css">
    <link rel="shortcut icon" href="./assets/logoMuñecoSinFondo.png" type="image/x-icon">
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 
 </head>
 <body id="app">
@@ -27,61 +27,83 @@
    </a>
    <a class="bg_links logo"></a>
 </div>
+<!-- end about -->
 <header>
-   
-   <div id="direction">
-         <nav>
-            <ul>
-               <li><a href="./index.html">Index</a></li>
-               <li><a href="#">Accounts</a></li>
-               <li><a href="#">Loans</a></li>
-               <li><a href="./cards.html">Cards</a></li>
-               <li><a href="./transfers.html">Transfers</a></li>
-               <li><a href="#">Profile</a></li>
-               <li><a href="./login.html" @click="logout">Log Out</a></li>
-            </ul>
-         </nav>
+   <nav>
+      <ul>
+         <li><a href="./index.html">Index</a></li>
+         <li><a href="#">Accounts</a></li>
+         <li><a href="./payments.html">Payments</a></li>
+         <li><a href="./cards.html">Cards</a></li>
+         <li><a href="./transfers.html">Transfers</a></li>
+         <li><a href="#">Profile</a></li>
+         <li><a href="./login.html" @click="logout">Log Out</a></li>
+      </ul>
+   </nav>
+</header>
+
+
+      <div>
          <div id="directionCards">
             <div>
-               <div>
-                  <button type="button" class="btn" @click="newAccount" v-show="condicion">
-                     <strong>ACCOUNTS (Created your Account Here!)</strong>
-                     <div id="container-stars">
-                       <div id="stars"></div>
-                     </div>
-                   
-                     <div id="glow">
-                       <div class="circle"></div>
-                       <div class="circle"></div>
-                     </div>
-                   </button>
-               </div>
+               <template v-if="mostrarFormulario1">
+                  <div class="login-box">
+                     <button type="button" class="btn" @click="showForm">
+                        <strong>ACCOUNTS (Created your Account Here!)</strong>
+                        <div id="container-stars">
+                           <div id="stars"></div>
+                        </div>                
+                        <div id="glow">
+                           <div class="circle"></div>
+                           <div class="circle"></div>
+                        </div>
+                     </button>
+                  </div>
+               </template>
+
+               <template v-if="formVisible">
+                  <div class="login-box">
+                     <form>
+                        <div>
+                           <div>
+                                 <label for="corriente">
+                                 <input type="radio" name="acc" id="corriente"  value="current" v-model="accountType">
+                                 CURRENT
+                                 </label>
+                           </div>
+                           <div>
+                                 <label for="ahorro" >
+                                 <input type="radio" name="acc" id="ahorro" value="savings" v-model="accountType">
+                                 SAVINGS
+                              </label>
+                           </div>   
+                           <input type="submit" value="Create" @click.prevent="newAccount">                        
+                        </div>  
+                                             
+                     </form> 
+                  </div>
+               </template>
             </div>
             
             <div>
-               <div >
+               <div>
                   <button type="button" class="btn"  onclick="window.location.href='http://localhost:8080/web/loan-application.html'">
                      <strong>LOANS (Request your Loan Here!)</strong>
                      <div id="container-stars">
-                       <div id="stars"></div>
+                     <div id="stars"></div>
                      </div>
-                   
+                  
                      <div id="glow">
-                       <div class="circle"></div>
-                       <div class="circle"></div>
+                     <div class="circle"></div>
+                     <div class="circle"></div>
                      </div>
-                   </button>
+                  </button>
                </div>
             </div>
          </div>
-   </div>
-
-</header>
-
-<!-- end about -->
+      </div>
 
       <div id="directionCards" >
-
          <!-- card -->
          <div>
             <div class="cardAccounts" v-for="account of clients.accounts">
@@ -89,6 +111,7 @@
                <p class="title">Client: {{clients.firstName}} {{clients.lastName}}</p>
                <div>
                   <p>Account: {{account.number}}</p>
+                  <p>Type: {{account.accountType}}</p>
                   <p>Created: {{account.creationDate.slice(0, 10)}} at {{account.creationDate.slice(11, 16)}} hs.</p>
                   <p>Balance: $ {{account.balance.toLocaleString('en-US')}}</p>
                   <a :href="`./account.html?id=` + account.id" class="textDetail"> Transactions Detail </a>
@@ -114,7 +137,6 @@
          <div v-else>
             <h3> You haven't loans</h3>
          </div>
-
       </div>
 
 
@@ -122,7 +144,6 @@
 <!-- partial -->
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="./accounts.js"></script>
 </body>
 </html>
