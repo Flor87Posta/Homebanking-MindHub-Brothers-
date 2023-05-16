@@ -1,22 +1,25 @@
 package com.mindhub.homebanking.controllers;
-import com.mindhub.homebanking.models.Card;
-import com.mindhub.homebanking.models.CardColor;
-import com.mindhub.homebanking.models.CardType;
-import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.repositories.CardRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.dtos.PaymentDTO;
+import com.mindhub.homebanking.models.*;
+
+import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.CardService;
 import com.mindhub.homebanking.services.ClientService;
+import com.mindhub.homebanking.services.TransactionService;
+import com.mindhub.homebanking.utils.CardUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toSet;
 
 @RestController
 @RequestMapping("/api")
@@ -28,8 +31,15 @@ public class CardController {
     @Autowired
     private ClientService clientService;
 
+    @Autowired
+    private TransactionService transactionService;
 
-    @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
+    @Autowired
+    private AccountService accountService;
+
+
+//    @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
+    @PostMapping("/clients/current/cards")
     public ResponseEntity<Object> newCard(  //método para crear una nueva tarjeta
                                             @RequestParam String typeCard, @RequestParam String color, //el cliente envia estos parametros por formulario
                                             Authentication authentication) { //obtengo un objeto Authentication
@@ -37,13 +47,12 @@ public class CardController {
         Client client = clientService.findByEmail(authentication.getName()); //comparo aquí con el authentication al cliente autenticado con el jsessionId
 
 
-
         if (typeCard.isEmpty()) {
-            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
+            return new ResponseEntity<>("Please insert a type Card", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
         }
 
         if (color.isEmpty()) {
-            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
+            return new ResponseEntity<>("Please insert a color Card", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
         }
 
  /*       if (client == null) {
@@ -52,15 +61,16 @@ public class CardController {
 
         //variables para el constructor:
 
-        long numberGenerated = (long) (Math.random() * 9000000000000000L) + 1000000000000000L;
-            //Math.random() genera un número aleatorio decimal entre 0.0 y 1.0 (no incluyendo 1.0).
-            //Multiplicando Math.random() por 9000000000000000L generamos un número aleatorio entre 0 y 89999999999999.
-            //Al sumarle 1000000000000000L, obtenemos un número aleatorio entre 100000000000000 y 999999999999999.
-            //Al convertir el resultado a un long, tenemos un número entero de 16 dígitos.
-        String cardNumber = String.format("%016d", numberGenerated); //paso a String porque asi está en la propiedad
-        String cardNumberConGuiones = cardNumber.substring(0, 4) + "-" + cardNumber.substring(4, 8) + "-" +
-                    cardNumber.substring(8, 12) + "-" + cardNumber.substring(12, 16);
-        int cardCvv = (int) (Math.random() * 900) + 100;
+        //método getCardNumberConGuiones()
+        //Math.random() genera un número aleatorio decimal entre 0.0 y 1.0 (no incluyendo 1.0).
+        //Multiplicando Math.random() por 9000000000000000L generamos un número aleatorio entre 0 y 89999999999999.
+        //Al sumarle 1000000000000000L, obtenemos un número aleatorio entre 100000000000000 y 999999999999999.
+        //Al convertir el resultado a un long, tenemos un número entero de 16 dígitos. dp: //paso a String porque asi
+        // está en la propiedad
+
+        String cardNumberConGuiones = CardUtils.getCardNumberConGuiones();
+
+        int cardCvv = CardUtils.getCardCvv();
         //Math.random() genera un número aleatorio decimal entre 0.0 y 1.0 (no incluyendo 1.0).
         //Multiplicando Math.random() por 900 generamos un número aleatorio entre 0 y 899.
         //Al sumarle 100, obtenemos un número aleatorio entre 100 y 999.
@@ -86,7 +96,7 @@ public class CardController {
 
         //filtrado de cards, por tipo y color, y dentro de color por tipo de nuevo:
 
-        Set<Card> creditCards = client.getCards().stream()
+  /*      Set<Card> creditCards = client.getCards().stream()
                 .filter(card -> card.getTypeCard() == CardType.CREDIT)
                 .collect(Collectors.toSet());
 
@@ -180,25 +190,88 @@ public class CardController {
             }
         }
         return new ResponseEntity<>("Client already has 3 or more debitCards and creditCards", HttpStatus.FORBIDDEN);
+    }*/
+
+        Set<Card> cards = client.getCards().stream().filter(card -> card.getTypeCard().equals(CardType.valueOf(typeCard.toUpperCase())) && card.getColor().equals(CardColor.valueOf(color.toUpperCase()))).collect(toSet());
+        if (cards.size() > 0) {
+            return new ResponseEntity<>("You already have a " + typeCard.toLowerCase() + " " + color.toLowerCase() + " card", HttpStatus.FORBIDDEN);
+        }
+        Card cardGenerated = new Card(client.getFirstName() + " " + client.getLastName(), enumType, enumColor, cardNumberConGuiones, cardCvv, LocalDate.now(), LocalDate.now().plusYears(5), false);
+        cardService.saveNewCard(cardGenerated);
+        client.addCard(cardGenerated);
+        clientService.saveNewClient(client);
+        return new ResponseEntity<>("Created Card", HttpStatus.CREATED);
     }
 
-    @DeleteMapping("clients/current/delete-card")
-    public ResponseEntity<Object> deleteCard(@RequestParam long cardId, Authentication auth) {
+    @PostMapping("clients/current/delete-card") //aunque no borramos, solo escondemos
+    public ResponseEntity<Object> deleteCard(@RequestParam String requestedNumber, Authentication auth) {
         Client client = clientService.findByEmail(auth.getName());
-        Optional<Card> optionalCard = cardService.findByIdOptional(cardId);
-        if (optionalCard.isPresent()) {
-            Card cardToDelete = optionalCard.get();
-            if (cardToDelete.getCardholder().equals(client)) {
-                cardService.delete(cardToDelete);
-                return new ResponseEntity<>("Card deleted successfully", HttpStatus.OK);
+        Card numberCard = cardService.findByNumber(requestedNumber); //el num de tarjeta que ingresa el cliente lo busco
+        //en el repo y lo guardo en numberCard,
+        if( numberCard == null ){
+            return new ResponseEntity<>("this card doesn't exist", HttpStatus.FORBIDDEN);}
+        if (numberCard.getClient()==client) {
+                numberCard.setHidden(true);
+                cardService.saveNewCard(numberCard);
+                return new ResponseEntity<>("Card deleted successfully", HttpStatus.CREATED);
             } else {
-                return new ResponseEntity<>("This card does not belong to the  client", HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>("This card is not a client´s card", HttpStatus.FORBIDDEN);
             }
-        } else {
-            return new ResponseEntity<>("Card not found", HttpStatus.NOT_FOUND);
+    }
+
+    @Transactional
+    @PostMapping("clients/current/pay-card")
+    public ResponseEntity<Object> payWithCard(@RequestBody PaymentDTO paymentDTO, Authentication auth)  {
+        Client client = clientService.findByEmail(auth.getName());
+
+        if (!EnumSet.of(CardType.CREDIT, CardType.DEBIT).contains(paymentDTO.getTypeCard())) {
+            return new ResponseEntity<>("Invalid card type", HttpStatus.FORBIDDEN);
         }
+
+        if(!cardService.existsByNumber(paymentDTO.getNumber())){
+            return new ResponseEntity<>("Invalid card", HttpStatus.FORBIDDEN);
+        }
+
+        Card cardUsed = cardService.findByNumber(paymentDTO.getNumber());
+
+        boolean hasCard = client.getCards()
+                .stream()
+                .anyMatch(card -> card.getId() == cardUsed.getId());
+
+        if(!hasCard){
+            return new ResponseEntity<>("You don't have this card", HttpStatus.FORBIDDEN);
+        }
+
+        if(cardUsed.getThruDate().isBefore(LocalDate.of(2023, 5, 16))){
+            return new ResponseEntity<>("This card is expired", HttpStatus.FORBIDDEN);
+        }
+
+       Optional<Account> optionalAccountToBeDebited = client.getAccountSet()
+                .stream()
+                .filter(acc -> acc.getBalance() >= paymentDTO.getAmount())
+                .findFirst();
+
+        if (optionalAccountToBeDebited.isPresent()) {
+            Account accountToBeDebited = optionalAccountToBeDebited.get();
+            // Realizo las operaciones con la cuenta encontrada
+
+            Transaction paymentCard = new Transaction(TransactionType.DEBIT, paymentDTO.getAmount(), paymentDTO.getDescription(), LocalDateTime.now() );
+            transactionService.saveNewTransaction(paymentCard);
+            accountToBeDebited.addTransaction(paymentCard);
+            double newBalanceDebit = accountToBeDebited.getBalance() - paymentDTO.getAmount(); // Calcula el nuevo saldo
+            accountToBeDebited.setBalance(newBalanceDebit); // Actualizo el saldo
+            accountService.saveNewAccount(accountToBeDebited); //guardo la cuenta
+
+            return new ResponseEntity<>("Payment successful", HttpStatus.CREATED);
+
+        } else {
+            return new ResponseEntity<>("Insufficient Funds", HttpStatus.CREATED);
+
+        }
+
     }
-    }
+        }
+
 
 
 

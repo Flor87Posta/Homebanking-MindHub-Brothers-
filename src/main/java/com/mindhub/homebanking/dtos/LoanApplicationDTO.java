@@ -9,7 +9,6 @@ public class LoanApplicationDTO {
     private String destinationAccNumber;
 
     public LoanApplicationDTO(){} //constructor vacío para que cuando se envíe el objeto desde el front pueda crearlos
-    //el otro constructor con las propiedades no haría falta porque no vamos a enviar info?
     //este DTO es creado solo para recibir info , no para enviar info
 
     public LoanApplicationDTO(long loanId, double amount, int payments, String destinationAccNumber) {

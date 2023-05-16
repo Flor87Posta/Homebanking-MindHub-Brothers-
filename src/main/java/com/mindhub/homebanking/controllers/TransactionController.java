@@ -13,10 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication; // este no funciona: import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
@@ -35,7 +33,8 @@ public class TransactionController {
     private TransactionService transactionService;
 
 
-    @RequestMapping(path = "/clients/current/transactions", method = RequestMethod.POST)
+//    @RequestMapping(path = "/clients/current/transactions", method = RequestMethod.POST)
+    @PostMapping("/clients/current/transactions")
     public ResponseEntity<Object> makeTransaction
             (@RequestParam String originAccNumber, @RequestParam String destinationAccNumber, //parámetros que recibe desde el front
              @RequestParam double amount, @RequestParam String description,
@@ -108,7 +107,6 @@ public class TransactionController {
         return new ResponseEntity<>(" Successfull Transaction ", HttpStatus.CREATED); //código de estado HTTP 201 creado
     }
 }
-
 
 
 //Se deben crear dos transacciones, una con el tipo de transacción “DEBIT” asociada a la cuenta de origen

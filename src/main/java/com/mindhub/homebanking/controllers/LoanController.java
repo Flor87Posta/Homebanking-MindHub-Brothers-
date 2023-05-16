@@ -43,12 +43,14 @@ public class LoanController {
     @Autowired
     private ClientLoanRepository clientLoanRepository;
 
-    @RequestMapping(path = "/loans",method = RequestMethod.GET)
+//    @RequestMapping(path = "/loans",method = RequestMethod.GET)
+    @GetMapping("/loans")
     public List<LoanDTO> getLoans(){
         return loanService.getLoans();} //retorna una lista de loanDTO
 
 
-    @RequestMapping(path = "/clients/current/loans", method = RequestMethod.POST)
+//    @RequestMapping(path = "/clients/current/loans", method = RequestMethod.POST)
+    @PostMapping("/clients/current/loans")
     public ResponseEntity<Object> requestLoan
             (@RequestBody LoanApplicationDTO loanApplicationDTO, //parámetro en forma de objeto que recibe desde el front
              Authentication authentication) { // para cliente autenticado:
@@ -132,11 +134,11 @@ public class LoanController {
             addedAmount = loanApplicationDTO.getAmount()* 1.50;
         }
         //entonces ahora para crear el préstamo creo primero la transacción del tipo CREDIT:
-        String newDescriptionLoan = loan.getName() + "loan approved"; //pide también hace estatico el name
+        String newDescriptionLoan = loan.getName() + "loan approved";
 
         Transaction creditLoan = new Transaction(TransactionType.CREDIT, loanApplicationDTO.getAmount(), newDescriptionLoan, LocalDateTime.now());
-        transactionService.saveNewTransaction(creditLoan);
         clientAcc.addTransaction(creditLoan); //Agrego la transacción a la cuenta destino
+        transactionService.saveNewTransaction(creditLoan);
         double newBalanceCredit = clientAcc.getBalance() + loanApplicationDTO.getAmount(); // Calcula el nuevo saldo
         clientAcc.setBalance(newBalanceCredit); // Actualizo el saldo
         accountService.saveNewAccount(clientAcc); //guardo la cuenta

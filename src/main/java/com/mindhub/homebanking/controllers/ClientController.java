@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.models.Account;
+import com.mindhub.homebanking.models.AccountType;
 import com.mindhub.homebanking.models.Card;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
@@ -26,6 +27,7 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/api")
+
 public class ClientController {
     @Autowired
     private ClientService clientService; //antes de los services inyectábamos ClientRepository clientRepository;
@@ -36,17 +38,20 @@ public class ClientController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @RequestMapping("/clients") // si no se aclara método por defecto es GET
+//    @RequestMapping("/clients") // si no se aclara método por defecto es GET
+    @GetMapping("/clients")
     public List<ClientDTO> getClients() { //definí un método público llamado getClients del tipo Lista que retorna una List<ClientDTO>
         return clientService.getClients(); //método desarrollado en ClientServiceImplement
     }
 
-    @RequestMapping("/clients/{id}")
+//    @RequestMapping("/clients/{id}")
+    @GetMapping("/clients/{id}")
     public ClientDTO getClient(@PathVariable Long id) { //definí un método público llamado getClient que retorna un clientDTO por su id
         return clientService.getClient(id);
     }
 
-    @RequestMapping(path = "/clients", method = RequestMethod.POST) //método para registrar un nuevo cliente
+   /* @RequestMapping(path = "/clients", method = RequestMethod.POST) //método para registrar un nuevo cliente*/
+    @PostMapping("/clients")
     public ResponseEntity<Object> register(
 
             @RequestParam String firstName, @RequestParam String lastName,
@@ -86,15 +91,18 @@ public class ClientController {
         } while (accountRepository.findByNumber(accountNumber) != null); //findByNumber: método creado en account repository
 
         Client newClient = new Client(firstName, lastName, email, passwordEncoder.encode(password));
-        Account newAccount = new Account(accountNumber, LocalDateTime.now(), 0.0);
+        Account newAccount = new Account(accountNumber, LocalDateTime.now(), 0.0, AccountType.SAVINGS);
         clientService.saveNewClient(newClient);
         newClient.addAccount(newAccount);
         accountRepository.save(newAccount);
         return new ResponseEntity<>(HttpStatus.CREATED); //código de estado HTTP 201 creado
 
     }
-    @RequestMapping("/clients/current") // este servlet es para crear un nuevo servicio que retorne toda la información del usuario autenticado, antes usabamos /clients/1 que es Melba
-        public ClientDTO getClientCurrent(Authentication authentication) {
+//    @RequestMapping("/clients/current")
+    // este servlet es para crear un nuevo servicio que retorne toda la información del usuario autenticado,
+    // antes usabamos /clients/1 que es Melba
+    @GetMapping("/clients/current")
+    public ClientDTO getClientCurrent(Authentication authentication) {
         Client client = clientService.findByEmail(authentication.getName());//Si hay un usuario conectado, authentication.getName() devolverá el nombre que la clase WebAuthentication puso en el objeto User.
         Set<Account> clientAccountSet =  client.getAccountSet(); //vinculo las cuentas al cliente
         client.setAccounts(clientAccountSet);

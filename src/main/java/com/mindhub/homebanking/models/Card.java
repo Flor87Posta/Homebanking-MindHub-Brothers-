@@ -27,13 +27,15 @@ public class Card {
 
     private LocalDate fromDate; //fecha actual
 
+    private boolean hidden; //para ocultar la tarjeta si el cliente desea eliminarla
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
     private Client client;
 
     public Card(){}
 
-    public Card (String cardholder, CardType typeCard , CardColor color, String number, int cvv, LocalDate thruDate, LocalDate fromDate )   {
+    public Card (String cardholder, CardType typeCard , CardColor color, String number, int cvv, LocalDate thruDate, LocalDate fromDate, boolean hidden )   {
         this.cardholder = cardholder;
         this.typeCard = typeCard;
         this.color = color;
@@ -41,6 +43,7 @@ public class Card {
         this.cvv = cvv;
         this.thruDate = thruDate;
         this.fromDate = fromDate;
+        this.hidden= hidden;
     }
 
     //Métodos accesores:
@@ -118,7 +121,19 @@ public class Card {
         this.client = client;
     }
 
-    //metodos creados :
 
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+//métodos creados :
+
+    public boolean isExpired() {
+        LocalDate now = LocalDate.now();
+        return now.isAfter(this.thruDate) || now.isEqual(this.thruDate);
+    }
 
 }

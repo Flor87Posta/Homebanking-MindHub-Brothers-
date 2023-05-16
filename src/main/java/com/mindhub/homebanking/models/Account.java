@@ -19,6 +19,7 @@ public class Account {
     private String number;
     private LocalDateTime creationDate;
     private Double balance;
+    private AccountType accountType;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
@@ -29,10 +30,11 @@ public class Account {
 
     public Account(){}
 
-    public Account(String number, LocalDateTime creationDate, Double balance) {
+    public Account(String number, LocalDateTime creationDate, Double balance, AccountType accountType) {
         this.number = number;
         this.creationDate = creationDate;
         this.balance = balance;
+        this.accountType = accountType;
     }
 
     public long getId() {
@@ -79,7 +81,21 @@ public class Account {
     public Set<Transaction> getTransactionSet() {
         return transactions;
     }
-    public void addTransaction(Transaction transaction) { //permite conectar a una cuenta con una transacción
+
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+    public AccountType getAccountType() {
+        return accountType;
+    }
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
+
+
+    // método q permite conectar a una cuenta con una transacción
+    public void addTransaction(Transaction transaction) {
         transaction.setAccount(this);
         transactions.add(transaction);
     }

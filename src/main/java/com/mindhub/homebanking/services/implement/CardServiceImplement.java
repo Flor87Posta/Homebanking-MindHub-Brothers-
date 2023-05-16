@@ -21,12 +21,17 @@ public class CardServiceImplement implements CardService {
     }
 
     @Override
-    public Optional<Card> findByIdOptional(Long id) {
-        return cardRepository.findById(id);
+    public Card findByNumber (String number) {
+        return cardRepository.findByNumber(number);
     }
 
     @Override
     public void delete(Card card) {
         cardRepository.delete(card);
+    }
+
+    @Override
+    public boolean existsByNumber(String number) {
+        return cardRepository.existsByNumber(number);
     }
 }

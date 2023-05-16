@@ -25,6 +25,8 @@ public class CardDTO {
 
     private LocalDate fromDate; //fecha actual
 
+    private boolean hidden;
+
     public CardDTO (Card card){
         this.id = card.getId();
         this.cardholder = card.getCardholder();
@@ -34,6 +36,7 @@ public class CardDTO {
         this.cvv = card.getCvv();
         this.thruDate = card.getThruDate();
         this.fromDate = card.getFromDate();
+        this.hidden =card.isHidden();
     }
 
     //métodos accesores:
@@ -101,5 +104,13 @@ public class CardDTO {
 
     public void setFromDate(LocalDate fromDate) {
         this.fromDate = fromDate;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 }

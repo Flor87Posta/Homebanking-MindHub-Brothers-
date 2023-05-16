@@ -9,8 +9,11 @@ public interface CardService {
 
     void saveNewCard(Card card);
 
-    Optional<Card> findByIdOptional(Long id);
+    Card findByNumber(String number);
+
     void delete(Card card);
+
+    boolean existsByNumber(String number);
 
 
 }
