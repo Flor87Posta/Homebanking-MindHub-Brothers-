@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 import static java.util.stream.Collectors.toSet;
 
+@CrossOrigin(origins = {"*"})
 @RestController
 @RequestMapping("/api")
 public class CardController {
@@ -221,8 +222,8 @@ public class CardController {
 
     @Transactional
     @PostMapping("clients/current/pay-card")
-    public ResponseEntity<Object> payWithCard(@RequestBody PaymentDTO paymentDTO, Authentication auth)  {
-        Client client = clientService.findByEmail(auth.getName());
+    public ResponseEntity<Object> payWithCard(@RequestBody PaymentDTO paymentDTO)  {
+        Client client = clientService.findByEmail(paymentDTO.getEmail());
 
         if (!EnumSet.of(CardType.CREDIT, CardType.DEBIT).contains(paymentDTO.getTypeCard())) {
             return new ResponseEntity<>("Invalid card type", HttpStatus.FORBIDDEN);

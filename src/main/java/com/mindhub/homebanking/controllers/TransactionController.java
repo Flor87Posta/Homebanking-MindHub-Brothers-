@@ -1,11 +1,6 @@
 package com.mindhub.homebanking.controllers;
-import com.mindhub.homebanking.models.Account;
-import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.models.Transaction;
-import com.mindhub.homebanking.models.TransactionType;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
-import com.mindhub.homebanking.repositories.TransactionRepository;
+import com.itextpdf.text.DocumentException;
+import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
 import com.mindhub.homebanking.services.TransactionService;
@@ -15,8 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import static java.time.LocalDateTime.parse;
 
 @Transactional
 @RestController
@@ -31,6 +31,8 @@ public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
+
+
 
 
 //    @RequestMapping(path = "/clients/current/transactions", method = RequestMethod.POST)
@@ -106,15 +108,54 @@ public class TransactionController {
 
         return new ResponseEntity<>(" Successfull Transaction ", HttpStatus.CREATED); //código de estado HTTP 201 creado
     }
+
+    @PostMapping ("/clients/current/export-pdf")
+    public ResponseEntity<String> ExportingToPDF(HttpServletResponse response, Authentication authentication, @RequestParam String accNumber, @RequestParam String dateIni, @RequestParam String dateEnd) throws DocumentException, IOException {
+
+        Client client = clientService.findByEmail(authentication.getName());
+        Account account = accountService.findByNumber(accNumber);
+
+        if(client == null){
+            return new ResponseEntity<>("You are not a Client", HttpStatus.FORBIDDEN);
+        }
+
+        if (account == null) {
+            return new ResponseEntity<>("Invalid account number", HttpStatus.FORBIDDEN);
+        }
+
+        if(client.getAccountSet()
+                .stream()
+                .noneMatch(account1 -> account1.getNumber().equals(account.getNumber()))){
+            return new ResponseEntity<>("This account doesn't belong to you", HttpStatus.FORBIDDEN);}
+
+        if (dateIni.isBlank()){
+            return new ResponseEntity<>("Start date can't on blank", HttpStatus.FORBIDDEN);
+        }else if(dateEnd.isBlank()){
+            return new ResponseEntity<>("End date can't be on blank", HttpStatus.FORBIDDEN);
+        }
+
+        response.setContentType("application/pdf");
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=Transactions" + accNumber + ".pdf";
+        response.setHeader(headerKey, headerValue);
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime dateTimeIni = parse(dateIni, formatter);
+        LocalDateTime dateTimeEnd= parse(dateEnd,formatter);
+
+        System.out.println(dateTimeEnd + "and" + dateTimeIni);
+
+        List<Transaction> listTransactions =transactionService.findByCreatedBetweenDates(client,accNumber,dateTimeIni,dateTimeEnd) ;
+        System.out.println(response);
+        TransactionPDFExporter exporter = new TransactionPDFExporter(listTransactions);
+        exporter.usePDFExport(response);
+        System.out.println("PDF created");
+
+        return new ResponseEntity<>("PDF is created", HttpStatus.CREATED);
+    }
 }
 
 
-//Se deben crear dos transacciones, una con el tipo de transacción “DEBIT” asociada a la cuenta de origen
-// y la otra con el tipo de transacción “CREDIT” asociada a la cuenta de destino:
 
-//A la cuenta de origen se le restará el monto indicado en la petición y a la cuenta de destino se le sumará el mismo monto:
-
-//guardarlas en el repositorio de transacciones
-
-//Una vez realizada la creación de las transacciones, debes actualizar cada cuenta con los montos correspondientes ¿como?
-// y guardarlas a través del repositorio de cuentas.

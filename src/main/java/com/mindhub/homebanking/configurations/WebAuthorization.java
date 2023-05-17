@@ -25,9 +25,11 @@ class WebAuthorization {
                 .antMatchers("/web/index.html/").permitAll()
                 .antMatchers("/web/login.html").permitAll()
                 .antMatchers("/web/assets/**").permitAll()
+                .antMatchers("http://localhost:8080/posnet.html").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/logout").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/clients/current/pay-card").permitAll()
 
 //                ADMIN
                 .antMatchers(HttpMethod.PATCH, "/api/clients").hasAuthority("ADMIN")
@@ -52,6 +54,7 @@ class WebAuthorization {
                 .antMatchers("/web/account.html").hasAuthority("CLIENT")
                 .antMatchers("/web/created-cards.html").hasAuthority("CLIENT")
                 .antMatchers("/web/cards.html").hasAuthority("CLIENT");
+
 
 // para cualquier otro tipo de peticion:
            /*     .anyRequest().denyAll();*/

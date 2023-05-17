@@ -1,125 +1,113 @@
-
-const {createApp} = Vue
-
-
-const app = createApp ({
-
-    data(){
-        return {
-            firstName : '',
-            lastName : '',
-            accounts: [],
-            clients: [],
-            loans: [],
-            createdAccount: false,
-            condicion: true,
-            accountType: "",
-            formVisible: false,
-            mostrarFormulario1:true,
-            
-            
-
-            
-
-        }
+const app = Vue.createApp({
+    data() {
+      return {
+        firstName: '',
+        lastName: '',
+        accounts: [],
+        clients: [],
+        loans: [],
+        createdAccount: false,
+        condicion: true,
+        accountType: '',
+        formVisible: false,
+        mostrarFormulario1: true,
+        formVisible2: false,
+        mostrarFormulario2: true,
+        accNumber: '',
+        dateIni: '',
+        dateEnd: '',
+        checked: '',
+        searchClient: ''
+      };
     },
-    created(){
-    //         // Hacer una petición a través de una función loadData
-            // this.newAccount();
-            this.loadData();
-        
-    
-
-            },
-
-        methods: {
-
-        loadData(){
-                 axios.get("http://localhost:8080/api/clients/current") //,{headers:{'accept':'application/xml'}}
-                    .then(response => {
-                        this.clients=response.data;
-                        console.log(this.clients)
-                    
-                        this.accounts=this.clients.accounts
-                        console.log(this.accounts)
-                        this.loans=this.clients.loans
-                        this.condicion = this.accounts.length<=3
-
-                    })
-                    .catch(err => console.log( err ));
-                },
-
-        // addClient(){
-        //     this.postClient();
-        // },
-
-        // postClient(){
-        //         axios.post("http://localhost:8080/api/clients/1", {
-        //             firstName: this.firstName,
-        //             lastName: this.lastName,
-        //             email: this.email,
-        //             accounts: this.accounts,
-
-                    
-        //         })
-        //         .then(function (response) {
-        //             this.loadData();
-        //         })
-        //         .catch(function (error) {
-        //             console.log(error);
-        //         });
-        //     },
-
-        logout(){
-                axios.post('/api/logout')
-                .then(response => console.log('Signed out'))
-                
-            },
-
-
-            newAccount() {
-                console.log("hola")
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'You are creating a new Account..¿Are you sure?',
+    created() {
+      this.loadData();
+    },
+    methods: {
+      loadData() {
+        axios.get("http://localhost:8080/api/clients/current")
+          .then(response => {
+            this.clients = response.data;
+            this.accounts = this.clients.accounts;
+            this.loans = this.clients.loans;
+            this.condicion = this.accounts.length <= 3;
+          })
+          .catch(err => console.log(err));
+      },
+      logout() {
+        axios.post('/api/logout')
+          .then(response => console.log('Signed out'));
+      },
+      newAccount() {
+        Swal.fire({
+          icon: 'warning',
+          title: 'You are creating a new Account..¿Are you sure?',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, create new Account',
+          cancelButtonText: 'Cancel',
+          timer: 6000,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            axios.post('/api/clients/current/accounts', `accountType=${this.accountType}`)
+              .then(response => {
+                if (response.status === "201") {
+                  this.createdAccount = true;
+                  this.loadData();
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'You have a new Account!',
                     showCancelButton: true,
-                    confirmButtonText: 'Yes, create new Account',
+                    confirmButtonText: 'Accepted',
                     cancelButtonText: 'Cancel',
                     timer: 6000,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        axios.post('/api/clients/current/accounts',`accountType=${this.accountType}`)
-                            .then(response => {
-                                if (response.status == "201") {
-                                        this.createdAccount = true,
-                                        this.loadData()
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'You have a new Account!',
-                                            showCancelButton: true,
-                                            confirmButtonText: 'Accepted',
-                                            cancelButtonText: 'Cancel',
-                                            timer: 6000,
-                                        })
-                                }
-                            })
-                            .catch(error => Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: error.response.data,
-                                timer: 6000,
-                            }))
-                    }
-                })
-            },
-
-            showForm() {
-                this.formVisible = true;
-                this.mostrarFormulario1=false;
-            },
-    
-            },
-
-})
-
-app.mount('#app')
+                  });
+                }
+              })
+              .catch(error => Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.response.data,
+                timer: 6000,
+              }));
+          }
+        });
+      },
+      showForm() {
+        this.formVisible = true;
+        this.mostrarFormulario1 = false;
+      },
+      showForm2() {
+        this.formVisible2 = true;
+        this.mostrarFormulario2 = false;
+      },
+      generatePDF(accNumber, dateIni, dateEnd) {
+        if (this.dateIni !== "" && this.dateEnd !== "") {
+          axios.post("/api/clients/current/export-pdf", `accNumber=${this.accNumber}&dateIni=${this.dateIni} 00:00&dateEnd=${this.dateEnd} 23:55`, {
+              responseType: 'blob'
+            })
+            .then((response) => {
+              const url = window.URL.createObjectURL(new Blob([response.data], {
+                type: "application/pdf"
+              }));
+              const link = document.createElement('a');
+              link.href = url;
+              link.setAttribute('download', `Transaction${this.accNumber}.pdf`);
+              document.body.appendChild(link);
+              link.click();
+            })
+            .catch(err => console.log(err));
+        } else {
+          Swal.fire(
+            'Select two dates to filter!',
+            'warning'
+          );
+        }
+      },
+      store(accountNumber) {
+        this.accNumber = accountNumber;
+        return this.accNumber;
+      },
+    },
+  });
+  
+  app.mount('#app');

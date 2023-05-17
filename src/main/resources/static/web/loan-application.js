@@ -23,8 +23,7 @@ createApp({
             mostrarFormulario1:true,
             amountInterest:0,
             paymentsFinal:0,
-        
-        
+
 
             loanTypeMORTGAGE: [],
             MORTGAGE:[],
@@ -34,13 +33,21 @@ createApp({
             AUTO:[],
             paymentsAUTO:[],
 
+            loans: [],
+            id: "",
+            idLoan:"",
+            dataFilter: 0,
+            quotas: 0,
+            account: "",
+            amount: "",
+            totalPay: 0,
+
         }
     },
 
 
     created() {
         this.loadData()
-
     },
 
     methods: {
@@ -52,6 +59,8 @@ createApp({
                     console.log(data);
                     this.client = data.data;
                     console.log(this.client);
+                    this.loans = this.client.loans.filter(loan => loan.finalAmount > 0);
+                    console.log(this.loans);
                     this.sortAccounts()
                 }
                 )
@@ -72,7 +81,6 @@ createApp({
         },
 
         requestLoan() {
-        
             Swal.fire({
                 icon: 'warning',
                 title: 'You are requesting a new Loan..¿Are you sure?',
@@ -89,7 +97,7 @@ createApp({
                 destinationAccNumber: this.destinationAccNumber
             }).then(response => {
                     if (response.status === 201) {
-                                this.loanSucces = false;
+                                this.loanSuccess = false;
                                 this.loadData()
                                 Swal.fire({
                                     icon: 'success',
@@ -145,13 +153,6 @@ createApp({
                 })
         },
 
-        // interestRatio(){
-        
-        //     this.amountInterest = this.requestedAmount * 1.2;
-        //     this.rateInterest = this.amountInterest
-        //     this.paymentsFinal = this.amountInterest / this.requestedPayments;
-        // },
-
 
 
         isLoading() {
@@ -161,6 +162,45 @@ createApp({
         showForm() {
             this.formVisible = true;
             this.mostrarFormulario1=false;
+        },
+
+        filterLoan(event) {
+            this.dataFilter = this.loans.find(loan => loan.name === event.target.nextElementSibling.textContent.toUpperCase());
+            console.log(event.target.nextElementSibling.textContent)
+            console.log(this.dataFilter);
+            this.quotas = this.dataFilter.finalAmount / this.dataFilter.payments;
+            this.totalPay = this.dataFilter.finalAmount;
+        },
+
+        payLoan(){
+            Swal.fire({
+                title: 'Are you sure that you want to pay the loan?',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Sure',
+                confirmButtonColor: "#7c601893",
+                preConfirm: () => {
+                    return axios.post('/api/client/current/pay-loan', `loanId=${this.dataFilter.id}&account=${this.account}&amount=${this.amount}`)
+                    .then(response => {
+                            Swal.fire({
+                                icon: 'success',
+                                text: 'Payment Success',
+                                showConfirmButton: false,
+                                timer: 2000,
+                            }).then( () => window.location.href="/web/accounts.html")
+                        })
+                        .catch(error => {
+                            Swal.fire({
+                                icon: 'error',
+                                text: error.response.data,
+                                confirmButtonColor: "#7c601893",
+                            })
+                        })
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            })
         },
 
 

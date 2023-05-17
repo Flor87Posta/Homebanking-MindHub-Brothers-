@@ -28,6 +28,7 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+	implementation 'com.itextpdf:itextpdf:5.5.13' //PDF exporter
 }
 
 tasks.named('test') {

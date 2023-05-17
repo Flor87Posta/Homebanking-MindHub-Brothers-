@@ -6,8 +6,6 @@
    <link rel="stylesheet" href="./style.css">
    <link rel="shortcut icon" href="./assets/logoMuñecoSinFondo.png" type="image/x-icon">
    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
-
 </head>
 <body id="app">
 <!-- partial:index.partial.html -->
@@ -33,7 +31,6 @@
       <ul>
          <li><a href="./index.html">Index</a></li>
          <li><a href="#">Accounts</a></li>
-         <li><a href="./payments.html">Payments</a></li>
          <li><a href="./cards.html">Cards</a></li>
          <li><a href="./transfers.html">Transfers</a></li>
          <li><a href="#">Profile</a></li>
@@ -106,15 +103,40 @@
       <div id="directionCards" >
          <!-- card -->
          <div>
-            <div class="cardAccounts" v-for="account of clients.accounts">
-               <div class="icon"><i class="material-icons md-36"></i></div>
-               <p class="title">Client: {{clients.firstName}} {{clients.lastName}}</p>
-               <div>
-                  <p>Account: {{account.number}}</p>
-                  <p>Type: {{account.accountType}}</p>
-                  <p>Created: {{account.creationDate.slice(0, 10)}} at {{account.creationDate.slice(11, 16)}} hs.</p>
-                  <p>Balance: $ {{account.balance.toLocaleString('en-US')}}</p>
-                  <a :href="`./account.html?id=` + account.id" class="textDetail"> Transactions Detail </a>
+            <div>
+               <div class="cardAccounts" v-for="account of clients.accounts">
+                  <div class="icon">
+                  <i class="material-icons md-36"></i>
+                  </div>
+                  <p class="title">Client: {{ clients.firstName }} {{ clients.lastName }}</p>
+                  <div>
+                     <p>Account: {{ account.number }}</p>
+                     <p>Type: {{ account.accountType }}</p>
+                     <p>Created: {{ account.creationDate.slice(0, 10) }} at {{ account.creationDate.slice(11, 16) }} hs.</p>
+                     <p>Balance: $ {{ account.balance.toLocaleString('en-US') }}</p>
+                     <a :href="`./account.html?id=` + account.id" class="textDetail">Transactions Detail</a>
+                     <template v-if="mostrarFormulario2">
+                        <button v-if="account.transactions.length !== 0" @click="store(account.number), showForm2">Download PDF</button>
+                     </template>
+                     <template v-if="formVisible2">
+                           <div class="login-box">
+                              <div>
+                                 <h5>Select your Dates</h5>
+                              </div>
+                              <div>
+                                 <form id="datePDF" action="">
+                                 <div>
+                                    <label for="dateIni">Initial Date</label><br>
+                                    <input type="date" id="dateIni" v-model="dateIni" min="2021-08-01" maxlength="10" required><br>
+                                    <label for="dateEnd">Final Date</label><br>
+                                    <input type="date" id="dateEnd" v-model="dateEnd" max="2023-06-30" maxlength="10" required><br>
+                                 </div>
+                                 </form>
+                              </div>
+                              <button type="button" class="btn btn-primary" @click="generatePDF(accNumber, dateIni, dateEnd)">Do It!</button>
+                           </div>
+                     </template>
+                  </div>
                </div>
             </div>
          </div>
@@ -128,7 +150,8 @@
                <p class="title">Client: {{clients.firstName}} {{clients.lastName}}</p>
                <div>
                   <p>Loan Name: {{loan.name}}</p>
-                  <p>Loan Amount: $ {{loan.amount.toLocaleString('en-US')}}</p>
+                  <p>Amount requested: $ {{loan.amount.toLocaleString('en-US')}}</p>
+                  <p>Amount to be paid: $ {{loan.finalAmount.toLocaleString('en-US')}}</p>
                   <p>Payments: {{loan.payments}}</p>
                </div>
             </div>
@@ -144,6 +167,7 @@
 <!-- partial -->
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 <script src="./accounts.js"></script>
 </body>
 </html>

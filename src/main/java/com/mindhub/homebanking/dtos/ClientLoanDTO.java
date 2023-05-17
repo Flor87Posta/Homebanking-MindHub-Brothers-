@@ -11,6 +11,8 @@ public class ClientLoanDTO {
     private long  loanId;
     private String name;
     private double amount;
+
+    private double finalAmount;
     private int payments;
 
     public ClientLoanDTO(){} //no se usan los constructores DTO en este caso porq solo enviamos la info, si tuvieramos que construir el objeto si
@@ -24,6 +26,8 @@ public class ClientLoanDTO {
         this.name = clientLoan.getLoan().getName();
 
         this.amount = clientLoan.getAmount();
+
+        this.finalAmount=clientLoan.getFinalAmount();
 
         this.payments = clientLoan.getPayments();
 
@@ -70,7 +74,11 @@ public class ClientLoanDTO {
         this.payments = payments;
     }
 
+    public double getFinalAmount() {
+        return finalAmount;
+    }
 
-
-
+    public void setFinalAmount(double finalAmount) {
+        this.finalAmount = finalAmount;
+    }
 }

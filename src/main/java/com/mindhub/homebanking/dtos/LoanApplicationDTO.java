@@ -5,6 +5,7 @@ package com.mindhub.homebanking.dtos;
 public class LoanApplicationDTO {
     private long  loanId; //es para el tipo de préstamo q elige, el preaprobado, lo elige por input o select...
     private double amount;
+
     private int payments;
     private String destinationAccNumber;
 

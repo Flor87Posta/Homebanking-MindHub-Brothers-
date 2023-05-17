@@ -1,7 +1,6 @@
 
 const {createApp} = Vue
 
-
 const app = createApp ({
     //before Created: se ejecuta justo después de que se instancia una nueva instancia de Vue, pero antes de que se
 // hayan creado las propiedades reactivas y se haya compilado la plantilla.
@@ -12,6 +11,11 @@ const app = createApp ({
             account: [],
             transactions: [],
             valorID: (new URLSearchParams(location.search)).get("id"),
+            // accNumber:"",
+            // dateini:"",
+            // dateend:"",
+            // checked:"",
+            // searchClient:"",
 
             
 
@@ -19,19 +23,19 @@ const app = createApp ({
     },
     created(){ //Created: Es el momento adecuado para realizar operaciones asíncronas, como hacer peticiones a APIs.
          // Hacer una petición a través de una función loadData
-         axios.get("http://localhost:8080/api/accounts/"+ this.valorID)
-         .then(response => {
-             this.account=response.data;
-             console.log(this.account);
+        axios.get("http://localhost:8080/api/accounts/"+ this.valorID)
+        .then(response => {
+            this.account=response.data;
+            console.log(this.account);
 
-             this.transactions=this.account.transactions;
-             this.transactions.sort((a, b) => b.id - a.id)
-             console.log(this.transactions)
-             
+            this.transactions=this.account.transactions;
+            this.transactions.sort((a, b) => b.id - a.id)
+            console.log(this.transactions)
 
 
-         })
-         .catch(err => console.log( err ));
+
+        })
+        .catch(err => console.log( err ));
         
             
 
@@ -44,6 +48,9 @@ const app = createApp ({
             axios.post('/api/logout')
             .then(response => console.log('Signed out'))
         },
+
+        
+
 
         }
 })

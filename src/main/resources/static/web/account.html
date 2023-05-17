@@ -31,7 +31,6 @@
       <ul>
          <li><a href="./index.html">Index</a></li>
          <li><a href="./accounts.html">Accounts</a></li>
-         <li><a href="./payments.html">Payments</a></li>
          <li><a href="./cards.html">Cards</a></li>
          <li><a href="./transfers.html">Transfers</a></li>
          <li><a href="#">Profile</a></li>
@@ -43,14 +42,11 @@
       <div class="content">
       
          <!-- card -->
-         <div>
-            
-               
+         <div>   
                <div>
                   <table>
                      <tr>
                         <td colspan="4" style="width: 20rem; text-align: center;">Account Number: {{account.number}}</td>
-
                         
                      </tr>
                         <tr>
@@ -66,22 +62,12 @@
                            <td style="width: 20rem; text-align: center;" :class="item.type">{{item.amount.toLocaleString('en-US')}}</td>
                            <td style="width: 20rem; text-align: center;">Transaction created on {{item.transactionDate.slice(0, 10)}} at {{item.transactionDate.slice(11, 16)}} hs.</td>
                            <td style="width: 20rem; text-align: center;">{{item.description}}</td>
-                     
-                        
                         </tr>
                      </tbody>
                   </table>
-
-
             </div>
                
-
-            
-         </div>
          <!-- end card -->
-
-      
-
       
       </div>
 

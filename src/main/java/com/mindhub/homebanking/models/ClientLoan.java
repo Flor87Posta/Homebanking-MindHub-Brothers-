@@ -15,6 +15,8 @@ public class ClientLoan {
     @GenericGenerator(name="native", strategy = "native")
     private long id;
     private double amount;
+
+    private double finalAmount;
     private int payments;
 
 
@@ -32,10 +34,11 @@ public class ClientLoan {
 
     public ClientLoan (){}
 
-    public ClientLoan (double amount, int payments) {
+    public ClientLoan (double amount, double finalAmount, int payments) {
 
         this.amount = amount;
         this.payments = payments;
+        this.finalAmount = finalAmount;
 
     }
 
@@ -82,6 +85,14 @@ public class ClientLoan {
 
     public void setLoan(Loan loan) {
         this.loan = loan;
+    }
+
+    public double getFinalAmount() {
+        return finalAmount;
+    }
+
+    public void setFinalAmount(double finalAmount) {
+        this.finalAmount = finalAmount;
     }
 
     @Override

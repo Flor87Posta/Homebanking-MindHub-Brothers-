@@ -1,5 +1,4 @@
 package com.mindhub.homebanking.controllers;
-import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.dtos.LoanApplicationDTO;
 import com.mindhub.homebanking.dtos.LoanDTO;
 import com.mindhub.homebanking.models.*;
@@ -11,7 +10,6 @@ import com.mindhub.homebanking.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
@@ -19,10 +17,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-
+import static com.mindhub.homebanking.models.TransactionType.DEBIT;
 import static java.util.stream.Collectors.toList;
 
+@CrossOrigin(origins = {"*"}) //para los CORS (ingreso desde otro servidor)
 @Transactional
 @RestController
 @RequestMapping("/api")
@@ -147,7 +145,7 @@ public class LoanController {
         //podria usar un new ClientLoan... porque Loan no me deja porq tiene la lista de cuotas...
         //y falta generar con el método de abajo para el plan de cuotas...
 
-        ClientLoan clientLoan = new ClientLoan(addedAmount, loanApplicationDTO.getPayments());
+        ClientLoan clientLoan = new ClientLoan(loanApplicationDTO.getAmount(),addedAmount, loanApplicationDTO.getPayments());
         //falta vincularle el client y el loan;porque yo no los puse en el constructor de ClientLoan a esos parametros:
         loan.addClientLoan(clientLoan);
         client.addClientLoan(clientLoan);
@@ -158,12 +156,50 @@ public class LoanController {
         return new ResponseEntity<>(" Successfull Transaction ", HttpStatus.CREATED); //código de estado HTTP 201 creado
     }
 
+    @Transactional
+    @PostMapping("/clients/current/pay-loan")
+    public ResponseEntity<Object> payLoan( @RequestParam Long idLoan , @RequestParam String account, @RequestParam Double amount,
+                                           Authentication authentication) {
+
+        Client client = clientService.findByEmail(authentication.getName());
+        Optional<ClientLoan> clientLoan = clientLoanRepository.findById(idLoan);
+        Account accountAuth = accountService.findByNumber(account);
+        String description = "Pay " + clientLoan.get().getLoan().getName() + " loan";
+//      id parameter
+        if( clientLoan == null ){
+            return new ResponseEntity<>("This loan doesn't exist", HttpStatus.FORBIDDEN);
+        } else if( client == null){
+            return new ResponseEntity<>("You are not registered as a client", HttpStatus.FORBIDDEN);}
+//        account parameter
+        if ( account.isBlank() ){
+            return new ResponseEntity<>("Please insert an account", HttpStatus.FORBIDDEN);
+        } else if ( client.getAccountSet().stream().filter(accounts -> accounts.getNumber().equalsIgnoreCase(account)).collect(toList()).size() == 0 ){
+            return new ResponseEntity<>("This account is not yours.", HttpStatus.FORBIDDEN);}
+//      amount parameter
+        if ( amount < 1 ){
+            return new ResponseEntity<>("Please insert an amount bigger than 0", HttpStatus.FORBIDDEN);
+        }  else if ( accountAuth.getBalance() < amount ){
+            return new ResponseEntity<>("Insufficient balance in your account " + accountAuth.getNumber(), HttpStatus.FORBIDDEN);}
+
+        accountAuth.setBalance( accountAuth.getBalance() - amount );
+        clientLoan.get().setFinalAmount( clientLoan.get().getFinalAmount() - amount); //ese get() es porque utilizo optional
+
+        Transaction debitLoan = new Transaction(DEBIT, amount, description , LocalDateTime.now());
+        transactionService.saveNewTransaction(debitLoan);
+        accountAuth.addTransaction(debitLoan);
+        double newBalanceDebit = accountAuth.getBalance() - amount; // Calcula el nuevo saldo
+        accountAuth.setBalance(newBalanceDebit); // Actualizo el saldo
+        accountService.saveNewAccount(accountAuth); //guardo la cuenta
+
+        if ( amount < clientLoan.get().getFinalAmount()){
+            clientLoan.get().setPayments(clientLoan.get().getPayments() - 1 ); //para actualizar la cantidad de cuotas
+        } else {
+            clientLoan.get().setPayments(0);
+        }
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
 
-    //método para calcular las cuotas del préstamo:
-  /*  private double calculatePayments(double loanAmount, double interestRate) {
-        return loanAmount * (1 + (interestRate / 100));
-    }*/
 
 
 
