@@ -89,8 +89,9 @@ public class TransactionController {
             return new ResponseEntity<>("Description exceeds maximum length of 20 characters", HttpStatus.FORBIDDEN);
         }
 
+        Double initialOriginBalanceAccount = accountOrigin.getBalance() - amount;
         String newDescriptionAccountOrigin = accountOrigin.getNumber() + description;
-        Transaction debit = new Transaction(TransactionType.DEBIT, -amount, newDescriptionAccountOrigin, LocalDateTime.now() );
+        Transaction debit = new Transaction(TransactionType.DEBIT, -amount, newDescriptionAccountOrigin, LocalDateTime.now(),initialOriginBalanceAccount );
         transactionService.saveNewTransaction(debit);
         accountOrigin.addTransaction(debit); //Agrego la transacción a la cuenta
         double newBalanceDebit = accountOrigin.getBalance() - amount; // Calcula el nuevo saldo
@@ -99,7 +100,8 @@ public class TransactionController {
         //clientDestin.addAccount(); ya queda vinculado al cliente? si, porque la cuenta esta vinculada al cliente ya por la relacion
 
         String newDescriptionAccountDestin = accountDestin.getNumber() + description;
-        Transaction credit = new Transaction(TransactionType.CREDIT, amount, newDescriptionAccountDestin, LocalDateTime.now() );
+        Double initialDestinBalanceAccount = accountDestin.getBalance() + amount;
+        Transaction credit = new Transaction(TransactionType.CREDIT, amount, newDescriptionAccountDestin, LocalDateTime.now(),initialDestinBalanceAccount );
         transactionService.saveNewTransaction(credit);
         accountDestin.addTransaction(credit); //Agrego la transacción a la cuenta
         double newBalanceCredit = accountDestin.getBalance() + amount; // Calcula el nuevo saldo

@@ -16,10 +16,9 @@ import java.time.LocalDateTime;
         private Double amount;
         private String description;
         private LocalDateTime transactionDate;
+        private double balanceTransaction;
 
-        private double balance;
 
-//        private double finalBalance; para mostrar el saldo final...pero ya esta balance.. usar o modificar esa
 
 
         @ManyToOne(fetch = FetchType.EAGER)
@@ -28,11 +27,12 @@ import java.time.LocalDateTime;
 
         public Transaction() {}
 
-        public Transaction(TransactionType type, Double amount, String description, LocalDateTime transactionDate) {
+        public Transaction(TransactionType type, Double amount, String description, LocalDateTime transactionDate, double balanceTransaction) {
             this.type = type;
             this.amount = amount;
             this.description = description;
             this.transactionDate = transactionDate;
+            this.balanceTransaction = balanceTransaction;
 
         }
 
@@ -76,12 +76,12 @@ import java.time.LocalDateTime;
         this.transactionDate = transactionDate;
     }
 
-    public double getBalance() {
-        return balance;
+    public double getBalanceTransaction() {
+        return balanceTransaction;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public void setBalanceTransaction(double balanceTransaction) {
+        this.balanceTransaction = balanceTransaction;
     }
 
     public Account getAccount() {
@@ -102,7 +102,7 @@ import java.time.LocalDateTime;
                 ", amount=" + amount +
                 ", description='" + description + '\'' +
                 ", transactionDate=" + transactionDate +
-                ", balance=" + balance +
+                ", balanceTransaction=" + balanceTransaction +
                 ", account=" + account +
                 '}';
     }

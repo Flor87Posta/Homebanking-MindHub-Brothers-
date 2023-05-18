@@ -45,11 +45,11 @@ public class HomebankingApplication {
 			Account account4 = new Account("VIN004", LocalDateTime.now(), 15000.30, SAVINGS);
 
 
-			Transaction transaction1 = new Transaction(CREDIT, 100.50, "transfer", LocalDateTime.now());
-			Transaction transaction2 = new Transaction(DEBIT, -200.00, "payShop", LocalDateTime.now());
-			Transaction transaction3 = new Transaction(CREDIT, 100.00, "deposit", LocalDateTime.now());
-			Transaction transaction4 = new Transaction(DEBIT, -200.00, "buyFood", LocalDateTime.now());
-			Transaction transaction5 = new Transaction(DEBIT, 50.00, "payCoffee", LocalDateTime.now().plusDays(1));
+			Transaction transaction1 = new Transaction(CREDIT, 100.50, "transfer", LocalDateTime.now(), 5000.01);
+			Transaction transaction2 = new Transaction(DEBIT, -200.00, "payShop", LocalDateTime.now(), 7500.80);
+			Transaction transaction3 = new Transaction(CREDIT, 100.00, "deposit", LocalDateTime.now(), 10000.50);
+			Transaction transaction4 = new Transaction(DEBIT, -200.00, "buyFood", LocalDateTime.now(), 15000.30);
+			Transaction transaction5 = new Transaction(DEBIT, -50.00, "payCoffee", LocalDateTime.now().plusDays(1), 5000.01);
 
 			Loan loan1 = new Loan("MORTGAGE", 500000, (List.of(12,24,36,48,60)));
 			Loan loan2 = new Loan("PERSONAL", 100000, (List.of(6,12,24)));

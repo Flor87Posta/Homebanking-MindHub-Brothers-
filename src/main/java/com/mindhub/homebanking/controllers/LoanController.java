@@ -44,7 +44,7 @@ public class LoanController {
 //    @RequestMapping(path = "/loans",method = RequestMethod.GET)
     @GetMapping("/loans")
     public List<LoanDTO> getLoans(){
-        return loanService.getLoans();} //retorna una lista de loanDTO
+        return loanService.getLoansDTO();} //retorna una lista de loanDTO
 
 
 //    @RequestMapping(path = "/clients/current/loans", method = RequestMethod.POST)
@@ -133,8 +133,8 @@ public class LoanController {
         }
         //entonces ahora para crear el préstamo creo primero la transacción del tipo CREDIT:
         String newDescriptionLoan = loan.getName() + "loan approved";
-
-        Transaction creditLoan = new Transaction(TransactionType.CREDIT, loanApplicationDTO.getAmount(), newDescriptionLoan, LocalDateTime.now());
+        Double initialBalanceclientAcc = clientAcc.getBalance() + loanApplicationDTO.getAmount();
+        Transaction creditLoan = new Transaction(TransactionType.CREDIT, loanApplicationDTO.getAmount(), newDescriptionLoan, LocalDateTime.now(), initialBalanceclientAcc);
         clientAcc.addTransaction(creditLoan); //Agrego la transacción a la cuenta destino
         transactionService.saveNewTransaction(creditLoan);
         double newBalanceCredit = clientAcc.getBalance() + loanApplicationDTO.getAmount(); // Calcula el nuevo saldo
@@ -181,10 +181,11 @@ public class LoanController {
         }  else if ( accountAuth.getBalance() < amount ){
             return new ResponseEntity<>("Insufficient balance in your account " + accountAuth.getNumber(), HttpStatus.FORBIDDEN);}
 
+        Double initialBalanceaccountAuth = accountAuth.getBalance() - amount;
         accountAuth.setBalance( accountAuth.getBalance() - amount );
         clientLoan.get().setFinalAmount( clientLoan.get().getFinalAmount() - amount); //ese get() es porque utilizo optional
 
-        Transaction debitLoan = new Transaction(DEBIT, amount, description , LocalDateTime.now());
+        Transaction debitLoan = new Transaction(DEBIT, amount, description , LocalDateTime.now(), initialBalanceaccountAuth);
         transactionService.saveNewTransaction(debitLoan);
         accountAuth.addTransaction(debitLoan);
   /*      double newBalanceDebit = accountAuth.getBalance() - amount; // Calcula el nuevo saldo // pero ya lo hice arriba
@@ -199,6 +200,26 @@ public class LoanController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PostMapping("/loans/admin-loan")
+    public ResponseEntity<Object> newLoanAdmin(@RequestBody Loan loan) {
+        if (loan.getName().isBlank()){
+            return new ResponseEntity<>("Please insert a loan name", HttpStatus.FORBIDDEN);
+        } else if( loan.getMaxAmount() < 1 ){
+            return new ResponseEntity<>("Please insert an amount bigger than 1", HttpStatus.FORBIDDEN);
+        } else if ( loan.getPayments().size() == 0 ){
+            return new ResponseEntity<>("Please insert valid payments", HttpStatus.FORBIDDEN);
+        }
+
+        for ( Loan loans : loanService.getLoans() ){
+            if ( loan.getName().equalsIgnoreCase(loans.getName()) ){
+                return new ResponseEntity<>("This type of loan " + loan.getName() + " is already used", HttpStatus.FORBIDDEN);}
+        };
+
+        Loan newLoan = new Loan(loan.getName(), loan.getMaxAmount() , loan.getPayments());
+        loanService.saveNewLoan(newLoan);
+
+        return new ResponseEntity<>("A new type of loan is created", HttpStatus.CREATED);
+    }
 
 
 

@@ -10,6 +10,8 @@ public interface LoanService {
     Loan findById(long id);
     void saveNewLoan(Loan loan);
 
-    List<LoanDTO> getLoans();
+    List<LoanDTO> getLoansDTO();
+
+    List<Loan> getLoans();
 
 }

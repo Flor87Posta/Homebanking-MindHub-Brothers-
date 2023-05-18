@@ -256,7 +256,9 @@ public class CardController {
             Account accountToBeDebited = optionalAccountToBeDebited.get();
             // Realizo las operaciones con la cuenta encontrada
 
-            Transaction paymentCard = new Transaction(TransactionType.DEBIT, paymentDTO.getAmount(), paymentDTO.getDescription(), LocalDateTime.now() );
+
+            Double initialBalanceaccountToBeDebited = accountToBeDebited.getBalance() - paymentDTO.getAmount();
+            Transaction paymentCard = new Transaction(TransactionType.DEBIT, paymentDTO.getAmount(), paymentDTO.getDescription(), LocalDateTime.now(),initialBalanceaccountToBeDebited );
             transactionService.saveNewTransaction(paymentCard);
             accountToBeDebited.addTransaction(paymentCard);
             double newBalanceDebit = accountToBeDebited.getBalance() - paymentDTO.getAmount(); // Calcula el nuevo saldo

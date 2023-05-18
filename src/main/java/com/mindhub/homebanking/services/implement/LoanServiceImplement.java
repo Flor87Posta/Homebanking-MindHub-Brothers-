@@ -24,11 +24,17 @@ public class LoanServiceImplement implements LoanService {
 
     @Override
     public void saveNewLoan(Loan loan) {
+        loanRepository.save(loan);
 
     }
 
     @Override
-    public List<LoanDTO> getLoans() {
+    public List<LoanDTO> getLoansDTO() {
         return loanRepository.findAll().stream().map(loan -> new LoanDTO(loan)).collect(toList());
+    }
+
+    @Override
+    public List<Loan> getLoans() {
+        return loanRepository.findAll();
     }
 }

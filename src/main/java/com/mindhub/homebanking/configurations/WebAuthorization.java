@@ -31,7 +31,9 @@ class WebAuthorization {
                 .antMatchers(HttpMethod.POST,"/api/logout").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/clients/current/pay-card").permitAll()
 
+
 //                ADMIN
+                .antMatchers(HttpMethod.POST, "/api/loans/admin-loan").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.PATCH, "/api/clients").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/clients").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.PATCH, "/api/accounts").hasAuthority("ADMIN")
@@ -41,6 +43,8 @@ class WebAuthorization {
                 .antMatchers("/manager.html").hasAuthority("ADMIN")
                 .antMatchers("http://localhost:8080/h2-console").hasAuthority("ADMIN")
                 .antMatchers("/rest/**").hasAuthority("ADMIN")
+
+
 
 //                CLIENT
                 .antMatchers(HttpMethod.POST, "/api/clients/current").hasAuthority("CLIENT")

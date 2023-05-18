@@ -54,6 +54,7 @@
                            <td colspan="1">Amount</td>
                            <td colspan="1">TransactionDate</td>
                            <td colspan="1">Description</td>
+                           <td colspan="1">Balance</td>
                            
                         </tr>
                      <tbody>
@@ -62,6 +63,7 @@
                            <td style="width: 20rem; text-align: center;" :class="item.type">{{item.amount.toLocaleString('en-US')}}</td>
                            <td style="width: 20rem; text-align: center;">Transaction created on {{item.transactionDate.slice(0, 10)}} at {{item.transactionDate.slice(11, 16)}} hs.</td>
                            <td style="width: 20rem; text-align: center;">{{item.description}}</td>
+                           <td style="width: 20rem; text-align: center;">{{item.balance.toLocaleString('en-US')}}</td>
                         </tr>
                      </tbody>
                   </table>

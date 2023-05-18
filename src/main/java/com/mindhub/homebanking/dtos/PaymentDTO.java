@@ -70,11 +70,5 @@ public class PaymentDTO {
         this.typeCard=typeCard;
         this.email=email;
 
-
-
-
-
-
-
     }
 }
