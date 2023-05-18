@@ -187,8 +187,8 @@ public class LoanController {
         Transaction debitLoan = new Transaction(DEBIT, amount, description , LocalDateTime.now());
         transactionService.saveNewTransaction(debitLoan);
         accountAuth.addTransaction(debitLoan);
-        double newBalanceDebit = accountAuth.getBalance() - amount; // Calcula el nuevo saldo
-        accountAuth.setBalance(newBalanceDebit); // Actualizo el saldo
+  /*      double newBalanceDebit = accountAuth.getBalance() - amount; // Calcula el nuevo saldo // pero ya lo hice arriba
+        accountAuth.setBalance(newBalanceDebit); // Actualizo el saldo*/
         accountService.saveNewAccount(accountAuth); //guardo la cuenta
 
         if ( amount < clientLoan.get().getFinalAmount()){

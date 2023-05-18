@@ -182,7 +182,7 @@ createApp({
                 confirmButtonText: 'Sure',
                 confirmButtonColor: "#7c601893",
                 preConfirm: () => {
-                    return axios.post('/api/client/current/pay-loan', `loanId=${this.dataFilter.id}&account=${this.account}&amount=${this.amount}`)
+                    return axios.post('/api/clients/current/pay-loan', `idLoan=${this.dataFilter.id}&account=${this.account}&amount=${this.amount}`)
                     .then(response => {
                             Swal.fire({
                                 icon: 'success',

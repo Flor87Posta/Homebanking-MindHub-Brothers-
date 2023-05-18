@@ -110,7 +110,7 @@ public class TransactionController {
     }
 
     @PostMapping ("/clients/current/export-pdf")
-    public ResponseEntity<String> ExportingToPDF(HttpServletResponse response, Authentication authentication, @RequestParam String accNumber, @RequestParam String dateIni, @RequestParam String dateEnd) throws DocumentException, IOException {
+    public ResponseEntity<Object> ExportingToPDF(HttpServletResponse response, Authentication authentication, @RequestParam String accNumber, @RequestParam String dateIni, @RequestParam String dateEnd) throws DocumentException, IOException {
 
         Client client = clientService.findByEmail(authentication.getName());
         Account account = accountService.findByNumber(accNumber);
@@ -140,6 +140,22 @@ public class TransactionController {
         String headerValue = "attachment; filename=Transactions" + accNumber + ".pdf";
         response.setHeader(headerKey, headerValue);
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime dateTimeIni = LocalDateTime.parse(dateIni, formatter);
+        LocalDateTime dateTimeEnd = LocalDateTime.parse(dateEnd, formatter);
+
+        List<Transaction> listTransactions = transactionService.findByCreatedBetweenDates(client, accNumber, dateTimeIni, dateTimeEnd);
+
+        TransactionPDFExporter exporter = new TransactionPDFExporter(listTransactions);
+        exporter.usePDFExport(response); // Genera el archivo PDF y envíalo como respuesta
+
+        return new ResponseEntity<>("PDF is created", HttpStatus.CREATED);
+      /*  response.setContentType("application/pdf");
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=Transactions" + accNumber + ".pdf";
+        response.setHeader(headerKey, headerValue);
+
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime dateTimeIni = parse(dateIni, formatter);
@@ -153,7 +169,7 @@ public class TransactionController {
         exporter.usePDFExport(response);
         System.out.println("PDF created");
 
-        return new ResponseEntity<>("PDF is created", HttpStatus.CREATED);
+        return new ResponseEntity<>("PDF is created", HttpStatus.CREATED);*/
     }
 }
 

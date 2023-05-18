@@ -11,8 +11,9 @@ const app = Vue.createApp({
         accountType: '',
         formVisible: false,
         mostrarFormulario1: true,
-        formVisible2: false,
+        // formVisible2: false,
         mostrarFormulario2: true,
+        selectedAccount: null,
         accNumber: '',
         dateIni: '',
         dateEnd: '',
@@ -76,9 +77,16 @@ const app = Vue.createApp({
         this.formVisible = true;
         this.mostrarFormulario1 = false;
       },
-      showForm2() {
-        this.formVisible2 = true;
-        this.mostrarFormulario2 = false;
+      // showForm2() {
+      //   this.storeAndShowForm(this.account.number);
+      //   this.formVisible2 = true;
+      //   this.mostrarFormulario2 = false;
+      // },
+      storeAndShowForm(accountNumber) {
+        this.store(accountNumber);
+        this.selectedAccount = accountNumber;
+        // this.formVisible2 = true;
+        // this.mostrarFormulario2 = false;
       },
       generatePDF(accNumber, dateIni, dateEnd) {
         if (this.dateIni !== "" && this.dateEnd !== "") {

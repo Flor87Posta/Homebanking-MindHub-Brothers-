@@ -47,6 +47,7 @@ class WebAuthorization {
                 .antMatchers(HttpMethod.POST, "/api/clients/current/accounts").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.POST, "/api/clients/current/cards").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.POST, "/api/clients/current/delete-card").hasAuthority("CLIENT")
+                .antMatchers(HttpMethod.POST, "/api/clients/current/export-pdf").hasAuthority("CLIENT")
                 .antMatchers("/api/clients/current").hasAuthority("CLIENT")
                 .antMatchers("/api/clients/current/accounts").hasAuthority("CLIENT")
                 .antMatchers("/api/clients/current/cards").hasAuthority("CLIENT")

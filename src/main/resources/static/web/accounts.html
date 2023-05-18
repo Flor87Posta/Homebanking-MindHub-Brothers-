@@ -74,7 +74,7 @@
                                  SAVINGS
                               </label>
                            </div>   
-                           <input type="submit" value="Create" @click.prevent="newAccount">                        
+                           <input type="submit" value="Create" @click.prevent="newAccount" >                        
                         </div>  
                                              
                      </form> 
@@ -115,27 +115,27 @@
                      <p>Created: {{ account.creationDate.slice(0, 10) }} at {{ account.creationDate.slice(11, 16) }} hs.</p>
                      <p>Balance: $ {{ account.balance.toLocaleString('en-US') }}</p>
                      <a :href="`./account.html?id=` + account.id" class="textDetail">Transactions Detail</a>
-                     <template v-if="mostrarFormulario2">
-                        <button v-if="account.transactions.length !== 0" @click="store(account.number), showForm2">Download PDF</button>
-                     </template>
-                     <template v-if="formVisible2">
-                           <div class="login-box">
-                              <div>
-                                 <h5>Select your Dates</h5>
-                              </div>
-                              <div>
-                                 <form id="datePDF" action="">
+                     <div v-if="mostrarFormulario2">
+                        <button v-if="account.transactions.length !== 0" @click="storeAndShowForm(account.number)">Download PDF</button>
+                           <div v-if="selectedAccount === account.number" class="login-box">
                                  <div>
-                                    <label for="dateIni">Initial Date</label><br>
-                                    <input type="date" id="dateIni" v-model="dateIni" min="2021-08-01" maxlength="10" required><br>
-                                    <label for="dateEnd">Final Date</label><br>
-                                    <input type="date" id="dateEnd" v-model="dateEnd" max="2023-06-30" maxlength="10" required><br>
+                                    <div>
+                                       <h5>Select your Dates</h5>
+                                    </div>
+                                    <div>
+                                       <form id="datePDF" action="">
+                                       <div>
+                                          <label for="dateIni">Initial Date</label><br>
+                                          <input type="date" id="dateIni" v-model="dateIni" min="2021-08-01" maxlength="10" required><br>
+                                          <label for="dateEnd">Final Date</label><br>
+                                          <input type="date" id="dateEnd" v-model="dateEnd" max="2023-06-30" maxlength="10" required><br>
+                                       </div>
+                                       </form>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" @click="generatePDF(accNumber, dateIni, dateEnd)">Do It!</button>
                                  </div>
-                                 </form>
-                              </div>
-                              <button type="button" class="btn btn-primary" @click="generatePDF(accNumber, dateIni, dateEnd)">Do It!</button>
                            </div>
-                     </template>
+                     </div>
                   </div>
                </div>
             </div>
