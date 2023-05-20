@@ -16,6 +16,30 @@ const app = createApp ({
             // dateend:"",
             // checked:"",
             // searchClient:"",
+            
+
+            eyeToggled: true,
+            client: undefined,
+            clientAccounts: [],
+            currentId: null,
+            totalBalance: 0,
+            createdAcc: false,
+            maxAcc: false,
+            requestedAmount: 0,
+            requestedPayments: 0,
+            loanDTO: undefined,
+            finalPayments: 0,
+            loanId: "",
+            loanType: "",
+            destinationAccNumber: null,
+            loanSuccess: false,
+            loanError: false,
+            loading: true,
+            accType: null,
+            loanErrorMessage: null,
+            accountToDelete: null,
+            deletedAccError:null,
+            deletedAccMsg:null,
 
             
 
@@ -49,7 +73,44 @@ const app = createApp ({
             .then(response => console.log('Signed out'))
         },
 
+        deleteAccount() {Swal.fire({
+            icon: 'warning',
+            title: 'You are deleting a Account..¿Are you sure?',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete Account',
+            cancelButtonText: 'Cancel',
+            timer: 6000,
+        }).then((result) => {
+            if (result.isConfirmed) {
+            axios.post('/api/clients/current/delete-account?accId=' + this.accountToDelete)
+                .then(response => {
+                    if (response.status === 200) {
+                        console.log(response),
+                        window.location.href='/web/accounts.html',
+                        this.loadData()
+                        Swal.fire({
+                            icon: 'Success!',
+                            title: 'You Delete a Account!',
+                            showCancelButton: true,
+                            confirmButtonText: 'Accepted',
+                            cancelButtonText: 'Cancel',
+                            timer: 6000,
+                        })
+                    }  
+                })
+                .catch(error => Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.response.data,
+                    timer: 6000,
+                }))
+                    }
+                        })
+                            },
         
+        setAccountToDelete(id){
+            this.accountToDelete = id;
+        },
 
 
         }

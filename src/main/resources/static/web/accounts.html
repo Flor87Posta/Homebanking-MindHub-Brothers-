@@ -102,9 +102,9 @@
 
       <div id="directionCards" >
          <!-- card -->
-         <div>
-            <div>
-               <div class="cardAccounts" v-for="account of clients.accounts">
+         <div >
+            <div v-for="account in getVisibleAccounts()" :key="account.id">
+              <div class="cardAccounts">  <!-- v-for="account of clients.accounts"  -->
                   <div class="icon">
                   <i class="material-icons md-36"></i>
                   </div>

@@ -1,7 +1,6 @@
 package com.mindhub.homebanking.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -21,6 +20,8 @@ public class Account {
     private Double balance;
     private AccountType accountType;
 
+    private boolean hidden;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
     private Client client;
@@ -30,11 +31,12 @@ public class Account {
 
     public Account(){}
 
-    public Account(String number, LocalDateTime creationDate, Double balance, AccountType accountType) {
+    public Account(String number, LocalDateTime creationDate, Double balance, AccountType accountType, boolean hidden) {
         this.number = number;
         this.creationDate = creationDate;
         this.balance = balance;
         this.accountType = accountType;
+        this.hidden=hidden;
     }
 
     public long getId() {
@@ -85,11 +87,23 @@ public class Account {
     public void setTransactions(Set<Transaction> transactions) {
         this.transactions = transactions;
     }
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
+    }
     public AccountType getAccountType() {
         return accountType;
     }
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
 
@@ -107,7 +121,7 @@ public class Account {
         return accountNumber = "VIN" + String.format("%08d", numberGenerated);
     }
 
-    //metodo para formato de los numeros: (lo hice desde front al final)
+    //método para formato de los números: (lo hice desde front al final)
 
         public void format (String[] args) {
             double numero = 5000.0;

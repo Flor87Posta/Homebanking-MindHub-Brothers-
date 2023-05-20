@@ -106,7 +106,7 @@ createApp({
                                     confirmButtonText: 'Accepted',
                                     cancelButtonText: 'Cancel',
                                     timer: 6000,
-                                })
+                                }).then( () => window.location.href="/web/accounts.html")
                         }
                     
                 }).catch(error => Swal.fire({

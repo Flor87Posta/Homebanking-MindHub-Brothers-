@@ -91,7 +91,7 @@ public class ClientController {
         } while (accountRepository.findByNumber(accountNumber) != null); //findByNumber: método creado en account repository
 
         Client newClient = new Client(firstName, lastName, email, passwordEncoder.encode(password));
-        Account newAccount = new Account(accountNumber, LocalDateTime.now(), 0.0, AccountType.SAVINGS);
+        Account newAccount = new Account(accountNumber, LocalDateTime.now(), 0.0, AccountType.SAVINGS, false);
         clientService.saveNewClient(newClient);
         newClient.addAccount(newAccount);
         accountRepository.save(newAccount);

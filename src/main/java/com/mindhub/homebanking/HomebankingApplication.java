@@ -39,17 +39,17 @@ public class HomebankingApplication {
 			Client client3 = new Client("Clara", "Gonzalez", "claragonzalez@mindhub.com", passwordEncoder.encode("cla1313gon"));
 			Client admin = new Client("Florencia", "Postacchini","florys_211@hotmail.com", passwordEncoder.encode("flo1014pos"));
 
-			Account account1 = new Account("VIN001", LocalDateTime.now(), 5000.01, SAVINGS);
-			Account account2 = new Account("VIN002", LocalDateTime.now().plusDays(1), 7500.80, CURRENT);
-			Account account3 = new Account("VIN003", LocalDateTime.now(), 10000.50, SAVINGS);
-			Account account4 = new Account("VIN004", LocalDateTime.now(), 15000.30, SAVINGS);
+			Account account1 = new Account("VIN001", LocalDateTime.now(), 5000.01, SAVINGS, false);
+			Account account2 = new Account("VIN002", LocalDateTime.now().plusDays(1), 7500.80, CURRENT, false);
+			Account account3 = new Account("VIN003", LocalDateTime.now(), 10000.50, SAVINGS, false);
+			Account account4 = new Account("VIN004", LocalDateTime.now(), 15000.30, SAVINGS, false);
 
 
 			Transaction transaction1 = new Transaction(CREDIT, 100.50, "transfer", LocalDateTime.now(), 5000.01);
 			Transaction transaction2 = new Transaction(DEBIT, -200.00, "payShop", LocalDateTime.now(), 7500.80);
 			Transaction transaction3 = new Transaction(CREDIT, 100.00, "deposit", LocalDateTime.now(), 10000.50);
 			Transaction transaction4 = new Transaction(DEBIT, -200.00, "buyFood", LocalDateTime.now(), 15000.30);
-			Transaction transaction5 = new Transaction(DEBIT, -50.00, "payCoffee", LocalDateTime.now().plusDays(1), 5000.01);
+			Transaction transaction5 = new Transaction(DEBIT, -50.00, "payCoffee", LocalDateTime.now().plusDays(1), 4899.51);
 
 			Loan loan1 = new Loan("MORTGAGE", 500000, (List.of(12,24,36,48,60)));
 			Loan loan2 = new Loan("PERSONAL", 100000, (List.of(6,12,24)));

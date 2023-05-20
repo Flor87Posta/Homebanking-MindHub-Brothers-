@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@NamedQuery(name="Client.findByEmail", query="select u from Client u where u.email= ?1")
+//@NamedQuery(name="Client.findByEmail", query="select u from Client u where u.email= ?1")
 public class Client {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
@@ -19,7 +19,8 @@ public class Client {
 
     private String password;
 
-    @OneToMany(mappedBy="client", fetch= FetchType.EAGER) //asociado a client, definido en la clase Account
+    @OneToMany(mappedBy="client", fetch= FetchType.EAGER) //asociado a client definido en la clase Account, fijarse q
+    // este el mappedBy para que no genere una tabla intermedia en blanco
     private Set<Account> accounts = new HashSet<>(); // set para evitar datos duplicados
     //accounts como nuevo atributo de la tabla Client
 

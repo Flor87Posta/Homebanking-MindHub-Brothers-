@@ -4,6 +4,7 @@ const app = Vue.createApp({
         firstName: '',
         lastName: '',
         accounts: [],
+        hidden:[],
         clients: [],
         loans: [],
         createdAccount: false,
@@ -30,11 +31,17 @@ const app = Vue.createApp({
           .then(response => {
             this.clients = response.data;
             this.accounts = this.clients.accounts;
+            console.log(this.accounts)
             this.loans = this.clients.loans;
             this.condicion = this.accounts.length <= 3;
           })
           .catch(err => console.log(err));
       },
+      
+        getVisibleAccounts() {
+          return this.accounts.filter(account => !account.hidden);
+        },
+
       logout() {
         axios.post('/api/logout')
           .then(response => console.log('Signed out'));
@@ -51,7 +58,7 @@ const app = Vue.createApp({
           if (result.isConfirmed) {
             axios.post('/api/clients/current/accounts', `accountType=${this.accountType}`)
               .then(response => {
-                if (response.status === "201") {
+                if (response.status === "200") {
                   this.createdAccount = true;
                   this.loadData();
                   Swal.fire({
@@ -61,9 +68,9 @@ const app = Vue.createApp({
                     confirmButtonText: 'Accepted',
                     cancelButtonText: 'Cancel',
                     timer: 6000,
-                  });
+                  })
                 }
-              })
+              }).then( () => window.location.href="/web/accounts.html")
               .catch(error => Swal.fire({
                 icon: 'error',
                 title: 'Error',

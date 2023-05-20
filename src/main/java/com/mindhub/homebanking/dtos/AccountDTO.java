@@ -16,6 +16,8 @@ public class AccountDTO {
 
     private AccountType accountType;
 
+    private boolean hidden;
+
     public Set<TransactionDTO> transactions;
 
 
@@ -33,7 +35,10 @@ public class AccountDTO {
 
         this.accountType = account.getAccountType();
 
+        this.hidden= account.isHidden();
+
         this.transactions = account.getTransactionSet().stream().map(transaction -> new TransactionDTO(transaction)).collect(Collectors.toSet());
+
 
     }
 
@@ -83,6 +88,14 @@ public class AccountDTO {
 
     public void setTransactions(Set<TransactionDTO> transactions) {
         this.transactions = transactions;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
     @Override

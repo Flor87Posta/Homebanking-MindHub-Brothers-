@@ -1,7 +1,6 @@
 package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.dtos.PaymentDTO;
 import com.mindhub.homebanking.models.*;
-
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.CardService;
 import com.mindhub.homebanking.services.ClientService;
@@ -12,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

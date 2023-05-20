@@ -19,7 +19,7 @@ class WebAuthorization {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests()
+        http.cors().and().authorizeRequests()
 
                 //                PERMIT ALL
                 .antMatchers("/web/index.html/").permitAll()

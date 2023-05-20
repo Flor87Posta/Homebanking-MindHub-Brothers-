@@ -3,8 +3,7 @@ import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.AccountType;
 import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
+
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
 import com.mindhub.homebanking.utils.AccountUtils;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -58,7 +56,7 @@ public class AccountController {
                 do {
                     accountNumber = AccountUtils.getAccountNumber();
                 } while (accountService.findByNumber(accountNumber) != null); //para corroborar que esa cuenta no exista ya
-                Account accountGenerated = new Account(accountNumber, LocalDateTime.now(), 0.0, AccountType.valueOf(accountType.toUpperCase()));
+                Account accountGenerated = new Account(accountNumber, LocalDateTime.now(), 0.0, AccountType.valueOf(accountType.toUpperCase()), false);
                 accountService.saveNewAccount(accountGenerated);
                 client.addAccount(accountGenerated);
                 clientService.saveNewClient(client);
@@ -73,5 +71,28 @@ public class AccountController {
         }
     }
 
+    @PostMapping("clients/current/delete-account")
+    public ResponseEntity<Object> deleteAccount(@RequestParam long accId, Authentication auth) { //para ocultarla
+        Client client = clientService.findByEmail(auth.getName());
+        Account account = accountService.findById(accId);
+        if (account == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account with id " + account.getNumber() + " not found.");
+        }
+        if (account.getClient() == client) {
+            // verificar si la cuenta que se está eliminando es la última que tiene el cliente:
+            List<Account> accounts = accountService.findByClient(client);
+            if (accounts.size() == 1 && accounts.get(0).equals(account)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You cannot delete your only account.");
+            }else if(account.getBalance()>0){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You still have balance in this account.");
+            }else {
+                account.setHidden(true);
+                accountService.saveNewAccount(account);
+                return ResponseEntity.ok("Account deleted successfully");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not own this account with.");
+        }
+    }
 
-}
+    }

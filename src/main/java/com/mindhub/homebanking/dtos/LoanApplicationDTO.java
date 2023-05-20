@@ -10,7 +10,10 @@ public class LoanApplicationDTO {
     private String destinationAccNumber;
 
     public LoanApplicationDTO(){} //constructor vacío para que cuando se envíe el objeto desde el front pueda crearlos
-    //este DTO es creado solo para recibir info , no para enviar info
+    //este DTO es creado solo para recibir info , no para enviar info,
+    // Jackson transforma el json q viene del front a objeto java
+    // para enviar utilizo el constructor sobrecargado que
+    //sigue:
 
     public LoanApplicationDTO(long loanId, double amount, int payments, String destinationAccNumber) {
         this.loanId = loanId;
