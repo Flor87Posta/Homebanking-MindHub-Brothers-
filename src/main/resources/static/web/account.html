@@ -73,15 +73,14 @@
   
                      <div class="user-card flex-container align-middle align-center text-center flex-dir-column">
                         <h4> </h4>
-                        <a href="#" @click.prevent="setAccountToDelete(account.id)" class="delete-anchor"
-                           data-open="deleteAccModal"> <i class="fa-solid fa-trash"></i>Delete</a>
+                        <button id="button"><a href="#" @click.prevent="setAccountToDelete(account.id)" class="delete-anchor"
+                           data-open="deleteAccModal"> <i class="fa-solid fa-trash"></i>Delete</a></button>
                      </div>
                      <div class="reveal" id="deleteAccModal" data-reveal>
                         <p class="lead">Are you sure you want to delete this account ? </p>
-                        <button class="box-shadow-btn" @click.prevent="deleteAccount" data-close>Confirm</button>
-                        <button class="close-button" data-close aria-label="Close modal" type="button">
-                           <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button class="box-shadow-btn" @click.prevent="deleteAccount" data-close id="button">Confirm</button>
+                        <button id="button" type="button" onclick="window.location.href='http://localhost:8080/web/accounts.html'">Back</button>
+
                      </div>
 
          <!-- end card -->

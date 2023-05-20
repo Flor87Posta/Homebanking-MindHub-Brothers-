@@ -42,8 +42,8 @@
 </header>
 <!-- end about -->
 
-      <button  @click="newAccount" v-show="condicion"></button>
-      <a class="login-box-landPage-cards" href="./create-cards.html">Created your card Here!</a>
+      <button  @click="newAccount" v-show="condicion" class="btn"></button>
+      <a class="btn" href="./create-cards.html">Created your card Here</a>
       </button>
 
       <div id="directionCards">
@@ -56,12 +56,12 @@
             </button>
          </div>
       </div>
-      <div id="directionCards"  v-if="debitCards.length !=0" >
-         <template v-for="card of debitCards">
+      <div id="directionCards"  v-if="debitCards.length !=0" id="spaceCard">
+         <template v-for="card of debitCards" id="spaceCard" id="spaceCard">
             <!-- card -->
-            <div class="flip-card" v-if="!card.hidden">
-               <div class="flip-card-inner">
-                  <div class="flip-card-front" :class="card.color">
+            <div class="flip-card" v-if="!card.hidden" id="spaceCard">
+               <div class="flip-card-inner" id="spaceCard">
+                  <div class="flip-card-front" :class="card.color" >
                         <p class="heading_8265">MindHub Brothers Bank</p>
                      <p class="heading_8264">MASTERCARD debit {{card.color}}</p>
                      <svg viewBox="0 0 48 48" height="36" width="36" y="0px" x="0px" xmlns="http://www.w3.org/2000/svg" class="logo">
