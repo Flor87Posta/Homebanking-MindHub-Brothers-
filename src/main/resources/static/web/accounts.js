@@ -53,12 +53,17 @@ const app = Vue.createApp({
           showCancelButton: true,
           confirmButtonText: 'Yes, create new Account',
           cancelButtonText: 'Cancel',
+          confirmButtonColor: "#7116d8",
+          cancelButtonColor: "#f44336",
           timer: 6000,
+          background: '#333',
+          textColor: '#FFFFFF',
+
         }).then((result) => {
           if (result.isConfirmed) {
             axios.post('/api/clients/current/accounts', `accountType=${this.accountType}`)
               .then(response => {
-                if (response.status === "200") {
+                if (response.status === "201") {
                   this.createdAccount = true;
                   this.loadData();
                   Swal.fire({
@@ -76,6 +81,11 @@ const app = Vue.createApp({
                 title: 'Error',
                 text: error.response.data,
                 timer: 6000,
+                confirmButtonColor: "#7116d8",
+                cancelButtonColor: "#f44336",
+                timer: 6000,
+                background: '#333',
+                textColor: '#FFFFFF',
               }));
           }
         });

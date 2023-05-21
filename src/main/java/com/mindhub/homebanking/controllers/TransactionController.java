@@ -148,7 +148,7 @@ public class TransactionController {
 
         List<Transaction> listTransactions = transactionService.findByCreatedBetweenDates(client, accNumber, dateTimeIni, dateTimeEnd);
 
-        TransactionPDFExporter exporter = new TransactionPDFExporter(listTransactions);
+        TransactionPDFExporter exporter = new TransactionPDFExporter(client, account, listTransactions);
         exporter.usePDFExport(response); // Genera el archivo PDF y envíalo como respuesta
 
         return new ResponseEntity<>("PDF is created", HttpStatus.CREATED);

@@ -7,6 +7,7 @@ import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.services.ClientService;
+//import com.mindhub.homebanking.services.EmailService;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public class ClientController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+   /* @Autowired
+    private EmailService emailService;*/
+
 //    @RequestMapping("/clients") // si no se aclara método por defecto es GET
     @GetMapping("/clients")
     public List<ClientDTO> getClients() { //definí un método público llamado getClients del tipo Lista que retorna una List<ClientDTO>
@@ -57,30 +61,31 @@ public class ClientController {
             @RequestParam String firstName, @RequestParam String lastName,
             @RequestParam String email, @RequestParam String password) { //son todos los parámetros que envía el usuario al registrarse
 
+        // Registra al usuario y genera un token de verificación
 
+    /*    String token = emailService.register(user);
+
+    // Envía un correo electrónico de confirmación al usuario
+
+        emailService.sendConfirmationEmail(email, token);*/
         if (firstName.isEmpty() ) {
-
             return new ResponseEntity<>("Please, write your firstname", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
         }
 
 
         if (lastName.isEmpty()) {
-
             return new ResponseEntity<>("Please, write your lastname", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
         }
 
         if (email.isEmpty()) {
-
             return new ResponseEntity<>("Please, write your email", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
         }
 
         if (password.isEmpty()) {
-
             return new ResponseEntity<>("Please, write your password", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
         }
 
         if (clientService.findByEmail(email) != null) {
-
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN); //código de estado HTTP 403 prohibido
 
         }

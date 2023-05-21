@@ -625,7 +625,26 @@ strong {
   color: #FFFFFF;
   text-shadow: 0 0 4px white;
 }
+/* 
+para alertas: */
 
+
+
+.swal-custom-popup {
+  background-color: #7116d8; /* Cambia el color de fondo según tus preferencias */
+}
+
+.swal-custom-content {
+  color: #333; /* Cambia el color del contenido según tus preferencias */
+}
+
+.swal-custom-confirm {
+  background-color: #4caf50; /* Cambia el color del botón de confirmación según tus preferencias */
+}
+
+.swal-custom-cancel {
+  background-color: #f44336; /* Cambia el color del botón de cancelación según tus preferencias */
+}
 /* #glow {
   position: absolute;
   display: flex;
