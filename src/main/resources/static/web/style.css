@@ -1,0 +1,1283 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	text-decoration: none !important;
+	font-family: 'Russo One', sans-serif;
+  color: white;
+}
+body {
+  
+  width: 100%;
+
+  background-image: url(./assets/fondoIndex.png);
+  background-size: cover;
+  background-repeat: no-repeat; /* Evita la repetición de la imagen de fondo */
+  background-position: center; /* Alinea la imagen al centro del contenedor */
+
+  min-height: 100vh; /* Ajusta el contenedor para que tenga al menos el alto de la ventana del navegador */
+  display: flex; /* Utilizamos flexbox para alinear y centrar el contenido */
+  flex-direction: column;
+  align-items: center; /* Centra verticalmente el contenido */
+  font-family: 'Russo One', sans-serif;
+  color: white;
+}
+
+header{
+  width: 100%; 
+  height: 15vw;
+  position: relative;
+  overflow: hidden;
+
+}
+
+nav {
+  position: fixed;
+  z-index: 1 ;
+  top: 0;
+  right: 0;
+  background-color: #333;
+  overflow: hidden;
+  font-family: 'Russo One', sans-serif;
+  box-shadow: 0px 1px 5px 0px #FF1287(0, 0, 0, 0.99);
+	-webkit-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.99);
+	-moz-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.99);
+	border-radius: 50px 50px 50px 50px;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  display: inline-block;
+}
+
+nav a {
+  display: block;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-family: 'Russo One', sans-serif;
+
+}
+
+nav a:focus, nav a:active {
+  background-color:  #FF1287;
+}
+
+nav li a:hover {
+  background-color: #FF1287;
+}
+
+#direction{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+
+.contieneCartelyCards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+#imgAccountAndLoans{
+  width: 100%;
+  max-width: 300px;
+  min-width: 200px;
+  height: 250px;
+  margin-top: 100px;
+}
+
+table{
+
+  padding-top: 5vw;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: linear-gradient(90deg, #FF7E7E 50%, #FF1287 60%, rgba(0, 0, 0, 0.40) 60%);
+  color: #fff;
+  font-size: 16px;
+  font-family: 'Russo One', sans-serif;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  /* overflow: hidden; */
+  
+}
+
+
+.DEBIT{
+  color: red;
+}
+
+.CREDIT{
+  color: green;
+}
+
+table:hover {
+  transform: scale(1.05);
+}
+
+td, th {
+  padding: 10px;
+  text-align: left;
+  vertical-align: middle;
+  border: 1px solid #fff;
+}
+
+
+
+
+.about {
+  position: fixed;
+  z-index: 10;
+  bottom: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  transition: all 0.2s ease;
+}
+.about .bg_links {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FF1287;
+  background-image: url(./assets/logoMuñecoSinFondo.png);
+  background-size: cover;
+  border-radius: 100%;
+  backdrop-filter: blur(5px);
+  position: absolute;
+}
+.about .logo {
+  width: 40px;
+  height: 40px;
+  z-index: 9;
+  background-image: url(./assets/logoMuñecoSinFondo.png);
+  
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: 10px 7px;
+  opacity: 0.9;
+  transition: all 1s 0.2s ease;
+  bottom: 0;
+  right: 0;
+}
+.about .social {
+  opacity: 10;
+  right: 0;
+  bottom: 0;
+}
+.about .social .icon {
+  width: 100%;
+  height: 100%;
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  transition: all 0.2s ease, background-color 0.4s ease;
+  opacity: 0;
+  border-radius: 100%;
+}
+.about .social.portfolio {
+  transition: all 0.8s ease;
+}
+.about .social.portfolio .icon {
+  background-image: url(./assets/logoMindhubSinFondo.png);
+  margin-top: 2rem;
+ 
+}
+.about .social.dribbble {
+  transition: all 0.3s ease;
+}
+.about .social.dribbble .icon {
+  background-image: url(./assets/logoGitHubSinFondo.png);
+  margin-top: 2rem;
+  
+}
+.about .social.linkedin {
+  transition: all 0.8s ease;
+}
+.about .social.linkedin .icon {
+  background-image: url(./assets/logoLinkedinSinFondo.png);
+  margin-top: 2rem;
+
+}
+.about:hover {
+  width: 105px;
+  height: 105px;
+  transition: all 0.6s cubic-bezier(0.64, 0.01, 0.07, 1.65);
+}
+.about:hover .logo {
+  opacity: 1;
+  transition: all 0.6s ease;
+}
+.about:hover .social {
+  opacity: 1;
+}
+.about:hover .social .icon {
+  opacity: 0.9;
+}
+.about:hover .social:hover {
+  background-size: 28px;
+}
+.about:hover .social:hover .icon {
+  background-size: 65%;
+  opacity: 1;
+}
+.about:hover .social.portfolio {
+  right: 0;
+  bottom: calc(100% - 40px);
+  transition: all 0.3s 0s cubic-bezier(0.64, 0.01, 0.07, 1.65);
+}
+.about:hover .social.portfolio .icon:hover {
+  background-color: white;
+}
+.about:hover .social.dribbble {
+  bottom: 45%;
+  right: 45%;
+  transition: all 0.3s 0.15s cubic-bezier(0.64, 0.01, 0.07, 1.65);
+}
+.about:hover .social.dribbble .icon:hover {
+  background-color: white;
+}
+.about:hover .social.linkedin {
+  bottom: 0;
+  right: calc(100% - 40px);
+  transition: all 0.3s 0.25s cubic-bezier(0.64, 0.01, 0.07, 1.65);
+}
+.about:hover .social.linkedin .icon:hover {
+  background-color: white;
+}
+
+.wrapper {
+  width: 100vw;
+  margin: 0 auto;
+  height: 400px;
+  background-color: #161616;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+@media screen and (max-width: 767px) {
+  .wrapper {
+    height: 700px;
+  }
+}
+.content {
+  max-width: 1024px;
+  width: 100%;
+  padding: 0 4%;
+  padding-top: 70px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 767px) {
+  .content {
+    padding-top: 300px;
+    flex-direction: column;
+  }
+}
+
+
+.cardAccounts {
+  width: 100%;
+  max-width: 300px;
+  min-width: 200px;
+  height: 250px;
+  background-color: linear-gradient(90deg, #FF7E7E 50%, #FF1287 60%, rgba(0, 0, 0, 0.40) 60%);
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.24);
+  border: 2px solid rgba(7, 7, 7, 0.12);
+  font-size: 14px;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#directionCards{
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items:center;
+}
+
+#spaceCard{
+  gap:3;
+}
+
+.icon {
+  margin: 0 auto;
+  margin-bottom: 2rem;
+  width: 100%;
+  height: 80px;
+  max-width: 80px;
+  background: #7116d8;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  transition: all 0.8s ease;
+  background-position: 0px;
+  background-image: url(./assets/logoMuñecoSinFondo.png);
+  background-size: cover;
+
+}
+
+
+
+.material-icons.md-18 {
+  font-size: 18px;
+}
+
+.material-icons.md-24 {
+  font-size: 24px;
+}
+
+.material-icons.md-36 {
+  font-size: 36px;
+}
+
+.material-icons.md-48 {
+  font-size: 48px;
+}
+
+
+
+.textDetail{
+  font-size: 14px;
+  color: white;
+  /* letter-spacing: 2px; */
+  font-family: 'Russo One', sans-serif;
+  
+}
+
+
+/* para las debit y credit cards:*/
+
+.flip-card {
+  background-color: transparent;
+  width: 240px;
+  height: 154px;
+  perspective: 1000px;
+}
+
+.heading_8264 {
+  position: absolute;
+  letter-spacing: .2em;
+  font-size: 0.5em;
+  top: 0.5em;
+  left: 18.6em;
+}
+
+.heading_8265 {
+  position:initial;
+  letter-spacing: .2em;
+  font-size: 0.5em;
+  top: 2em;
+  left: 18.6em;
+}
+
+.logo {
+  position: absolute;
+  top: 6.8em;
+  left: 11.7em;
+}
+
+.chip {
+  position: absolute;
+  top: 2.3em;
+  left: 1.5em;
+}
+
+.contactless {
+  position: absolute;
+  top: 3.5em;
+  left: 12.4em;
+}
+
+.number {
+  position: absolute;
+
+  font-size: .6em;
+  top: 8.3em;
+  left: 1.6em;
+}
+
+.valid_thru {
+  position: absolute;
+ 
+  top: 635.8em;
+  font-size: .01em;
+  left: 140.3em;
+}
+
+.date_8264 {
+  position: absolute;
+ 
+  font-size: 0.5em;
+  top: 13.6em;
+  left: 3.2em;
+}
+
+.name {
+  position: absolute;
+
+  font-size: 0.5em;
+  top: 16.1em;
+  left: 2em;
+}
+
+.strip {
+  position: absolute;
+  background-color: black;
+  width: 15em;
+  height: 1.5em;
+  top: 2.4em;
+  background: repeating-linear-gradient(
+    45deg,
+    #303030,
+    #303030 10px,
+    #202020 10px,
+    #202020 20px
+  );
+}
+
+.mstrip {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  width: 8em;
+  height: 0.8em;
+  top: 5em;
+  left: .8em;
+  border-radius: 2.5px;
+}
+
+.sstrip {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  width: 4.1em;
+  height: 0.8em;
+  top: 5em;
+  left: 10em;
+  border-radius: 2.5px;
+}
+
+.code {
+  font-weight: bold;
+  text-align: center;
+  margin: .2em;
+  color: black;
+}
+
+.flip-card-inner {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  box-shadow: 0 8px 14px 0 rgba(0,0,0,0.2);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 1rem;
+}
+
+.flip-card-front {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+
+}
+
+.flip-card-back {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+
+  background-image: url(./assets/logoMuñecoSinFondo.png);
+  background-size: cover;
+  background-color: #FE53BB;
+  transform: rotateY(180deg);
+}
+
+.GOLD{
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to right, #ffd700, #cd7f32);
+  background-size: cover;
+}
+
+
+.SILVER{
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to right,  #C0C0C0, #C0C0C0);
+  background-size: cover;
+
+}
+
+.TITANIUM{
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to right, #808080, #323232);
+  background-size: cover;
+
+}
+
+#button{
+  background: #7116d8;
+  border-radius: 50px 50px 50px 50px;
+
+}
+/* para el button de las card y account y loan*/
+
+.btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  margin-top: 10rem;
+  background-color: #212121;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  border-radius: 50px 50px 50px 50px;
+}
+
+.btn:hover {
+  background-color: #000;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+/* #container-stars {
+  position: fixed;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transition: 0.5s;
+  backdrop-filter: blur(1rem);
+  border-radius: 5rem;
+} */
+
+#contain-landPage {
+  position: fixed;
+  width: 10%;
+  height: 10%;
+  backdrop-filter: blur(1rem);
+}
+
+strong {
+  z-index: 2;
+  font-family: 'Russo One', sans-serif;
+  font-size: 12px;
+  letter-spacing: 5px;
+  color: #FFFFFF;
+  text-shadow: 0 0 4px white;
+}
+/* 
+para alertas: */
+
+
+
+.swal-custom-popup {
+  background-color: #7116d8; /* Cambia el color de fondo según tus preferencias */
+}
+
+.swal-custom-content {
+  color: #333; /* Cambia el color del contenido según tus preferencias */
+}
+
+.swal-custom-confirm {
+  background-color: #4caf50; /* Cambia el color del botón de confirmación según tus preferencias */
+}
+
+.swal-custom-cancel {
+  background-color: #f44336; /* Cambia el color del botón de cancelación según tus preferencias */
+}
+/* #glow {
+  position: absolute;
+  display: flex;
+  width: 12rem;
+}
+
+.circle {
+  width: 100%;
+  height: 30px;
+  filter: blur(2rem);
+  animation: pulse_3011 4s infinite;
+  z-index: -1;
+}
+
+.circle:nth-of-type(1) {
+  background: rgba(254, 83, 186, 0.636);
+}
+
+.circle:nth-of-type(2) {
+  background: rgba(142, 81, 234, 0.704);
+} */
+
+
+
+
+/* .btn:active {
+  border: double 4px #FE53BB;
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  animation: none;
+}
+
+.btn:active .circle {
+  background: #FE53BB;
+}
+
+#stars {
+  position: relative;
+  background: transparent;
+  width: 200rem;
+  height: 200rem;
+}
+
+#stars::after {
+  content: "";
+  position: absolute;
+  top: -10rem;
+  left: -100rem;
+  width: 100%;
+  height: 100%;
+  animation: animStarRotate 90s linear infinite;
+}
+
+#stars::after {
+  background-image: radial-gradient(#ffffff 1px, transparent 1%);
+  background-size: 50px 50px;
+}
+
+#stars::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 170%;
+  height: 500%;
+  animation: animStar 60s linear infinite;
+}
+
+#stars::before {
+  background-image: radial-gradient(#ffffff 1px, transparent 1%);
+  background-size: 50px 50px;
+  opacity: 0.5;
+} */
+
+@keyframes animStar {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-135rem);
+  }
+}
+
+@keyframes animStarRotate {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0);
+  }
+}
+
+@keyframes gradient_301 {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulse_3011 {
+  0% {
+    transform: scale(0.75);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    transform: scale(0.75);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+
+
+.form-container {
+   /* Asegura que el contenedor sea posicionado */
+  z-index: 9999; /* Ajusta el z-index para que el formulario se muestre por encima de otras capas */
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px; /* Ajusta el ancho según tus necesidades */
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+}
+.login-box h2 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.login-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color:  #8F51EA;
+  font-size: 12px;
+}
+
+.login-box form  input {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color:  black;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px
+}
+
+.login-box input:hover {
+  background:  #8F51EA;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px  #8F51EA,
+              0 0 25px  #8F51EA,
+              0 0 50px  #8F51EA,
+              0 0 100px  #8F51EA;
+}
+
+.login-box input span {
+  position: absolute;
+  display: block;
+}
+
+.login-box input span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent,  #8F51EA);
+  animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -100%;
+  }
+  50%,100% {
+    left: 100%;
+  }
+}
+
+.login-box input span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent,  #8F51EA);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: .25s
+}
+
+@keyframes btn-anim2 {
+  0% {
+    top: -100%;
+  }
+  50%,100% {
+    top: 100%;
+  }
+}
+
+.login-box input span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent,  #8F51EA);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: .5s
+}
+
+@keyframes btn-anim3 {
+  0% {
+    right: -100%;
+  }
+  50%,100% {
+    right: 100%;
+  }
+}
+
+.login-box input span:nth-child(4) {
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent,  #8F51EA);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: .75s
+}
+
+/* .card {
+  width: 100%;
+  max-width: 300px;
+  min-width: 200px;
+  height: 250px;
+  background-color: #292929;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.24);
+  border: 2px solid rgba(7, 7, 7, 0.12);
+  font-size: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.3s ease;
+} */
+
+
+/*para landingPage*/
+/* 
+.login-box-landPage {
+  position: absolute;
+  top: 80%;
+  left: 90%;
+  width: 200px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
+.login-box-landPage-cards {
+  display: flex;
+  justify-content:space-around;
+  align-items:center;
+  top: 80%;
+  margin-left: 50%;
+  width: 200px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+
+}
+
+
+.login-box-landPage a:hover {
+  background:  #8F51EA;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px  #8F51EA,
+              0 0 25px  #8F51EA,
+              0 0 50px  #8F51EA,
+              0 0 100px  #8F51EA;
+}
+
+.login-box-landPage a span {
+  position: absolute;
+  display: block;
+} */
+
+
+
+/*termina landingPage*/
+
+/*para botones*/
+
+/* 
+.login-box-landPage input:hover {
+  background:  #8F51EA;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px  #8F51EA,
+              0 0 25px  #8F51EA,
+              0 0 50px  #8F51EA,
+              0 0 100px  #8F51EA;
+}
+
+.login-box-landPage input span {
+  position: absolute;
+  display: block;
+}
+
+.login-box-landPage input span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent,  #8F51EA);
+  animation: btn-anim1 1s linear infinite;
+}
+
+.login-box-landPage input span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent,  #8F51EA);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: .25s
+}
+
+
+
+.login-box-landPage input input span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent,  #8F51EA);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: .5s
+}
+
+
+
+.login-box-landPage input span:nth-child(4) {
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent,  #8F51EA);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: .75s
+}
+
+
+.login-box-landPage h2 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.login-box-landPage .user-box {
+  position: relative;
+}
+
+.login-box-landPage .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.login-box-landPage .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.login-box-landPage .user-box input:focus ~ label,
+.login-box-landPage .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color:  #8F51EA;
+  font-size: 12px;
+}
+
+.login-box-landPage form  input {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color:  black;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px
+}
+
+.login-box-landPage input:hover {
+  background:  #8F51EA;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px  #8F51EA,
+              0 0 25px  #8F51EA,
+              0 0 50px  #8F51EA,
+              0 0 100px  #8F51EA;
+}
+
+.login-box-landPage input span {
+  position: absolute;
+  display: block;
+}
+
+.login-box-landPage input span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent,  #8F51EA);
+  animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -100%;
+  }
+  50%,100% {
+    left: 100%;
+  }
+}
+
+.login-box-landPage input span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent,  #8F51EA);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: .25s
+}
+
+@keyframes btn-anim2 {
+  0% {
+    top: -100%;
+  }
+  50%,100% {
+    top: 100%;
+  }
+}
+
+.login-box-landPage input span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent,  #8F51EA);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: .5s
+}
+
+@keyframes btn-anim3 {
+  0% {
+    right: -100%;
+  }
+  50%,100% {
+    right: 100%;
+  }
+}
+
+.login-box-landPage input span:nth-child(4) {
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent,  #8F51EA);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: .75s
+} */
+
+/*termina landingPage*/
+
+/* 
+.card:hover {
+  height: 270px;
+}
+
+.card:hover .info {
+  height: 90%;
+}
+
+.card:hover .text {
+  transition: all 0.3s ease;
+  opacity: 1;
+  max-height: 40px;
+}
+
+.card:hover .icon {
+  background-position: -120px;
+  transition: all 0.3s ease;
+} */
+
+/* .card:hover .icon i {
+  background: linear-gradient(90deg, #FF7E7E, #FF4848);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 1;
+  transition: all 0.3s ease;
+} */
+
+/* .card .title {
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  margin-top: 30px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.card .text {
+  width: 80%;
+  margin: 0 auto;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 20px;
+  color: white;
+
+  letter-spacing: 2px;
+  opacity: 0;
+  max-height: 0;
+  transition: all 0.3s ease;
+} */
+
+/* 
+.iconCardGold{
+  margin: 0 auto;
+  width: 100%;
+  height: 80px;
+  max-width: 80px;
+  background: linear-gradient(90deg, #FF7E7E 0%, #FF1287 40%, rgba(0, 0, 0, 0.28) 60%);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  transition: all 0.8s ease;
+  background-position: 0px;
+  background-image: url(./assets/logoCardGoldSinFondo.png);
+  background-size: cover;
+
+}
+
+.iconCardTitanium{
+  margin: 0 auto;
+  width: 100%;
+  height: 80px;
+  max-width: 80px;
+  background: linear-gradient(90deg, #FF7E7E 0%, #FF1287 40%, rgba(0, 0, 0, 0.28) 60%);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  transition: all 0.8s ease;
+  background-position: 0px;
+  background-image: url(./assets/logoCardTitaniumSinFondo.png);
+  background-size: cover;
+  
+} */

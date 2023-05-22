@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+   <meta charset="UTF-8">
+   <title>MindHub Brothers Bank / Accounts</title>
+   <link rel="stylesheet" href="./style.css">
+   <link rel="shortcut icon" href="./assets/logoMuñecoSinFondo.png" type="image/x-icon">
+   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+</head>
+<body id="app">
+<!-- partial:index.partial.html -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Helvetica">
+
+<!-- about -->
+<div class="about">
+   <a class="bg_links social portfolio" href="https://mindhubweb.com/bootcamps" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links social dribbble" href="https://github.com/Flor87Posta" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links social linkedin" href="https://www.linkedin.com/in/florencia-postacchini" target="_blank">
+      <span class="icon"></span>
+   </a>
+   <a class="bg_links logo"></a>
+</div>
+<!-- end about -->
+<header>
+   <nav>
+      <ul>
+         <li><a href="#">Index</a></li>
+         <li><a href="#">Accounts</a></li>
+         <li><a href="./cards.html">Cards</a></li>
+         <li><a href="./transfers.html">Transfers</a></li>
+         <li><a href="#">Profile</a></li>
+         <li><a href="./login.html" @click="logout">Log Out</a></li>
+      </ul>
+   </nav>
+</header>
+   <div class="contieneCartelyCards">
+      <div class="section">
+         <div>
+            <div>
+               <template v-if="mostrarFormulario1">
+                  <div class="login-box">
+                     <button type="button" class="btn" @click="showForm">
+                        <strong>ACCOUNTS (Created your Account Here!)</strong>
+                        <div id="container-stars">
+                           <div id="stars"></div>
+                        </div>                
+                        <div id="glow">
+                           <div class="circle"></div>
+                           <div class="circle"></div>
+                        </div>
+                     </button>
+                  </div>
+               </template>
+
+               <template v-if="formVisible">
+                  <div class="login-box">
+                     <form>
+                        <div>
+                           <div>
+                                 <label for="corriente">
+                                 <input type="radio" name="acc" id="corriente"  value="current" v-model="accountType">
+                                 CURRENT
+                                 </label>
+                           </div>
+                           <div>
+                                 <label for="ahorro" >
+                                 <input type="radio" name="acc" id="ahorro" value="savings" v-model="accountType">
+                                 SAVINGS
+                              </label>
+                           </div>   
+                           <input type="submit" value="Create" @click.prevent="newAccount" id="button">                        
+                        </div>  
+                                             
+                     </form> 
+                  </div>
+               </template>
+            </div>
+         </div>
+         <!-- card -->
+         <div >
+            <div v-for="account in getVisibleAccounts()" :key="account.id">
+               <div class="cardAccounts">  <!-- v-for="account of clients.accounts"  -->
+                  <div class="icon">
+                  <i class="material-icons md-36"></i>
+                  </div>
+                  <p class="title">Client: {{ clients.firstName }} {{ clients.lastName }}</p>
+                  <div>
+                     <p>Account: {{ account.number }}</p>
+                     <p>Type: {{ account.accountType }}</p>
+                     <p>Created: {{ account.creationDate.slice(0, 10) }} at {{ account.creationDate.slice(11, 16) }} hs.</p>
+                     <p>Balance: $ {{ account.balance.toLocaleString('en-US') }}</p>
+                     <button id="button"><a :href="`./account.html?id=` + account.id" class="textDetail" >Transactions Detail</a></button>
+                     <div v-if="mostrarFormulario2">
+                        <button v-if="account.transactions.length !== 0" @click="storeAndShowForm(account.number)" id="button">Download PDF</button>
+                           <div v-if="selectedAccount === account.number" class="login-box form-container">
+                                 <div>
+                                    <div>
+                                       <h5>Select your Dates</h5>
+                                    </div>
+                                    <div>
+                                       <form id="datePDF" action="">
+                                       <div>
+                                          <label for="dateIni">Initial Date</label><br>
+                                          <input type="date" id="dateIni" v-model="dateIni" min="2021-08-01" maxlength="10" required><br>
+                                          <label for="dateEnd">Final Date</label><br>
+                                          <input type="date" id="dateEnd" v-model="dateEnd" max="2023-06-30" maxlength="10" required><br>
+                                       </div>
+                                       </form>
+                                    </div>
+                                    <button type="button"  @click="generatePDF(accNumber, dateIni, dateEnd)" id="button">Do It!</button>
+                                    <button type="button" onclick="window.location.href='http://localhost:8080/web/accounts.html'" id="button">Back</button>
+                                 </div>
+                           </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- end card -->
+      </div>
+
+      <div class="section">
+         <div>
+            <button type="button" class="btn"  onclick="window.location.href='http://localhost:8080/web/loan-application.html'">
+               <strong>LOANS (Request your Loan Here!)</strong>
+               <div id="container-stars">
+               <div id="stars"></div>
+               </div>
+            
+               <div id="glow">
+               <div class="circle"></div>
+               <div class="circle"></div>
+               </div>
+            </button>
+         </div>
+         <!-- card -->
+               <div v-if="loans.length !=0">
+                  <div class="cardAccounts" v-for="loan of clients.loans">
+                     <div class="icon"><i class="material-icons md-36"></i></div>
+                     <p class="title">Client: {{clients.firstName}} {{clients.lastName}}</p>
+                     <div>
+                        <p>Loan Name: {{loan.name}}</p>
+                        <p>Amount requested: $ {{loan.amount.toLocaleString('en-US')}}</p>
+                        <p>Amount to be paid: $ {{loan.finalAmount.toLocaleString('en-US')}}</p>
+                        <p>Payments: {{loan.payments}}</p>
+                     </div>
+                  </div>
+               </div>
+               <!-- end card -->
+               <div v-else>
+                  <h3> You haven't loans</h3>
+               </div>
+      </div>  
+
+
+
+
+      </div>
+   
+
+
+         
+      
+    
+
+  
+
+
+<!-- partial -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+<script src="./accounts.js"></script>
+</body>
+</html>
