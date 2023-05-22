@@ -44,13 +44,16 @@ public class TransactionController {
 
 
         Client clientSend = clientService.findByEmail(authentication.getName());  //comparo aquí con el authentication al cliente autenticado con el jsessionId
-        //si el cliente se transfiere entre sus propias cuentas, es un solo cliente que interviene, pero si es a un tercero busco la cuenta y obtengo el cliente:
-        Client clientDestin = accountService.findByNumber(destinationAccNumber).getClient();
 
         Account accountOrigin = accountService.findByNumber(originAccNumber); // busco en el repo de cuentas a la cuenta de origen que puso el cliente y la guardo en accountOrigin
         Account accountDestin = accountService.findByNumber(destinationAccNumber); // aca lo mismo pero para la cuenta destino
 
-
+        if (accountOrigin == null) {
+            return new ResponseEntity<>("Origin Account doesn't exist", HttpStatus.FORBIDDEN);
+        }
+        if (accountDestin == null) {
+            return new ResponseEntity<>("Destination Account doesn't exist",  HttpStatus.FORBIDDEN);
+        }
         if (originAccNumber.isEmpty()) {
             return new ResponseEntity<>( "Missing origin account", HttpStatus.FORBIDDEN);
         }

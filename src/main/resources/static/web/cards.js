@@ -49,26 +49,6 @@ const app = createApp ({
                     .catch(err => console.log( err ));
                 },
 
-        // addClient(){
-        //     this.postClient();
-        // },
-
-        // postClient(){
-        //         axios.post("http://localhost:8080/api/clients/current", {
-        //             firstName: this.firstName,
-        //             lastName: this.lastName,
-        //             email: this.email,
-        //             accounts: this.accounts,
-
-                    
-        //         })
-        //         .then(function (response) {
-        //             this.loadData();
-        //         })
-        //         .catch(function (error) {
-        //             console.log(error);
-        //         });
-        //     },
 
 
 

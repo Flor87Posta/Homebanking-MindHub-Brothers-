@@ -69,7 +69,7 @@
                             <label v-if="client" v-cloak >Select origin
                                 <select v-model="originAccNumber" @change="filterAccounts">
                                     <option value="null">Select an account</option>
-                                    <option :value="account.number" v-for="account in client.accounts">{{account.number}}</option>
+                                    <option :value="account.number" v-for="account in client.accounts.filter(a => !a.hidden)">{{account.number}}</option>
                                 </select>
                             </label>
                         </div>
