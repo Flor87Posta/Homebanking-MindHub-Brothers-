@@ -165,17 +165,17 @@ public class LoanController {
         Optional<ClientLoan> clientLoan = clientLoanRepository.findById(idLoan);
         Account accountAuth = accountService.findByNumber(account);
         String description = "Pay " + clientLoan.get().getLoan().getName() + " loan";
-//      id parameter
+
         if( clientLoan == null ){
             return new ResponseEntity<>("This loan doesn't exist", HttpStatus.FORBIDDEN);
         } else if( client == null){
             return new ResponseEntity<>("You are not registered as a client", HttpStatus.FORBIDDEN);}
-//        account parameter
+
         if ( account.isBlank() ){
             return new ResponseEntity<>("Please insert an account", HttpStatus.FORBIDDEN);
         } else if ( client.getAccountSet().stream().filter(accounts -> accounts.getNumber().equalsIgnoreCase(account)).collect(toList()).size() == 0 ){
             return new ResponseEntity<>("This account is not yours.", HttpStatus.FORBIDDEN);}
-//      amount parameter
+
         if ( amount < 1 ){
             return new ResponseEntity<>("Please insert an amount bigger than 0", HttpStatus.FORBIDDEN);
         }  else if ( accountAuth.getBalance() < amount ){

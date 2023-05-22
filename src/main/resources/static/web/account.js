@@ -47,7 +47,7 @@ const app = createApp ({
     },
     created(){ //Created: Es el momento adecuado para realizar operaciones asíncronas, como hacer peticiones a APIs.
          // Hacer una petición a través de una función loadData
-        axios.get("http://localhost:8080/api/accounts/"+ this.valorID)
+        axios.get("/api/accounts/"+ this.valorID)
         .then(response => {
             this.account=response.data;
             console.log(this.account);
