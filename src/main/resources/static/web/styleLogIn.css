@@ -186,7 +186,7 @@ background-color: #59FFF5;
   justify-content: center;
   align-items: center;
   background-color: #FF1287;
-  background-image: url(./assets/logoMuñecoSinFondo.png);
+  background-image: url(./assets/logoMunecoSinFondo.png);
   background-size: cover;
   border-radius: 100%;
   backdrop-filter: blur(5px);
@@ -196,7 +196,7 @@ background-color: #59FFF5;
   width: 40px;
   height: 40px;
   z-index: 9;
-  background-image: url(./assets/logoMuñecoSinFondo.png);
+  background-image: url(./assets/logoMunecoSinFondo.png);
   
   background-size: 50%;
   background-repeat: no-repeat;
@@ -392,7 +392,7 @@ background-color: #59FFF5;
   color: white;
   transition: all 0.8s ease;
   background-position: 0px;
-  background-image: url(./assets/logoMuñecoSinFondo.png);
+  background-image: url(./assets/logoMunecoSinFondo.png);
   background-size: cover;
 
 }
@@ -626,7 +626,7 @@ background-color: #59FFF5;
 .flip-card-back {
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
   background-color:  #8F51EA;
-  background-image: url(./assets/logoMuñecoSinFondo.png);
+  background-image: url(./assets/logoMunecoSinFondo.png);
   background-size: cover;
   transform: rotateY(180deg);
 }
@@ -1097,7 +1097,7 @@ video {
   color: white;
   transition: all 0.8s ease;
   background-position: 0px;
-  background-image: url(./assets/logoMuñecoSinFondo.png);
+  background-image: url(./assets/logoMunecoSinFondo.png);
   background-size: cover;
 
 }
