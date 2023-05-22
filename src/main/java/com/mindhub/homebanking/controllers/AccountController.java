@@ -45,7 +45,8 @@ public class AccountController {
             Authentication authentication, @RequestParam String accountType) { //obtengo un objeto Authentication; antes: no requería parametros desde el front
 
         Client client = clientService.findByEmail(authentication.getName()); //comparo aquí con el authentication al cliente autenticado con el jsessionId
-        List<Account> accounts = client.getAccountSet().stream().collect(toList());
+//        List<Account> accounts = client.getAccountSet().stream().collect(toList());
+        List<Account> accounts = accountService.findByClient(client);
 
         if ( !accountType.equalsIgnoreCase("SAVINGS") && !accountType.equalsIgnoreCase("CURRENT")){
             return new ResponseEntity<>("Please select an account type .", HttpStatus.FORBIDDEN);}
@@ -71,17 +72,19 @@ public class AccountController {
         }
     }
 
+
     @PostMapping("clients/current/delete-account")
     public ResponseEntity<Object> deleteAccount(@RequestParam long accId, Authentication auth) { //para ocultarla
         Client client = clientService.findByEmail(auth.getName());
         Account account = accountService.findById(accId);
+        List<Account> accounts = accountService.findByClient(client);
+
         if (account == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account with id " + account.getNumber() + " not found.");
         }
-        if (account.getClient() == client) {
-            // verificar si la cuenta que se está eliminando es la última que tiene el cliente:
-            List<Account> accounts = accountService.findByClient(client);
-            if (accounts.size() == 1 && accounts.get(0).equals(account)) {
+        if (account.getClient() == client && accounts.contains(account)) { //utilizando findByClient (cuentas activas del cliente)
+
+            if (accounts.size() == 1 && accounts.get(0).equals(account)) {  // verificar si la cuenta que se está eliminando es la última que tiene el cliente:
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You cannot delete your only account.");
             }else if(account.getBalance()>0){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You still have balance in this account.");
@@ -94,5 +97,4 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not own this account with.");
         }
     }
-
     }

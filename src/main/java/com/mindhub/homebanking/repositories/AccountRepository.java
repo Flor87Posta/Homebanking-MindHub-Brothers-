@@ -26,7 +26,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     @Query ("SELECT a FROM Account a WHERE a.client = :client AND a.hidden = false" )
     List<Account> findByClient(@Param("client") Client client);
-   // método que arroja la lista de cuentas del cliente (falta poner que no están ocultas, es decir que estan activas o en uso)
+   // método que arroja la lista de cuentas del cliente y que no están ocultas, es decir que estan activas o en uso
 
 //SELECT a: Indica que la consulta seleccionará entidades de tipo Account y las referenciará como a. Es decir,
 // a será un alias para la entidad Account en la consulta.

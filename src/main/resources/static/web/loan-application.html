@@ -109,7 +109,7 @@
                       <label v-if="client" v-cloak>Select destination
                         <select v-model="destinationAccNumber">
                           <option value="null">Select an account</option>
-                          <option :value="account.number" v-for="account in client.accounts">{{account.number}}</option>
+                          <option :value="account.number" v-for="account in client.accounts.filter(a => !a.hidden)">{{account.number}}</option>
                         </select>
                       </label>
                     </div>
@@ -188,7 +188,7 @@
               <label v-if="client" v-cloak>Select destination
                 <select v-model="account">
                   <option value="null">Select an account</option>
-                  <option :value="account.number" v-for="account in client.accounts">{{account.number}}</option>
+                  <option :value="account.number" v-for="account in client.accounts.filter(a => !a.hidden)">{{account.number}}</option>
                 </select>
               </label>
             </div>

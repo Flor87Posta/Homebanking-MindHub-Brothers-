@@ -41,7 +41,7 @@ createApp({
         },
 
         makeTransaction() {
-          Swal.fire({
+            Swal.fire({
             icon: 'warning',
             title: 'You are making a new Transfer..¿Are you sure?',
             showCancelButton: true,
@@ -77,14 +77,14 @@ createApp({
             this.originAccNumber=null;
             this.destinationAccNumber=null;
             this.amount=null;
-          })
-          },
+        })
+        },
 
 
 
         filterAccounts() {
             this.filteredAccounts = this.client.accounts.filter(account => account.number !== this.originAccNumber)
-          },
+        },
 
 
 
