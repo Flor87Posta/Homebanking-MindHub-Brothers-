@@ -54,7 +54,7 @@ createApp({
         loadData() {
             this.isLoading()
             axios
-                .get(`/api/clients/current`)
+                .get('/api/clients/current')
                 .then(data => {
                     console.log(data);
                     this.client = data.data;
@@ -123,7 +123,7 @@ createApp({
 
         getLoanDTO() {
             console.log(this.loanId)
-            axios.get(`/api/loans`)
+            axios.get('/api/loans')
                 .then(r => {
                     console.log(r)
                     this.loanDTO = r.data;

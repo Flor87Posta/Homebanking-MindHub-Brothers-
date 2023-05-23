@@ -34,10 +34,27 @@ public class AccountController {
     }
 
 //    @RequestMapping("/accounts/{id}")
-    @GetMapping("/accounts/{id}")
+/*    @GetMapping("/accounts/{id}")
     public AccountDTO getAccount(@PathVariable Long id) { //definí un método público llamado getAccount que retorna una cuenta por su id
         return accountService.getAccount(id);
+    }*/
+    @GetMapping("/accounts/{id}")
+    public ResponseEntity<Object> getAccount(@PathVariable Long id, Authentication auth) {
+    // Obtenemos el cliente autenticado
+    Client client = clientService.findByEmail(auth.getName());
+
+    // Buscamos la cuenta por su ID
+    Account account = accountService.findById(id);
+
+    // Verificamos si el cliente es propietario de la cuenta
+    if (account != null && account.getClient() == client) {
+      AccountDTO accountDTO = new AccountDTO(account);
+        return new ResponseEntity<>(accountDTO, HttpStatus.OK);
     }
+    // El cliente no es propietario de la cuenta o la cuenta no existe
+    return new ResponseEntity<>("You do not own this account or the account does not exist.", HttpStatus.FORBIDDEN);
+}
+
 
 //    @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
     @PostMapping("/clients/current/accounts")
