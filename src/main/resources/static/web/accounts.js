@@ -1,4 +1,12 @@
-const app = Vue.createApp({
+const app = Vue.createApp({ //crea una instancia de Vue utilizando metodo createApp y se lo asigna a la constante app (nombre d plantilla de interfaz de usuario)
+//para instancia utilizo la libreria instalada en el script
+
+//CICLO DE VIDA diferentes momentos o etapas en los que ocurren eventos y acciones durante la vida útil de la aplicación.
+//Aca BEFORE CREATED, dp de que se crea una nueva instancia de VUE pero antes de que se hayan creado las propiedades reactivas y se haya
+//compilado la plantilla
+
+//defino el estado de la aplicacion: variables de estado de mi app, que se conocen como propiedades reactivas, cuando cambian sus valores la
+//plantilla se actualiza automaticamente con {{}} puedo mostrar esos valores
     data() {
       return {
         firstName: '',
@@ -22,7 +30,8 @@ const app = Vue.createApp({
         searchClient: ''
       };
     },
-    created() {
+    created() { //se ejecuta justo despues de que se hayan creado las propiedades reactivas y compilado la plantilla
+      // momento adecuado para realizar operaciones asíncronas, como hacer peticiones a APIs
       this.loadData();
     },
     methods: {
@@ -129,5 +138,5 @@ const app = Vue.createApp({
       },
     },
   });
-  
+  //inicializo la instancia de Vue
   app.mount('#app');

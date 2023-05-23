@@ -38,7 +38,6 @@ class WebAuthorization {
                 .antMatchers(HttpMethod.PATCH, "/api/accounts").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.PATCH, "/api/cards").hasAuthority("ADMIN")
                 .antMatchers("/api/clients").hasAuthority("ADMIN")
-                .antMatchers("/api/accounts").hasAuthority("ADMIN")
                 .antMatchers( "/api/cards").hasAuthority("ADMIN")
                 .antMatchers("/manager.html").hasAuthority("ADMIN")
                 .antMatchers("/h2-console").hasAuthority("ADMIN")
@@ -67,6 +66,7 @@ class WebAuthorization {
                 .antMatchers("/web/cards.html").hasAuthority("CLIENT")
                 .antMatchers("/web/transfers.html").hasAuthority("CLIENT")
                 .antMatchers("/web/loan-application.html").hasAuthority("CLIENT");
+//                .anyRequest().denyAll().and();
 
 
 // para cualquier otro tipo de peticion:
@@ -83,17 +83,24 @@ class WebAuthorization {
 
         http.logout().logoutUrl("/api/logout").deleteCookies("JSESSIONID");
 
-        // turn off checking for CSRF tokens: esos tokens hacen que cada cosa que salga del back salga con token, para que cuando se
-        // realicen peticiones haga match con cada cookie, pero no genera la cookie o token del session ID (eso se maneja aparte con lo que hicimos arriba)
-        // y esos tokens hacen intransferibles los JSESSIONID para que no los puedan copiar
+        // turn off checking for CSRF tokens: esos tokens (Cross-Site Request Forgery) hacen que cada cosa que salga del back salga
+        // con token XML/HTML, para que cuando se realicen peticiones haga match con cada cookie, pero no genera la cookie o token
+        // del session ID (eso se maneja aparte con lo que hicimos arriba) y esos tokens hacen intransferibles los JSESSIONID para que
+        // no los puedan copiar
         //si los habilito no funciona como API, porq necesita acceso de otros programas, como h2 etc etc;
         http.csrf().disable();
 
 
         //disabling frameOptions so h2-console can be accessed:
 
-        http.headers().frameOptions().disable(); // e-frame (como los q usamos en google maps): son configuraciones preestablecidas o por defecto de h2 console, cada metodo devuelve un objeto http
-        // las desactivamos a esas configuraciones (que son las que arman la consola desde cero) para poder usar h2
+        http.headers().frameOptions().disable(); // e-frame (como los q usamos en google maps): son configuraciones preestablecidas o
+        // por defecto de h2 console, cada metodo devuelve un objeto http
+        // las desactivamos a esas configuraciones (que son las que arman la consola desde cero) para poder usar h2 por ej
+        //En resumen, http.headers().frameOptions().disable() se utiliza para desactivar la configuración de los encabezados de opciones de marco
+        // en las respuestas HTTP, lo que permite que el contenido de la aplicación sea incrustado en iframes o frames de otros sitios web.
+        // Sin embargo, esto puede exponer la aplicación a riesgos de seguridad relacionados con el clickjacking,
+        // por lo que se deben considerar otras medidas de seguridad adecuadas.
+
 
         // if user is not authenticated, just send an authentication failure response: //cuando el usuario quiere entrar en algun del sitio web me fijo si esta o no autenticado
 
