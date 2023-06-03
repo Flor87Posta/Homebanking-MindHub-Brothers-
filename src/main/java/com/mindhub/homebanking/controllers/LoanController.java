@@ -104,7 +104,7 @@ public class LoanController {
         //para que las cuotas solicitadas no excedan el max d cuotas otorgables:
 
         if (!loan.getPayments().contains(loanApplicationDTO.getPayments())) {
-            return new ResponseEntity<>("Payments exceed max payments available", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Payments exceeds max payments available", HttpStatus.FORBIDDEN);
         }
 
         //para verificar que la cuenta destino pertenezca al cliente autenticado

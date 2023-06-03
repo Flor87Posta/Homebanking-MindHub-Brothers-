@@ -103,7 +103,7 @@ createApp({
                                     icon: 'success',
                                     title: 'You have a new Loan!',
                                     showCancelButton: true,
-                                    confirmButtonText: 'Accepted',
+                                    confirmButtonText: 'Accept',
                                     cancelButtonText: 'Cancel',
                                     timer: 6000,
                                 }).then( () => window.location.href="/web/accounts.html")
