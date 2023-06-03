@@ -266,7 +266,7 @@ public class CardController {
             return new ResponseEntity<>("Payment successful", HttpStatus.CREATED);
 
         } else {
-            return new ResponseEntity<>("Insufficient Funds", HttpStatus.CREATED);
+            return new ResponseEntity<>("Insufficient Funds", HttpStatus.FORBIDDEN);
 
         }
 
